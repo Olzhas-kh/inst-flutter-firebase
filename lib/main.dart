@@ -5,6 +5,7 @@ import 'package:inst_fire/responsive/mobile_screen_layout.dart';
 import 'package:inst_fire/responsive/responsive_layout_screen.dart';
 import 'package:inst_fire/responsive/web_screen_layout.dart';
 import 'package:inst_fire/screens/login_screen.dart';
+import 'package:inst_fire/screens/signup_screen.dart';
 import 'package:inst_fire/utils/colours.dart';
 
 void main() async {
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
       // home: const ResponsiveLayout(
       //     webScreenLayout: WebScreenLayout(),
       //     mobileScreenLayout: MobileScreenLayout()),
-      home: LoginScreen(),
+      home: SignupScreen(),
     );
   }
 }
