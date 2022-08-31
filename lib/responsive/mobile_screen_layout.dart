@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inst_fire/providers/user_provider.dart';
 import 'package:inst_fire/utils/colours.dart';
+import 'package:inst_fire/utils/global_variables.dart';
 import 'package:provider/provider.dart';
 import 'package:inst_fire/models/user.dart' as model;
 
@@ -44,13 +45,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
-        children: [
-          Text('feed'),
-          Text('search'),
-          Text('add post'),
-          Text('notif'),
-          Text('profile'),
-        ],
+        children: homeScreenItems,
         physics: NeverScrollableScrollPhysics(), //колмен страница ауыстырасын
         controller: pageController,
         onPageChanged: onPageChanged,
