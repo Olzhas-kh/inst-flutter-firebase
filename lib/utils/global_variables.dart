@@ -1,12 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:inst_fire/screens/add_post_screen.dart';
+import 'package:inst_fire/screens/add_task.dart';
+
+import '../screens/add_post_screen.dart';
+import '../screens/feed_screen.dart';
+import '../screens/profile_screen.dart';
+import '../screens/search_screen.dart';
+
 
 const webScreenSize = 600;
 
-const homeScreenItems = [
-  Text('feed'),
-  Text('search'),
-  AddPostScreen(),
-  Text('notif'),
-  Text('profile'),
+List<Widget> homeScreenItems = [
+  const FeedScreen(),
+  const SearchScreen(),
+  const AddPostScreen(),
+   AddTask(),
+  ProfileScreen(),
 ];
