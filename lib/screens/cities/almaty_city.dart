@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
+import 'package:inst_fire/models/user.dart' as model;
 import '../../models/user.dart';
 import '../../providers/user_provider.dart';
 import '../../resources/firestore_methods.dart';
+import '../../services/local_notification_service.dart';
 import '../../utils/utils.dart';
 import '../../widgets/comment_card.dart';
 
@@ -20,42 +23,34 @@ class AlmatyCity extends StatefulWidget {
 }
 
 class _AlmatyCityState extends State<AlmatyCity> {
-
- 
-  final TextEditingController commentEditingController =
-      TextEditingController();
+  
+  
+    
       
         get mobileBackgroundColor => null;
 
-  void postComment(String uid, String name, String profilePic) async {
-    try {
-      String res = await FireStoreMethods().almaty(
-        commentEditingController.text,
-        uid,
-        name,
-        profilePic,
-        
-      );
-
-      if (res != 'success') {
-        showSnackBar(res, context);
-      }
-      setState(() {
-        commentEditingController.text = "";
-      });
-    } catch (err) {
-      showSnackBar(
-        err.toString(),
-        context,
-      );
-    }
+  void _addTask(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) => SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: titleDesAddScreen()
+              ),
+            ));
   }
 
+  
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<UserProvider>(context).getUser;
+    
 
-    return Scaffold(
+    return 
+
+
+    Scaffold(
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
         title: const Text(
@@ -83,30 +78,110 @@ class _AlmatyCityState extends State<AlmatyCity> {
           );
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _addTask(context),
+              tooltip: 'Add Task',
+              child: const Icon(Icons.add),
+      ),
       // text input
-      bottomNavigationBar: SafeArea(
-        child: Container(
-          height: kToolbarHeight,
-          margin:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          padding: const EdgeInsets.only(left: 16, right: 8),
-          child: Row(
-            children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(user.photoUrl),
-                radius: 18,
+      
+    );
+  }
+}
+
+class titleDesAddScreen extends StatefulWidget {
+
+
+  const titleDesAddScreen({
+    super.key,
+    
+  });
+
+  
+  @override
+  State<titleDesAddScreen> createState() => _titleDesAddScreenState();
+}
+
+class _titleDesAddScreenState extends State<titleDesAddScreen> {
+
+  
+  
+TextEditingController descriptionController = TextEditingController();
+ 
+  final TextEditingController titleController =
+      TextEditingController();
+
+
+void postComment(String uid, String name, String profilePic) async {
+    try {
+      String res = await FireStoreMethods().almaty(
+        titleController.text,
+        descriptionController.text,
+        uid,
+        name,
+        profilePic,
+        
+      );
+
+      if (res != 'success') {
+        showSnackBar(res, context);
+      }
+      setState(() {
+        titleController.text = "";
+        descriptionController.text = "";
+      });
+    } catch (err) {
+      showSnackBar(
+        err.toString(),
+        context,
+      );
+    }
+  }
+
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    final model.User user = Provider.of<UserProvider>(context).getUser;
+    return Container(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        children: [
+          const Text(
+            'Add Task',
+            style: TextStyle(fontSize: 24),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            child: TextField(
+              autofocus: true,
+              controller: titleController,
+              decoration: InputDecoration(
+                label: Text('Title'),
+                border: OutlineInputBorder(),
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 8),
-                  child: TextField(
-                    controller: commentEditingController,
-                    decoration: InputDecoration(
-                      hintText: 'Comment as ${user.username}',
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
+            ),
+          ),
+          TextField(
+            autofocus: true,
+            controller:descriptionController,
+            minLines: 3,
+            maxLines: 5,
+            decoration: InputDecoration(
+              label: Text('Description'),
+              border: OutlineInputBorder(),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('cancel'),
               ),
               InkWell(
                 onTap: () => postComment(
@@ -123,9 +198,10 @@ class _AlmatyCityState extends State<AlmatyCity> {
                   ),
                 ),
               )
+              
             ],
           ),
-        ),
+        ],
       ),
     );
   }

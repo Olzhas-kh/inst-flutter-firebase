@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:inst_fire/models/city_task.dart';
 import 'package:inst_fire/resources/storage_methods.dart';
 import 'package:uuid/uuid.dart';
@@ -91,13 +92,15 @@ class FireStoreMethods {
  
 
  // Almaty
-  Future<String> almaty( String text, String uid,
-      String name, String profilePic) async {
+  Future<String> almaty( String text,String description, String uid,
+      String name,  String profilePic) async {
+      
     String res = "Some error occurred";
     try {
       if (text.isNotEmpty) {
         // if the likes list contains the user uid, we need to remove it
         String taskId = const Uuid().v1();
+        String? token = await FirebaseMessaging.instance.getToken();
         _firestore
             .collection('almaty')
             .doc(taskId)
@@ -106,11 +109,14 @@ class FireStoreMethods {
           'name': name,
           'uid': uid,
           'text': text,
+          'description': description,
           'commentId': taskId,
           'datePublished': DateTime.now(),
           'likes': [],
+          'token': token
           
-        });
+          
+        },SetOptions(merge: true));
         res = 'success';
       } else {
         res = "Please enter text";

@@ -57,17 +57,15 @@ class _AddTaskState extends State<AddTask> {
         children: [
           TextButton(
             onPressed: () {
-              if(userData['bio'].toString().contains('almaty')){
+              
                 print(userData['bio'].toString());
                 Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => AlmatyCity(),
               ),
             );
-              }else{
-                print(userData['bio'].toString());
-                showSnackBar('Вы не можете зайти так как вы не являтесь',context );
-              }
+             
+              
              
               
             },

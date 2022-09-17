@@ -1,19 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:inst_fire/notify/notify_main.dart';
 import 'package:inst_fire/providers/user_provider.dart';
 import 'package:inst_fire/responsive/mobile_screen_layout.dart';
 import 'package:inst_fire/responsive/responsive_layout_screen.dart';
 import 'package:inst_fire/responsive/web_screen_layout.dart';
 import 'package:inst_fire/screens/add_task.dart';
 import 'package:inst_fire/screens/login_screen.dart';
+import 'package:inst_fire/screens/profile_screen.dart';
+import 'package:inst_fire/screens/search_screen.dart';
 import 'package:inst_fire/screens/signup_screen.dart';
+import 'package:inst_fire/services/local_notification_service.dart';
 import 'package:inst_fire/utils/colours.dart';
 import 'package:provider/provider.dart';
 
+
+
+//Уведомления, проиложенияга али кирмеген кезде
+Future<void> backgroundHandler(RemoteMessage message)async{
+  print(message.data.toString());
+  print(message.notification!.title);
+} 
+
 void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
     await Firebase.initializeApp(
@@ -28,7 +42,7 @@ void main() async {
   } else {
     await Firebase.initializeApp();
   }
-
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   runApp(const MyApp());
 }
 
@@ -36,8 +50,17 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   
 
+
+
+
+
+
+
+
+
   // This widget is the root of your application.
- 
+  
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -51,9 +74,11 @@ class MyApp extends StatelessWidget {
         theme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: mobileBackgroundColor,
         ),
+        
 
         //Stream Builder ОЛ ЮСЕРДИН ДАННЫЕ СОХРАНЯЕТ
-        home: StreamBuilder(
+        home: 
+        StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
@@ -81,6 +106,7 @@ class MyApp extends StatelessWidget {
             return const LoginScreen();
           },
         ),
+        
       ),
     );
   }
