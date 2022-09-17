@@ -89,22 +89,16 @@ class FireStoreMethods {
     return res;
   }
 
- 
-
- // Almaty
-  Future<String> almaty( String text,String description, String uid,
-      String name,  String profilePic) async {
-      
+  // Almaty
+  Future<String> almaty(String text, String description, String uid,
+      String name, String profilePic) async {
     String res = "Some error occurred";
     try {
       if (text.isNotEmpty) {
         // if the likes list contains the user uid, we need to remove it
         String taskId = const Uuid().v1();
         String? token = await FirebaseMessaging.instance.getToken();
-        _firestore
-            .collection('almaty')
-            .doc(taskId)
-            .set({
+        _firestore.collection('almaty').doc(taskId).set({
           'profilePic': profilePic,
           'name': name,
           'uid': uid,
@@ -114,9 +108,7 @@ class FireStoreMethods {
           'datePublished': DateTime.now(),
           'likes': [],
           'token': token
-          
-          
-        },SetOptions(merge: true));
+        }, SetOptions(merge: true));
         res = 'success';
       } else {
         res = "Please enter text";
@@ -126,10 +118,11 @@ class FireStoreMethods {
     }
     return res;
   }
-  Future<String> likeTaskAlmaty(String commentId, String username, List likes) async {
+
+  Future<String> likeTaskAlmaty(
+      String commentId, String username, List likes) async {
     String res = "Some error occurred";
     try {
-    
       if (likes.contains(username)) {
         // if the likes list contains the user uid, we need to remove it
         _firestore.collection('almaty').doc(commentId).update({
@@ -147,19 +140,16 @@ class FireStoreMethods {
     }
     return res;
   }
-  
-// Almaty
-  Future<String> nursultan( String text, String uid,
-      String name, String profilePic) async {
+
+// Nursultan
+  Future<String> nursultan(
+      String text, String uid, String name, String profilePic) async {
     String res = "Some error occurred";
     try {
       if (text.isNotEmpty) {
         // if the likes list contains the user uid, we need to remove it
         String taskId = const Uuid().v1();
-        _firestore
-            .collection('nursultan')
-            .doc(taskId)
-            .set({
+        _firestore.collection('nursultan').doc(taskId).set({
           'profilePic': profilePic,
           'name': name,
           'uid': uid,
@@ -167,7 +157,6 @@ class FireStoreMethods {
           'commentId': taskId,
           'datePublished': DateTime.now(),
           'likes': [],
-          
         });
         res = 'success';
       } else {
@@ -178,10 +167,11 @@ class FireStoreMethods {
     }
     return res;
   }
-  Future<String> checkTaskNursultan(String commentId, String username, List likes) async {
+
+  Future<String> checkTaskNursultan(
+      String commentId, String username, List likes) async {
     String res = "Some error occurred";
     try {
-    
       if (likes.contains(username)) {
         // if the likes list contains the user uid, we need to remove it
         _firestore.collection('nursultan').doc(commentId).update({
@@ -199,6 +189,7 @@ class FireStoreMethods {
     }
     return res;
   }
+
   // Delete Post
   Future<String> deletePost(String postId) async {
     String res = "Some error occurred";
@@ -210,6 +201,7 @@ class FireStoreMethods {
     }
     return res;
   }
+
   // Delete Task Almaty
   Future<String> deleteTaskAlmaty(String commentId) async {
     String res = "Some error occurred";
@@ -221,7 +213,8 @@ class FireStoreMethods {
     }
     return res;
   }
-   // Delete Task Nursultan
+
+  // Delete Task Nursultan
   Future<String> deleteTaskNursultan(String commentId) async {
     String res = "Some error occurred";
     try {
@@ -232,6 +225,4 @@ class FireStoreMethods {
     }
     return res;
   }
-
- 
 }
