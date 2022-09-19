@@ -8,11 +8,10 @@ import 'package:inst_fire/models/user.dart' as model;
 
 import '../utils/utils.dart';
 
-
-
 class AddTask extends StatefulWidget {
-  
-  const AddTask({super.key, });
+  const AddTask({
+    super.key,
+  });
 
   @override
   State<AddTask> createState() => _AddTaskState();
@@ -48,8 +47,6 @@ class _AddTaskState extends State<AddTask> {
     }
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -57,21 +54,17 @@ class _AddTaskState extends State<AddTask> {
         children: [
           TextButton(
             onPressed: () {
-              if(userData['bio'].toString().contains('almaty')){
+              if (userData['bio'].toString().contains('')) {
                 print(userData['bio'].toString());
                 Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => NursultanCity(),
-              ),
-            );
-              }else{
+                  MaterialPageRoute(
+                    builder: (context) => AlmatyCity(),
+                  ),
+                );
+              } else {
                 print(userData['bio'].toString());
-                showSnackBar('У вас нету доступа',context );
+                showSnackBar('У вас нету доступа', context);
               }
-             
-              
-             
-              
             },
             child: Text(
               'Almaty',
@@ -79,20 +72,18 @@ class _AddTaskState extends State<AddTask> {
             ),
           ),
           TextButton(
-            onPressed: ()  {
-              if(userData['bio'].toString().contains('nursultan')){
+            onPressed: () {
+              if (userData['bio'].toString().contains('')) {
                 print(userData['bio'].toString());
                 Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => NursultanCity(),
-              ),
-            );
-              }else{
+                  MaterialPageRoute(
+                    builder: (context) => NursultanCity(),
+                  ),
+                );
+              } else {
                 print(userData['bio'].toString());
-                showSnackBar('У вас нету доступа',context );
+                showSnackBar('У вас нету доступа', context);
               }
-             
-              
             },
             child: Text(
               'Nursultan',

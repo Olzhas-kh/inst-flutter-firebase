@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:inst_fire/screens/add_post_screen.dart';
+import 'package:inst_fire/screens/search_screen.dart';
 
 import '../resources/auth_methods.dart';
 import '../resources/firestore_methods.dart';
@@ -12,7 +13,6 @@ import '../utils/colours.dart';
 import '../utils/utils.dart';
 import '../widgets/follow_button.dart';
 import 'login_screen.dart';
-
 
 class ProfileScreen extends StatefulWidget {
   static const routeName = "/profile";
@@ -59,40 +59,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
       isLoading = false;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: isLoading
           ? Center(child: CircularProgressIndicator())
-          :SafeArea(
-          child: Column(
-        children: [
-          //for circle avtar image
-          _getHeader(),
-          SizedBox(
-            height: 10,
-          ),
-          _profileName(userData['bio']),
-          SizedBox(
-            height: 14,
-          ),
-          _heading("Personal Details"),
-          SizedBox(
-            height: 6,
-          ),
-          _detailsCard(),
-          SizedBox(
-            height: 10,
-          ),
-          _heading("Settings"),
-          SizedBox(
-            height: 6,
-          ),
-          _settingsCard(),
-          SizedBox(height: 26,),
-          logoutButton()
-        ],
-      )),
+          : SafeArea(
+              child: Column(
+              children: [
+                //for circle avtar image
+                _getHeader(),
+                SizedBox(
+                  height: 10,
+                ),
+                _detailsCard(),
+                SizedBox(
+                  height: 15,
+                ),
+
+                _settingsCard(),
+                SizedBox(
+                  height: 26,
+                ),
+                logoutButton()
+              ],
+            )),
     );
   }
 
@@ -100,21 +92,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Container(
-            height: 100,
-            width: 100,
-            decoration: BoxDecoration(
-                //borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: NetworkImage(
-                        userData['photoUrl']))
-                // color: Colors.orange[100],
-                ),
-          ),
+        Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Container(
+                height: 100,
+                width: 100,
+                decoration: BoxDecoration(
+                    //borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: NetworkImage(userData['photoUrl']))
+                    // color: Colors.orange[100],
+                    ),
+              ),
+            ),
+            Text(userData['username'])
+          ],
         ),
       ],
     );
@@ -186,25 +182,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             //row for each deatails
             ListTile(
-              leading: Icon(Icons.settings),
-              title: Text("Settings"),
+              leading: Icon(
+                Icons.person_search,
+              ),
+              title: Text("Пользователи"),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => SearchScreen(),
+                  ),
+                );
+              },
             ),
             Divider(
               height: 0.6,
               color: Colors.black87,
             ),
             ListTile(
-              leading: Icon(Icons.dashboard_customize),
-              title: Text("About Us"),
+              leading: Icon(Icons.add_box),
+              title: Text("Публикация"),
+              onTap: () {
+                if (userData['bio'].toString().contains('author')) {
+                  print(userData['bio'].toString());
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => AddPostScreen(),
+                    ),
+                  );
+                } else {
+                  print(userData['bio'].toString());
+                  showSnackBar('Вам не предоставлен доступ', context);
+                }
+              },
             ),
             Divider(
               height: 0.6,
               color: Colors.black87,
             ),
-            ListTile(
-              leading: Icon(Icons.topic),
-              title: Text("Change Theme"),
-            )
           ],
         ),
       ),
@@ -213,15 +227,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget logoutButton() {
     return InkWell(
-      onTap: 
-      () async {
-                    await AuthMethods().signOut();
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => const LoginPage(),
-                      ),
-                    );
-                  },
+      onTap: () async {
+        await AuthMethods().signOut();
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const LoginPage(),
+          ),
+        );
+      },
       child: Container(
           color: Colors.red,
           child: Padding(

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import '../utils/colours.dart';
 import '../utils/global_variables.dart';
 
-
 class MobileScreenLayout extends StatefulWidget {
   const MobileScreenLayout({Key? key}) : super(key: key);
 
@@ -14,11 +13,6 @@ class MobileScreenLayout extends StatefulWidget {
 }
 
 class _MobileScreenLayoutState extends State<MobileScreenLayout> {
-
-
-  
-
-
   int _page = 0;
   late PageController pageController; // for tabs animation
 
@@ -58,40 +52,20 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         backgroundColor: mobileBackgroundColor,
         items: [
           Icon(
-              Icons.home,
-              color: (_page == 0) ? Colors.black : secondaryColor,
-              size: 28,
-            ),
-            
-          
-             Icon(
-                Icons.search,
-                color: (_page == 1) ? Colors.black : secondaryColor,
-                size: 28,
-              ),
-              
-          
-             Icon(
-                Icons.add_circle,
-                color: (_page == 2) ? Colors.black : secondaryColor,
-                size: 28,
-              ),
-              
-          
-             Icon(
-              Icons.favorite,
-              color: (_page == 3) ? Colors.black : secondaryColor,
-              size: 28,
-            ),
-          
-          
+            Icons.add_task,
+            color: (_page == 0) ? Colors.black : secondaryColor,
+            size: 28,
+          ),
           Icon(
-              Icons.person,
-              color: (_page == 4) ? Colors.black : secondaryColor,
-              size: 28,
-            ),
-           
-          
+            Icons.newspaper_rounded,
+            color: (_page == 1) ? Colors.black : secondaryColor,
+            size: 28,
+          ),
+          Icon(
+            Icons.person,
+            color: (_page == 2) ? Colors.black : secondaryColor,
+            size: 28,
+          ),
         ],
         onTap: navigationTapped,
         index: _page,

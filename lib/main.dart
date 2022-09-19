@@ -58,7 +58,6 @@ import 'notify/log.dart';
 //Уведомления, проиложенияга али кирмеген кезде
 
 void main() async {
-
   if (kIsWeb) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
@@ -94,7 +93,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Cotton',
         theme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: mobileBackgroundColor,
+          scaffoldBackgroundColor: primaryColor,
         ),
 
         //Stream Builder ОЛ ЮСЕРДИН ДАННЫЕ СОХРАНЯЕТ

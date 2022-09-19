@@ -85,7 +85,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
         );
         clearImage();
       } else {
-        showSnackBar( res,context);
+        showSnackBar(res, context);
       }
     } catch (err) {
       setState(() {
@@ -115,12 +115,21 @@ class _AddPostScreenState extends State<AddPostScreen> {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
 
     return _file == null
-        ? Center(
-            child: IconButton(
-              icon: const Icon(
-                Icons.upload,
+        ? Scaffold(
+            appBar: AppBar(
+              backgroundColor: mobileBackgroundColor,
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context),
               ),
-              onPressed: () => _selectImage(context),
+            ),
+            body: Center(
+              child: IconButton(
+                icon: const Icon(
+                  Icons.upload,
+                ),
+                onPressed: () => _selectImage(context),
+              ),
             ),
           )
         : Scaffold(

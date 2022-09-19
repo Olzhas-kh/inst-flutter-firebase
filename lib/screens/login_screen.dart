@@ -12,17 +12,15 @@ import '../utils/theme_helper.dart';
 import '../utils/utils.dart';
 import '../widgets/text_field_input.dart';
 
-
-class LoginPage extends StatefulWidget{
-  const LoginPage({Key? key}): super(key:key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage>{
+class _LoginPageState extends State<LoginPage> {
   double _headerHeight = 250;
- 
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -58,13 +56,12 @@ class _LoginPageState extends State<LoginPage>{
       setState(() {
         _isLoading = false;
       });
-      showSnackBar( res, context);
+      showSnackBar(res, context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -72,100 +69,91 @@ class _LoginPageState extends State<LoginPage>{
           children: [
             Container(
               height: _headerHeight,
-              child: HeaderWidget(_headerHeight, true, 'COTTON'), //let's create a common header widget
+              child: HeaderWidget(_headerHeight, true,
+                  'COTTON'), //let's create a common header widget
             ),
             SafeArea(
-              child: Container( 
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  margin: EdgeInsets.fromLTRB(20, 10, 20, 10),// This will be the login form
-                child: Column(
-                  children: [
-                    Text(
-                      'Hello',
-                      style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'Signin into your account',
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                    SizedBox(height: 30.0),
-                    Form(
-                      
-                        child: Column(
-                          children: [
-                            Container(
-                              child: TextFieldInput(
-                hintText: 'Enter your email',
-                textInputType: TextInputType.emailAddress,
-                textEditingController: _emailController,
-              ),
-                              decoration: ThemeHelper().inputBoxDecorationShaddow(),
+              child: Container(
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  margin: EdgeInsets.fromLTRB(
+                      20, 10, 20, 10), // This will be the login form
+                  child: Column(
+                    children: [
+                      SizedBox(height: 30.0),
+                      Form(
+                          child: Column(
+                        children: [
+                          Container(
+                            child: TextFieldInput(
+                              hintText: 'Email',
+                              textInputType: TextInputType.emailAddress,
+                              textEditingController: _emailController,
                             ),
-                            SizedBox(height: 30.0),
-                            Container(
-                              child: TextFieldInput(
-                hintText: 'Enter your password',
-                textInputType: TextInputType.text,
-                textEditingController: _passwordController,
-                isPass: true,
-              ),
-                              decoration: ThemeHelper().inputBoxDecorationShaddow(),
+                            decoration:
+                                ThemeHelper().inputBoxDecorationShaddow(),
+                          ),
+                          SizedBox(height: 10.0),
+                          Container(
+                            child: TextFieldInput(
+                              hintText: 'Password',
+                              textInputType: TextInputType.text,
+                              textEditingController: _passwordController,
+                              isPass: true,
                             ),
-                            SizedBox(height: 15.0),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(10,0,10,20),
-                              alignment: Alignment.topRight,
-                              child: GestureDetector(
-                                onTap: () {
-                                  
-                                },
-                                child: Text( "Forgot your password?", style: TextStyle( color: Colors.grey, ),
+                            decoration:
+                                ThemeHelper().inputBoxDecorationShaddow(),
+                          ),
+                          SizedBox(height: 15.0),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(10, 0, 10, 20),
+                            alignment: Alignment.topRight,
+                          ),
+                          Container(
+                            decoration:
+                                ThemeHelper().buttonBoxDecoration(context),
+                            child: ElevatedButton(
+                              style: ThemeHelper().buttonStyle(),
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
+                                child: Text(
+                                  'Login'.toUpperCase(),
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
                                 ),
                               ),
+                              onPressed: () => loginUser(),
                             ),
-                            Container(
-                              decoration: ThemeHelper().buttonBoxDecoration(context),
-                              child: ElevatedButton(
-                                style: ThemeHelper().buttonStyle(),
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
-                                  child: Text('Sign In'.toUpperCase(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
-                                ),
-                                onPressed: ()=>loginUser(),
+                          ),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
+                            //child: Text('Don\'t have an account? Create'),
+                            child: Text.rich(TextSpan(children: [
+                              TextSpan(text: "Don\'t have an account? "),
+                              TextSpan(
+                                text: 'Create',
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () => Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              RegistrationPage(),
+                                        ),
+                                      ),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).accentColor),
                               ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(10,20,10,20),
-                              //child: Text('Don\'t have an account? Create'),
-                              child: Text.rich(
-                                TextSpan(
-                                  children: [
-                                    TextSpan(text: "Don\'t have an account? "),
-                                    TextSpan(
-                                      text: 'Create',
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = ()=>Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) =>  RegistrationPage(),
-                      ),
-                    ),
-                                      style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).accentColor),
-                                    ),
-                                  ]
-                                )
-                              ),
-                            ),
-                          ],
-                        )
-                    ),
-                  ],
-                )
-              ),
+                            ])),
+                          ),
+                        ],
+                      )),
+                    ],
+                  )),
             ),
           ],
         ),
       ),
     );
-
   }
 }

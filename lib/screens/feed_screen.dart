@@ -6,7 +6,6 @@ import '../utils/colours.dart';
 import '../utils/global_variables.dart';
 import '../widgets/post_card.dart';
 
-
 class FeedScreen extends StatefulWidget {
   const FeedScreen({Key? key}) : super(key: key);
 
@@ -27,18 +26,12 @@ class _FeedScreenState extends State<FeedScreen> {
           : AppBar(
               backgroundColor: mobileBackgroundColor,
               centerTitle: false,
-              title: Text("COTTON",
-              style: TextStyle(color: primaryColor),
-              ),
-              actions: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.messenger_outline,
-                    color: primaryColor,
-                  ),
-                  onPressed: () {},
+              title: Text(
+                "COTTON News",
+                style: TextStyle(
+                  color: primaryColor,
                 ),
-              ],
+              ),
             ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('posts').snapshots(),
