@@ -55,7 +55,7 @@ class _NursultanCityState extends State<NursultanCity> {
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
         title: const Text(
-          'Comments',
+          'Tasks',
         ),
         centerTitle: false,
       ),

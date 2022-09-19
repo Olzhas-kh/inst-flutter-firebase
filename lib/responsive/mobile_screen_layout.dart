@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -52,50 +53,48 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         controller: pageController,
         onPageChanged: onPageChanged,
       ),
-      bottomNavigationBar: CupertinoTabBar(
+      bottomNavigationBar: CurvedNavigationBar(
+        animationDuration: Duration(milliseconds: 300),
         backgroundColor: mobileBackgroundColor,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
+        items: [
+          Icon(
               Icons.home,
-              color: (_page == 0) ? primaryColor : secondaryColor,
+              color: (_page == 0) ? Colors.black : secondaryColor,
+              size: 28,
             ),
-            label: '',
-            backgroundColor: primaryColor,
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(
+            
+          
+             Icon(
                 Icons.search,
-                color: (_page == 1) ? primaryColor : secondaryColor,
+                color: (_page == 1) ? Colors.black : secondaryColor,
+                size: 28,
               ),
-              label: '',
-              backgroundColor: primaryColor),
-          BottomNavigationBarItem(
-              icon: Icon(
+              
+          
+             Icon(
                 Icons.add_circle,
-                color: (_page == 2) ? primaryColor : secondaryColor,
+                color: (_page == 2) ? Colors.black : secondaryColor,
+                size: 28,
               ),
-              label: '',
-              backgroundColor: primaryColor),
-          BottomNavigationBarItem(
-            icon: Icon(
+              
+          
+             Icon(
               Icons.favorite,
-              color: (_page == 3) ? primaryColor : secondaryColor,
+              color: (_page == 3) ? Colors.black : secondaryColor,
+              size: 28,
             ),
-            label: '',
-            backgroundColor: primaryColor,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
+          
+          
+          Icon(
               Icons.person,
-              color: (_page == 4) ? primaryColor : secondaryColor,
+              color: (_page == 4) ? Colors.black : secondaryColor,
+              size: 28,
             ),
-            label: '',
-            backgroundColor: primaryColor,
-          ),
+           
+          
         ],
         onTap: navigationTapped,
-        currentIndex: _page,
+        index: _page,
       ),
     );
   }

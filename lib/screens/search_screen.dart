@@ -55,24 +55,57 @@ class _SearchScreenState extends State<SearchScreen> {
                 return ListView.builder(
                   itemCount: (snapshot.data! as dynamic).docs.length,
                   itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () => Navigator.of(context).push(
+                    return Card(
+                      elevation: 8.0,
+                      margin: new EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 6.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Color.fromRGBO(64, 75, 96, .9)),
+                        child: ListTile(
+                          onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => ProfileOtherUsers(
                             uid: (snapshot.data! as dynamic).docs[index]['uid'],
                           ),
                         ),
                       ),
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                            (snapshot.data! as dynamic).docs[index]['photoUrl'],
-                          ),
-                          radius: 16,
-                        ),
-                        title: Text(
-                          (snapshot.data! as dynamic).docs[index]['username'],
-                        ),
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 20.0, vertical: 10.0),
+                            leading: Container(
+                              padding: EdgeInsets.only(right: 12.0),
+                              decoration: new BoxDecoration(
+                                  border: new Border(
+                                      right: new BorderSide(
+                                          width: 1.0, color: Colors.white24))),
+                              child: CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                  (snapshot.data! as dynamic).docs[index]
+                                      ['photoUrl'],
+                                ),
+                                radius: 16,
+                              ),
+                            ),
+                            title: Text(
+                              (snapshot.data! as dynamic).docs[index]
+                                  ['username'],
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
+
+                            subtitle: Row(
+                              children: <Widget>[
+                                
+                                Text(
+                                    (snapshot.data! as dynamic).docs[index]
+                                        ['bio'],
+                                    style: TextStyle(color: Colors.white))
+                              ],
+                            ),
+                            trailing: Icon(Icons.keyboard_arrow_right,
+                                color: Colors.white, size: 30.0)),
                       ),
                     );
                   },
@@ -114,3 +147,23 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 }
+// InkWell(
+//                       onTap: () => Navigator.of(context).push(
+//                         MaterialPageRoute(
+//                           builder: (context) => ProfileOtherUsers(
+//                             uid: (snapshot.data! as dynamic).docs[index]['uid'],
+//                           ),
+//                         ),
+//                       ),
+//                       child: ListTile(
+//                         leading: CircleAvatar(
+//                           backgroundImage: NetworkImage(
+//                             (snapshot.data! as dynamic).docs[index]['photoUrl'],
+//                           ),
+//                           radius: 16,
+//                         ),
+//                         title: Text(
+//                           (snapshot.data! as dynamic).docs[index]['username'],
+//                         ),
+//                       ),
+//                     );

@@ -1,25 +1,29 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inst_fire/screens/signup_screen.dart';
 
 import '../resources/auth_methods.dart';
 import '../responsive/mobile_screen_layout.dart';
 import '../responsive/responsive_layout_screen.dart';
 import '../responsive/web_screen_layout.dart';
-import '../utils/colours.dart';
-import '../utils/global_variables.dart';
+import '../utils/common_header.dart';
+import '../utils/theme_helper.dart';
 import '../utils/utils.dart';
 import '../widgets/text_field_input.dart';
 
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget{
+  const LoginPage({Key? key}): super(key:key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginPageState extends State<LoginPage>{
+  double _headerHeight = 250;
+ 
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
@@ -54,112 +58,114 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         _isLoading = false;
       });
-      showSnackBar( res,context);
+      showSnackBar( res, context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Container(
-          padding: MediaQuery.of(context).size.width > webScreenSize
-              ? EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width / 3)
-              : const EdgeInsets.symmetric(horizontal: 32),
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Flexible(
-                child: Container(),
-                flex: 2,
-              ),
-              SvgPicture.asset(
-                'assets/ic_instagram.svg',
-                color: primaryColor,
-                height: 64,
-              ),
-              const SizedBox(
-                height: 64,
-              ),
-              TextFieldInput(
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: _headerHeight,
+              child: HeaderWidget(_headerHeight, true, 'COTTON'), //let's create a common header widget
+            ),
+            SafeArea(
+              child: Container( 
+                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  margin: EdgeInsets.fromLTRB(20, 10, 20, 10),// This will be the login form
+                child: Column(
+                  children: [
+                    Text(
+                      'Hello',
+                      style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Signin into your account',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    SizedBox(height: 30.0),
+                    Form(
+                      
+                        child: Column(
+                          children: [
+                            Container(
+                              child: TextFieldInput(
                 hintText: 'Enter your email',
                 textInputType: TextInputType.emailAddress,
                 textEditingController: _emailController,
               ),
-              const SizedBox(
-                height: 24,
-              ),
-              TextFieldInput(
+                              decoration: ThemeHelper().inputBoxDecorationShaddow(),
+                            ),
+                            SizedBox(height: 30.0),
+                            Container(
+                              child: TextFieldInput(
                 hintText: 'Enter your password',
                 textInputType: TextInputType.text,
                 textEditingController: _passwordController,
                 isPass: true,
               ),
-              const SizedBox(
-                height: 24,
-              ),
-              InkWell(
-                child: Container(
-                  child: !_isLoading
-                      ? const Text(
-                          'Log in',
-                        )
-                      : const CircularProgressIndicator(
-                          color: primaryColor,
-                        ),
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  decoration: const ShapeDecoration(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                    ),
-                    color: blueColor,
-                  ),
-                ),
-                onTap: loginUser,
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              Flexible(
-                child: Container(),
-                flex: 2,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    child: const Text(
-                      'Dont have an account?',
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                  ),
-                  GestureDetector(
-                    onTap: () => Navigator.of(context).push(
+                              decoration: ThemeHelper().inputBoxDecorationShaddow(),
+                            ),
+                            SizedBox(height: 15.0),
+                            Container(
+                              margin: EdgeInsets.fromLTRB(10,0,10,20),
+                              alignment: Alignment.topRight,
+                              child: GestureDetector(
+                                onTap: () {
+                                  
+                                },
+                                child: Text( "Forgot your password?", style: TextStyle( color: Colors.grey, ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              decoration: ThemeHelper().buttonBoxDecoration(context),
+                              child: ElevatedButton(
+                                style: ThemeHelper().buttonStyle(),
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
+                                  child: Text('Sign In'.toUpperCase(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
+                                ),
+                                onPressed: ()=>loginUser(),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.fromLTRB(10,20,10,20),
+                              //child: Text('Don\'t have an account? Create'),
+                              child: Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(text: "Don\'t have an account? "),
+                                    TextSpan(
+                                      text: 'Create',
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = ()=>Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => const SignupScreen(),
+                        builder: (context) =>  RegistrationPage(),
                       ),
                     ),
-                    child: Container(
-                      child: const Text(
-                        ' Signup.',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                                      style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).accentColor),
+                                    ),
+                                  ]
+                                )
+                              ),
+                            ),
+                          ],
+                        )
                     ),
-                  ),
-                ],
+                  ],
+                )
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
+
   }
 }

@@ -56,10 +56,8 @@ import 'notify/constan.dart';
 import 'notify/log.dart';
 
 //Уведомления, проиложенияга али кирмеген кезде
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
 
   if (kIsWeb) {
     await Firebase.initializeApp(
@@ -94,7 +92,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Instagram clone',
+        title: 'Cotton',
         theme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: mobileBackgroundColor,
         ),
@@ -122,7 +120,7 @@ class MyApp extends StatelessWidget {
               );
             }
 
-            return const LoginScreen();
+            return const LoginPage();
           },
         ),
       ),
