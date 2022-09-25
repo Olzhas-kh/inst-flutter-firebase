@@ -8,19 +8,22 @@ import '../../providers/user_provider.dart';
 import '../../resources/firestore_methods.dart';
 import '../../utils/utils.dart';
 import '../../widgets/comment_card.dart';
+import '../cities_task_card.dart/karagandy_card.dart';
+import '../cities_task_card.dart/kyzylorda_card.dart';
 import '../cities_task_card.dart/nursultan_task_card.dart';
+import '../cities_task_card.dart/shymkent_card.dart';
 
 
 
-class AstanaCity extends StatefulWidget {
+class KaragandyCity extends StatefulWidget {
   
-  const AstanaCity({super.key,required});
+  const KaragandyCity({super.key,required});
 
   @override
-  State<AstanaCity> createState() => _AstanaCityState();
+  State<KaragandyCity> createState() => _KaragandyCityState();
 }
 
-class _AstanaCityState extends State<AstanaCity> {
+class _KaragandyCityState extends State<KaragandyCity> {
   
   
     
@@ -58,7 +61,7 @@ class _AstanaCityState extends State<AstanaCity> {
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
-            .collection('astana')
+            .collection('karagandy')
             .snapshots(),
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
@@ -70,7 +73,7 @@ class _AstanaCityState extends State<AstanaCity> {
 
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
-            itemBuilder: (ctx, index) => AstanaCard(
+            itemBuilder: (ctx, index) => KaragandyCard(
               snap: snapshot.data!.docs[index],
             ),
           );
@@ -112,7 +115,7 @@ TextEditingController descriptionController = TextEditingController();
 
 void postComment(String uid, String name, String profilePic) async {
     try {
-      String res = await FireStoreMethods().astana(
+      String res = await FireStoreMethods().karagandy(
         titleController.text,
         descriptionController.text,
         uid,

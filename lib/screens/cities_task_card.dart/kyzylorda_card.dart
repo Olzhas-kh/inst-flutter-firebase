@@ -5,20 +5,21 @@ import 'package:intl/intl.dart';
 import 'package:inst_fire/models/user.dart' as model;
 import 'package:provider/provider.dart';
 
-import '../providers/user_provider.dart';
-import '../resources/firestore_methods.dart';
-import '../utils/utils.dart';
-import 'like_animation.dart';
+import '../../providers/user_provider.dart';
+import '../../resources/firestore_methods.dart';
+import '../../utils/utils.dart';
 
-class CommentCard extends StatefulWidget {
+
+
+class KyzylordaCard extends StatefulWidget {
   final snap;
-  const CommentCard({Key? key, required this.snap}) : super(key: key);
+  const KyzylordaCard({Key? key, required this.snap}) : super(key: key);
 
   @override
-  State<CommentCard> createState() => _CommentCardState();
+  State<KyzylordaCard> createState() => _KyzylordaCardState();
 }
 
-class _CommentCardState extends State<CommentCard> {
+class _KyzylordaCardState extends State<KyzylordaCard> {
   bool isbutton = true;
   final listStatus = [
     '',
@@ -74,7 +75,7 @@ class _CommentCardState extends State<CommentCard> {
       uid = user.uid;
 
       var userSnap =
-          await FirebaseFirestore.instance.collection('almaty').doc(widget.snap['commentId']).get();
+          await FirebaseFirestore.instance.collection('kyzylorda').doc(widget.snap['commentId']).get();
 
       userData = userSnap.data()!;
 
@@ -92,9 +93,9 @@ class _CommentCardState extends State<CommentCard> {
 
   bool isLikeAnimating = false;
 
-  deleteTaskAlmaty(String commentId) async {
+  deleteTaskKyzylorda(String commentId) async {
     try {
-      await FireStoreMethods().deleteTaskAlmaty(commentId);
+      await FireStoreMethods().deleteTaskKyzylorda(commentId);
     } catch (err) {
       showSnackBar(
         err.toString(),
@@ -114,7 +115,7 @@ class _CommentCardState extends State<CommentCard> {
             children: <Widget>[
               SimpleDialogOption(
                 onPressed: () {
-                  deleteTaskAlmaty(
+                  deleteTaskKyzylorda(
                     widget.snap['commentId'].toString(),
                   );
                   // remove the dialog box
@@ -147,7 +148,7 @@ class _CommentCardState extends State<CommentCard> {
               SimpleDialogOption(
                 onPressed: () {
                   if(widget.snap['likes'].contains(userData['username'])){
-                    FireStoreMethods().likeTaskAlmaty(
+                    FireStoreMethods().likeTaskKyzylorda(
                   widget.snap['commentId'].toString(),
                   userData['username'],
                   widget.snap['likes'],
@@ -295,13 +296,13 @@ class _CommentCardState extends State<CommentCard> {
           MaterialButton(
               onPressed:  (){
                 
-                  FireStoreMethods().likeTaskAlmaty(
+                  FireStoreMethods().likeTaskKyzylorda(
                   widget.snap['commentId'].toString(),
                   user.username,
                   widget.snap['likes'],
                   ); 
 
-                  FireStoreMethods().statusTaskAlmaty(widget.snap['commentId'], 'В процессе:',widget.snap['status']);
+                  FireStoreMethods().statusTaskKyzylorda(widget.snap['commentId'], 'В процессе:',widget.snap['status']);
                   statusString_1 = "в процессе: ";
                   
                 
@@ -324,14 +325,14 @@ class _CommentCardState extends State<CommentCard> {
                 onPressed: () {
                   
                     if(widget.snap['likes'].contains(user.username)){
-                    FireStoreMethods().likeTaskAlmaty(
+                    FireStoreMethods().likeTaskKyzylorda(
                   widget.snap['commentId'].toString(),
                   user.username,
                   widget.snap['likes'],
                   
                   
                   ); 
-                  FireStoreMethods().statusTaskAlmaty(widget.snap['commentId'], 'В процессе:',widget.snap['status']);
+                  FireStoreMethods().statusTaskKyzylorda(widget.snap['commentId'], 'В процессе:',widget.snap['status']);
                   statusString_1 = "";
                   }else
                   {
@@ -358,8 +359,8 @@ class _CommentCardState extends State<CommentCard> {
                   
                   
                   
-                 FireStoreMethods().statusTaskAlmaty(widget.snap['commentId'], 'Выполнено:',widget.snap['status']);
-                 FireStoreMethods().statusTaskAlmaty(widget.snap['commentId'], 'В процессе:',widget.snap['status']);
+                 FireStoreMethods().statusTaskKyzylorda(widget.snap['commentId'], 'Выполнено:',widget.snap['status']);
+                 FireStoreMethods().statusTaskKyzylorda(widget.snap['commentId'], 'В процессе:',widget.snap['status']);
                   }else
                   {
                     showSnackBar('В процессе', context);

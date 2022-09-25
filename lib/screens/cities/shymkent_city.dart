@@ -9,18 +9,19 @@ import '../../resources/firestore_methods.dart';
 import '../../utils/utils.dart';
 import '../../widgets/comment_card.dart';
 import '../cities_task_card.dart/nursultan_task_card.dart';
+import '../cities_task_card.dart/shymkent_card.dart';
 
 
 
-class AstanaCity extends StatefulWidget {
+class ShymkentCity extends StatefulWidget {
   
-  const AstanaCity({super.key,required});
+  const ShymkentCity({super.key,required});
 
   @override
-  State<AstanaCity> createState() => _AstanaCityState();
+  State<ShymkentCity> createState() => _ShymkentCityState();
 }
 
-class _AstanaCityState extends State<AstanaCity> {
+class _ShymkentCityState extends State<ShymkentCity> {
   
   
     
@@ -58,7 +59,7 @@ class _AstanaCityState extends State<AstanaCity> {
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
-            .collection('astana')
+            .collection('shymkent')
             .snapshots(),
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
@@ -70,7 +71,7 @@ class _AstanaCityState extends State<AstanaCity> {
 
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
-            itemBuilder: (ctx, index) => AstanaCard(
+            itemBuilder: (ctx, index) => ShymkentCard(
               snap: snapshot.data!.docs[index],
             ),
           );
@@ -112,7 +113,7 @@ TextEditingController descriptionController = TextEditingController();
 
 void postComment(String uid, String name, String profilePic) async {
     try {
-      String res = await FireStoreMethods().astana(
+      String res = await FireStoreMethods().shymkent(
         titleController.text,
         descriptionController.text,
         uid,

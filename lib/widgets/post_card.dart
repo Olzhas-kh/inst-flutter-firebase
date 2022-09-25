@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:inst_fire/models/user.dart' as model;
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -24,13 +26,21 @@ class PostCard extends StatefulWidget {
 }
 
 class _PostCardState extends State<PostCard> {
-  int commentLen = 0;
-  bool isLikeAnimating = false;
+  var userData = {};
 
+  bool isLoading = false;
+  String uid = '';
+  int commentLen = 0;
+  int viewsLen = 0;
+  bool isLikeAnimating = false;
+  bool isViewed = false;
+  List likeUser = [];
   @override
   void initState() {
     super.initState();
     fetchCommentLen();
+
+    getData();
   }
 
   fetchCommentLen() async {
@@ -50,6 +60,34 @@ class _PostCardState extends State<PostCard> {
     setState(() {});
   }
 
+  getData() async {
+    try {
+      final FirebaseAuth auth = FirebaseAuth.instance;
+
+      final User user = auth.currentUser!;
+      uid = user.uid;
+
+      FireStoreMethods().likePost(
+        widget.snap['postId'].toString(),
+        user.uid,
+        widget.snap['likes'],
+      );
+      QuerySnapshot snap = await FirebaseFirestore.instance
+          .collection('posts')
+          .where('likes')
+          .get();
+      viewsLen = snap.docs.length;
+      setState(() {
+        isViewed = true;
+      });
+    } catch (e) {
+      showSnackBar(
+        e.toString(),
+        context,
+      );
+    }
+  }
+
   deletePost(String postId) async {
     try {
       await FireStoreMethods().deletePost(postId);
@@ -61,6 +99,7 @@ class _PostCardState extends State<PostCard> {
     }
   }
 
+// Text(widget.snap['likes'][0].toString().replaceAll("]","").replaceAll("[", ""),),
   @override
   Widget build(BuildContext context) {
     final model.User user = Provider.of<UserProvider>(context).getUser;
@@ -179,50 +218,33 @@ class _PostCardState extends State<PostCard> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                AnimatedOpacity(
-                  duration: const Duration(milliseconds: 200),
-                  opacity: isLikeAnimating ? 1 : 0,
-                  child: LikeAnimation(
-                    isAnimating: isLikeAnimating,
-                    child: const Icon(
-                      Icons.favorite,
-                      color: Colors.white,
-                      size: 100,
-                    ),
-                    duration: const Duration(
-                      milliseconds: 400,
-                    ),
-                    onEnd: () {
-                      setState(() {
-                        isLikeAnimating = false;
-                      });
-                    },
-                  ),
-                ),
               ],
             ),
           ),
+
           // LIKE, COMMENT SECTION OF THE POST
           Row(
             children: <Widget>[
-              LikeAnimation(
-                isAnimating: widget.snap['likes'].contains(user.uid),
-                smallLike: true,
-                child: IconButton(
-                  icon: widget.snap['likes'].contains(user.uid)
-                      ? const Icon(
-                          Icons.favorite,
-                          color: Colors.red,
-                        )
-                      : const Icon(
-                          Icons.favorite_border,
-                        ),
-                  onPressed: () => FireStoreMethods().likePost(
-                    widget.snap['postId'].toString(),
-                    user.uid,
-                    widget.snap['likes'],
-                  ),
-                ),
+              IconButton(
+                icon: Icon(Icons.remove_red_eye),
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          // <-- SEE HERE
+                          title: const Text('Посмотрели: '),
+                          content: SizedBox(
+                            width: double.maxFinite,
+                            child: ListView.builder(
+                                itemCount: 6,
+                                itemBuilder: (BuildContext context, index) {
+                                  return Text(widget.snap['likes'][index].toString().replaceAll("]","").replaceAll("[", ""),);
+                                }),
+                          ),
+                        );
+                      });
+                },
               ),
               IconButton(
                 icon: const Icon(
@@ -312,4 +334,26 @@ class _PostCardState extends State<PostCard> {
       ),
     );
   }
+  // Future<void> _showSimpleDialog() async {
+  //   await showDialog<void>(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           // <-- SEE HERE
+  //           title: const Text('Посмотрели: '),
+  //           content:
+  //               SizedBox(
+  //                 width: double.maxFinite,
+  //                 child:
+  //               ListView.builder(
+  //                 itemCount: viewsLen,
+  //                 itemBuilder: (BuildContext context,index){
+  //                   return  Text("asdad  $index");
+
+  //               }),
+  //             ),
+  //         );
+  //       }
+  //       );
+  // }
 }

@@ -5,7 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:inst_fire/screens/add_post_screen.dart';
-import 'package:inst_fire/screens/search_screen.dart';
+import 'package:inst_fire/screens/users_search/add_city_saerch_screen.dart';
+import 'package:inst_fire/screens/users_search/almaty_search_screen.dart';
 
 import '../resources/auth_methods.dart';
 import '../resources/firestore_methods.dart';
@@ -189,7 +190,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => SearchScreen(),
+                    builder: (context) => CitiesForSearch(),
                   ),
                 );
               },

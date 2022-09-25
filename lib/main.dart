@@ -46,7 +46,7 @@ import 'package:inst_fire/responsive/web_screen_layout.dart';
 import 'package:inst_fire/screens/add_task.dart';
 import 'package:inst_fire/screens/login_screen.dart';
 import 'package:inst_fire/screens/profile_screen.dart';
-import 'package:inst_fire/screens/search_screen.dart';
+import 'package:inst_fire/screens/users_search/almaty_search_screen.dart';
 import 'package:inst_fire/screens/signup_screen.dart';
 import 'package:inst_fire/services/local_notification_service.dart';
 import 'package:inst_fire/utils/colours.dart';
@@ -93,7 +93,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Cotton',
         theme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: primaryColor,
+          scaffoldBackgroundColor: mobileBackgroundColor,
         ),
 
         //Stream Builder ОЛ ЮСЕРДИН ДАННЫЕ СОХРАНЯЕТ

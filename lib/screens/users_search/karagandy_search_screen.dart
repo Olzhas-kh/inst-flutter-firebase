@@ -4,17 +4,17 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:inst_fire/screens/profile_other_users.dart';
 import 'package:inst_fire/screens/profile_screen.dart';
 
-import '../utils/colours.dart';
-import '../utils/global_variables.dart';
+import '../../utils/colours.dart';
+import '../../utils/global_variables.dart';
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+class KaragandySearchScreen extends StatefulWidget {
+  const KaragandySearchScreen({Key? key}) : super(key: key);
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  State<KaragandySearchScreen> createState() => _KaragandySearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _KaragandySearchScreenState extends State<KaragandySearchScreen> {
   final TextEditingController searchController = TextEditingController();
   bool isShowUsers = true;
 
@@ -39,7 +39,7 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       body: isShowUsers
           ? FutureBuilder(
-              future: FirebaseFirestore.instance
+              future:  FirebaseFirestore.instance
                   .collection('users')
                   .where(
                     'username',
@@ -55,6 +55,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 return ListView.builder(
                   itemCount: (snapshot.data! as dynamic).docs.length,
                   itemBuilder: (context, index) {
+                    if((snapshot.data! as dynamic).docs[index]['bio'] == 'karagandy'){
                     return Card(
                       elevation: 8.0,
                       margin: new EdgeInsets.symmetric(
@@ -108,6 +109,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                 color: Colors.white, size: 30.0)),
                       ),
                     );
+                    }else{
+                      return  Container();
+                    }
                   },
                 );
               },
@@ -147,23 +151,3 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 }
-// InkWell(
-//                       onTap: () => Navigator.of(context).push(
-//                         MaterialPageRoute(
-//                           builder: (context) => ProfileOtherUsers(
-//                             uid: (snapshot.data! as dynamic).docs[index]['uid'],
-//                           ),
-//                         ),
-//                       ),
-//                       child: ListTile(
-//                         leading: CircleAvatar(
-//                           backgroundImage: NetworkImage(
-//                             (snapshot.data! as dynamic).docs[index]['photoUrl'],
-//                           ),
-//                           radius: 16,
-//                         ),
-//                         title: Text(
-//                           (snapshot.data! as dynamic).docs[index]['username'],
-//                         ),
-//                       ),
-//                     );
