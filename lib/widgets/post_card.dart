@@ -50,7 +50,13 @@ class _PostCardState extends State<PostCard> {
           .doc(widget.snap['postId'])
           .collection('comments')
           .get();
+
+          QuerySnapshot snap2 = await FirebaseFirestore.instance
+          .collection('posts')
+          .where('likes')
+          .get();
       commentLen = snap.docs.length;
+      viewsLen = snap2.docs.length;
     } catch (err) {
       showSnackBar(
         err.toString(),
@@ -237,7 +243,7 @@ class _PostCardState extends State<PostCard> {
                           content: SizedBox(
                             width: double.maxFinite,
                             child: ListView.builder(
-                                itemCount: 6,
+                                itemCount: widget.snap['likes'].length,
                                 itemBuilder: (BuildContext context, index) {
                                   return Text(widget.snap['likes'][index].toString().replaceAll("]","").replaceAll("[", ""),);
                                 }),
