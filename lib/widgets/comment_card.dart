@@ -208,162 +208,166 @@ class _CommentCardState extends State<CommentCard> {
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SlimyCard(
-          width: 450,
-          topCardHeight: 180,
-          
-          bottomCardWidget: Container(
-            child: Center(child: Text(widget.snap['description'])),
-          ),
-          topCardWidget: Row(
-            children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(
-                  widget.snap.data()['profilePic'],
-                ),
-                radius: 18,
+      child: SlimyCard(
+        width: 450,
+        topCardHeight: 180,
+        color: Color.fromRGBO(64, 75, 96, .9),
+        topCardWidget: Row(
+          children: [
+            CircleAvatar(
+              backgroundImage: NetworkImage(
+                widget.snap.data()['profilePic'],
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                                text: widget.snap.data()['name'],
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                )),
-                            TextSpan(
-                              text: ' ${widget.snap.data()['text']}',
-                            ),
-                            TextSpan(
-                              text:
-                                  ' ${widget.snap['status'].toString().replaceAll("]", "").replaceAll("[", "")} ${widget.snap['likes'].toString().replaceAll("]", "").replaceAll("[", "")}',
-                              style: Theme.of(context).textTheme.bodyText2,
-                            ),
-                          ],
+              radius: 18,
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                              text: widget.snap.data()['name'],
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              )),
+                          TextSpan(
+                            text: ' ${widget.snap.data()['text']}',
+                          ),
+                          TextSpan(
+                            text:
+                                ' ${widget.snap['status'].toString().replaceAll("]", "").replaceAll("[", "")} ${widget.snap['likes'].toString().replaceAll("]", "").replaceAll("[", "")}',
+                            style: Theme.of(context).textTheme.bodyText2,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Text(
+                        DateFormat.yMMMd().format(
+                          widget.snap.data()['datePublished'].toDate(),
+                        ),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: Text(
-                          DateFormat.yMMMd().format(
-                            widget.snap.data()['datePublished'].toDate(),
-                          ),
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 ),
               ),
-              widget.snap['uid'].toString() == user.uid
-                  ? IconButton(
-                      onPressed: _showSimpleDialog,
-                      icon: const Icon(Icons.more_vert),
-                    )
-                  : Container(),
-              widget.snap['likes'].toString() == "[]"
-                  ? MaterialButton(
-                      onPressed: () {
-                        FireStoreMethods().likeTaskAlmaty(
-                          widget.snap['commentId'].toString(),
-                          user.username,
-                          widget.snap['likes'],
-                        );
-        
-                        FireStoreMethods().statusTaskAlmaty(
-                            widget.snap['commentId'],
-                            'В процессе:',
-                            widget.snap['status']);
-                        statusString_1 = "в процессе: ";
-                      },
-                      child: Text('Выполнить'),
-                      color: Colors.grey,
-                    )
-                  : widget.snap['status'].contains('В процессе:')
-                      ? MaterialButton(
-                          onLongPress: () {
-                            showDialog<void>(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return SimpleDialog(
-                                    // <-- SEE HERE
-                                    title: const Text('Select Booking Type'),
-                                    children: <Widget>[
-                                      SimpleDialogOption(
-                                        onPressed: () {
-                                          if (widget.snap['likes']
-                                              .contains(user.username)) {
-                                            FireStoreMethods().likeTaskAlmaty(
-                                              widget.snap['commentId'].toString(),
-                                              user.username,
-                                              widget.snap['likes'],
-                                            );
-                                            FireStoreMethods().statusTaskAlmaty(
-                                                widget.snap['commentId'],
-                                                'В процессе:',
-                                                widget.snap['status']);
-                                            statusString_1 = "";
-                                          } else {
-                                            showSnackBar('В процессе', context);
-                                            print('progress');
-                                          }
-        
-                                          // remove the dialog box
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: const Text('Отменить'),
-                                      ),
-                                    ],
-                                  );
-                                });
-                          },
-                          onPressed: () {
-                            if (widget.snap['likes'].contains(user.username)) {
-                              FireStoreMethods().statusTaskAlmaty(
-                                  widget.snap['commentId'],
-                                  'Выполнено:',
-                                  widget.snap['status']);
-                              FireStoreMethods().statusTaskAlmaty(
-                                  widget.snap['commentId'],
-                                  'В процессе:',
-                                  widget.snap['status']);
-                            } else {
-                              showSnackBar('В процессе', context);
-                              print('progress');
-                            }
-                            statusString_1 = "выполнено: ";
-                          },
-                          child: Text('В процессе'),
-                          color: Colors.orange,
-                        )
-                      : widget.snap['status'].contains('Выполнено')
-                          ? MaterialButton(
-                              onPressed: () {
-                                null;
-                              },
-                              child: Text('dfgergrg'),
-                              color: Colors.greenAccent,
-                            )
-                          : MaterialButton(
-                              onPressed: () {
-                                null;
-                              },
-                              child: Text('Выполнено'),
-                              color: Colors.green,
-                            ),
-            ],
+            ),
+            widget.snap['uid'].toString() == user.uid
+                ? IconButton(
+                    onPressed: _showSimpleDialog,
+                    icon: const Icon(Icons.more_vert),
+                  )
+                : Container(),
+            widget.snap['likes'].toString() == "[]"
+                ? MaterialButton(
+                    onPressed: () {
+                      FireStoreMethods().likeTaskAlmaty(
+                        widget.snap['commentId'].toString(),
+                        user.username,
+                        widget.snap['likes'],
+                      );
+
+                      FireStoreMethods().statusTaskAlmaty(
+                          widget.snap['commentId'],
+                          'В процессе:',
+                          widget.snap['status']);
+                      statusString_1 = "в процессе: ";
+                    },
+                    child: Text('Выполнить'),
+                    color: Colors.red,
+                  )
+                : widget.snap['status'].contains('В процессе:')
+                    ? MaterialButton(
+                        onLongPress: () {
+                          showDialog<void>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return SimpleDialog(
+                                  // <-- SEE HERE
+                                  title: const Text('Select Booking Type'),
+                                  children: <Widget>[
+                                    SimpleDialogOption(
+                                      onPressed: () {
+                                        if (widget.snap['likes']
+                                            .contains(user.username)) {
+                                          FireStoreMethods().likeTaskAlmaty(
+                                            widget.snap['commentId'].toString(),
+                                            user.username,
+                                            widget.snap['likes'],
+                                          );
+                                          FireStoreMethods().statusTaskAlmaty(
+                                              widget.snap['commentId'],
+                                              'В процессе:',
+                                              widget.snap['status']);
+                                          statusString_1 = "";
+                                        } else {
+                                          showSnackBar('В процессе', context);
+                                          print('progress');
+                                        }
+
+                                        // remove the dialog box
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('Отменить'),
+                                    ),
+                                  ],
+                                );
+                              });
+                        },
+                        onPressed: () {
+                          if (widget.snap['likes'].contains(user.username)) {
+                            FireStoreMethods().statusTaskAlmaty(
+                                widget.snap['commentId'],
+                                'Выполнено:',
+                                widget.snap['status']);
+                            FireStoreMethods().statusTaskAlmaty(
+                                widget.snap['commentId'],
+                                'В процессе:',
+                                widget.snap['status']);
+                          } else {
+                            showSnackBar('В процессе', context);
+                            print('progress');
+                          }
+                          statusString_1 = "выполнено: ";
+                        },
+                        child: Text('В процессе'),
+                        color: Colors.orange,
+                      )
+                    : widget.snap['status'].contains('Выполнено')
+                        ? MaterialButton(
+                            onPressed: () {
+                              null;
+                            },
+                            child: Text('dfgergrg'),
+                            color: Colors.greenAccent,
+                          )
+                        : MaterialButton(
+                            onPressed: () {
+                              null;
+                            },
+                            child: Text('Выполнено'),
+                            color: Colors.green,
+                          ),
+          ],
+        ),
+        bottomCardWidget: Container(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Center(
+              child: Text(
+                widget.snap['description'],
+              ),
+            ),
           ),
         ),
       ),

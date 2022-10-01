@@ -96,7 +96,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
             ]),
           ),
           Container(
-            height: _height - 40,
+            height: _height,
             child: Center(
               child: Image.asset(
                 'assets/logo.png',

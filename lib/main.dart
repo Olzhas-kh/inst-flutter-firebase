@@ -58,19 +58,8 @@ import 'notify/log.dart';
 //Уведомления, проиложенияга али кирмеген кезде
 
 void main() async {
-  if (kIsWeb) {
-    await Firebase.initializeApp(
-      options: const FirebaseOptions(
-        apiKey: "AIzaSyDc041lGSp03NrUgDY64HUGaQi17RJSgK0",
-        appId: "1:231361399111:web:1e151a2d2d44e8fa3be462",
-        messagingSenderId: "231361399111",
-        projectId: "instagram-clone-bd4c8",
-        storageBucket: "instagram-clone-bd4c8.appspot.com",
-      ),
-    );
-  } else {
-    await Firebase.initializeApp();
-  }
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
   runApp(const MyApp());
 }

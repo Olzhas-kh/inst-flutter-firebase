@@ -51,7 +51,7 @@ class _PostCardState extends State<PostCard> {
           .collection('comments')
           .get();
 
-          QuerySnapshot snap2 = await FirebaseFirestore.instance
+      QuerySnapshot snap2 = await FirebaseFirestore.instance
           .collection('posts')
           .where('likes')
           .get();
@@ -72,20 +72,16 @@ class _PostCardState extends State<PostCard> {
 
       final User user = auth.currentUser!;
       uid = user.uid;
+      var userSnap =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+      userData = userSnap.data()!;
 
       FireStoreMethods().likePost(
         widget.snap['postId'].toString(),
-        user.uid,
+        userData['username'].toString(),
         widget.snap['likes'],
       );
-      QuerySnapshot snap = await FirebaseFirestore.instance
-          .collection('posts')
-          .where('likes')
-          .get();
-      viewsLen = snap.docs.length;
-      setState(() {
-        isViewed = true;
-      });
     } catch (e) {
       showSnackBar(
         e.toString(),
@@ -241,11 +237,19 @@ class _PostCardState extends State<PostCard> {
                           // <-- SEE HERE
                           title: const Text('Посмотрели: '),
                           content: SizedBox(
+                            height: 200,
                             width: double.maxFinite,
                             child: ListView.builder(
                                 itemCount: widget.snap['likes'].length,
                                 itemBuilder: (BuildContext context, index) {
-                                  return Text(widget.snap['likes'][index].toString().replaceAll("]","").replaceAll("[", ""),);
+                                  return SingleChildScrollView(
+                                    child: Text(
+                                      widget.snap['likes'][index]
+                                          .toString()
+                                          .replaceAll("]", "")
+                                          .replaceAll("[", ""),
+                                    ),
+                                  );
                                 }),
                           ),
                         );
@@ -279,7 +283,7 @@ class _PostCardState extends State<PostCard> {
                         .subtitle2!
                         .copyWith(fontWeight: FontWeight.w800),
                     child: Text(
-                      '${widget.snap['likes'].length} likes',
+                      '${widget.snap['likes'].length} просмотров',
                       style: Theme.of(context).textTheme.bodyText2,
                     )),
                 Container(

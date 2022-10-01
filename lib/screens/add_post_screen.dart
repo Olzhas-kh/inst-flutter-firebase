@@ -125,8 +125,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
             ),
             body: Center(
               child: IconButton(
+                padding: EdgeInsets.only(right: 47, bottom: 47),
                 icon: const Icon(
-                  Icons.upload,
+                  Icons.add_box_outlined,
+                  size: 70,
                 ),
                 onPressed: () => _selectImage(context),
               ),

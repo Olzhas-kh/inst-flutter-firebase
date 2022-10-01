@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:inst_fire/screens/cities/status_city/almaty_completed_status.dart';
+import 'package:inst_fire/screens/cities/status_city/almaty_in_progress_status.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inst_fire/models/user.dart' as model;
@@ -9,22 +11,15 @@ import '../../resources/firestore_methods.dart';
 import '../../utils/utils.dart';
 import '../../widgets/comment_card.dart';
 
-
-
 class AlmatyCity extends StatefulWidget {
-  
-  const AlmatyCity({super.key,required});
+  const AlmatyCity({super.key, required});
 
   @override
   State<AlmatyCity> createState() => _AlmatyCityState();
 }
 
 class _AlmatyCityState extends State<AlmatyCity> {
-  
-  
-    
-      
-        get mobileBackgroundColor => null;
+  get mobileBackgroundColor => null;
 
   void _addTask(BuildContext context) {
     showModalBottomSheet(
@@ -32,22 +27,15 @@ class _AlmatyCityState extends State<AlmatyCity> {
         isScrollControlled: true,
         builder: (context) => SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: titleDesAddScreen()
-              ),
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom),
+                  child: titleDesAddScreen()),
             ));
   }
 
-  
   @override
   Widget build(BuildContext context) {
-    
-
-    return 
-
-
-    Scaffold(
+    return Scaffold(
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
         title: const Text(
@@ -58,6 +46,7 @@ class _AlmatyCityState extends State<AlmatyCity> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('almaty')
+            .orderBy('datePublished', descending: false)
             .snapshots(),
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
@@ -67,49 +56,87 @@ class _AlmatyCityState extends State<AlmatyCity> {
             );
           }
 
-          return ListView.builder(
-            itemCount: snapshot.data!.docs.length,
-            itemBuilder: (ctx, index) => CommentCard(
-              snap: snapshot.data!.docs[index],
-            ),
+          return Column(
+            children: [
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      onTap: (() {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => InProgressAlmaty(),
+                          ),
+                        );
+                      }),
+                      child: Container(
+                          color: Colors.orange,
+                          padding: EdgeInsets.only(
+                              left: 65, right: 60, top: 16, bottom: 16),
+                          child: Text(
+                            'In progress',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                    ),
+                    InkWell(
+                      onTap: (() {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => CompleedAlmaty(),
+                          ),
+                        );
+                      }),
+                      child: Container(
+                          color: Colors.green,
+                          padding: EdgeInsets.only(
+                              left: 65, right: 60, top: 16, bottom: 16),
+                          child: Text('Completed',
+                              style: TextStyle(fontWeight: FontWeight.bold))),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: SizedBox(
+                  height: 200,
+                  child: ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (ctx, index) => CommentCard(
+                      snap: snapshot.data!.docs[index],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _addTask(context),
-              tooltip: 'Add Task',
-              child: const Icon(Icons.add),
+        tooltip: 'Add Task',
+        child: const Icon(Icons.add),
       ),
       // text input
-      
     );
   }
 }
 
 class titleDesAddScreen extends StatefulWidget {
-
-
   const titleDesAddScreen({
     super.key,
-    
   });
 
-  
   @override
   State<titleDesAddScreen> createState() => _titleDesAddScreenState();
 }
 
 class _titleDesAddScreenState extends State<titleDesAddScreen> {
+  TextEditingController descriptionController = TextEditingController();
 
-  
-  
-TextEditingController descriptionController = TextEditingController();
- 
-  final TextEditingController titleController =
-      TextEditingController();
+  final TextEditingController titleController = TextEditingController();
 
-
-void postComment(String uid, String name, String profilePic) async {
+  void postComment(String uid, String name, String profilePic) async {
     try {
       String res = await FireStoreMethods().almaty(
         titleController.text,
@@ -117,7 +144,6 @@ void postComment(String uid, String name, String profilePic) async {
         uid,
         name,
         profilePic,
-        
       );
 
       if (res != 'success') {
@@ -134,9 +160,6 @@ void postComment(String uid, String name, String profilePic) async {
       );
     }
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +188,7 @@ void postComment(String uid, String name, String profilePic) async {
           ),
           TextField(
             autofocus: true,
-            controller:descriptionController,
+            controller: descriptionController,
             minLines: 3,
             maxLines: 5,
             decoration: InputDecoration(
@@ -195,7 +218,6 @@ void postComment(String uid, String name, String profilePic) async {
                   ),
                 ),
               )
-              
             ],
           ),
         ],
