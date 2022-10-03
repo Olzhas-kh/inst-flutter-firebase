@@ -110,7 +110,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
               ),
             ),
-            Text(userData['username'])
+            Text(
+              userData['username'],
+              style: TextStyle(
+                  color: Colors.blueGrey.shade900, fontWeight: FontWeight.bold),
+            )
           ],
         ),
       ],
@@ -144,6 +148,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
+        color: Colors.blueGrey.shade900,
         elevation: 4,
         child: Column(
           children: [
@@ -178,6 +183,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
+        color: Colors.blueGrey.shade900,
         elevation: 4,
         child: Column(
           children: [
@@ -237,7 +243,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         );
       },
       child: Container(
-          color: Colors.red,
+          color: maroon,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Row(

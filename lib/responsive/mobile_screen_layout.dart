@@ -49,21 +49,22 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
       ),
       bottomNavigationBar: CurvedNavigationBar(
         animationDuration: Duration(milliseconds: 300),
-        backgroundColor: mobileBackgroundColor,
+        backgroundColor: primaryColor,
+        color: maroon,
         items: [
           Icon(
             Icons.add_task,
-            color: (_page == 0) ? Colors.black : secondaryColor,
+            color: (_page == 0) ? primaryColor : primaryColor,
             size: 28,
           ),
           Icon(
             Icons.newspaper_rounded,
-            color: (_page == 1) ? Colors.black : secondaryColor,
+            color: (_page == 1) ? primaryColor : primaryColor,
             size: 28,
           ),
           Icon(
             Icons.person,
-            color: (_page == 2) ? Colors.black : secondaryColor,
+            color: (_page == 2) ? primaryColor : primaryColor,
             size: 28,
           ),
         ],

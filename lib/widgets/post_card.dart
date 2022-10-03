@@ -111,9 +111,9 @@ class _PostCardState extends State<PostCard> {
       // boundary needed for web
       decoration: BoxDecoration(
         border: Border.all(
-          color: width > webScreenSize ? secondaryColor : mobileBackgroundColor,
+          color: primaryColor,
         ),
-        color: mobileBackgroundColor,
+        color: primaryColor,
       ),
       padding: const EdgeInsets.symmetric(
         vertical: 10,
@@ -146,6 +146,7 @@ class _PostCardState extends State<PostCard> {
                         Text(
                           widget.snap['username'].toString(),
                           style: const TextStyle(
+                            color: mobileBackgroundColor,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -191,7 +192,10 @@ class _PostCardState extends State<PostCard> {
                             },
                           );
                         },
-                        icon: const Icon(Icons.more_vert),
+                        icon: const Icon(
+                          Icons.more_vert,
+                          color: mobileBackgroundColor,
+                        ),
                       )
                     : Container(),
               ],
@@ -228,7 +232,10 @@ class _PostCardState extends State<PostCard> {
           Row(
             children: <Widget>[
               IconButton(
-                icon: Icon(Icons.remove_red_eye),
+                icon: Icon(
+                  Icons.remove_red_eye,
+                  color: mobileBackgroundColor,
+                ),
                 onPressed: () {
                   showDialog(
                       context: context,
@@ -259,6 +266,7 @@ class _PostCardState extends State<PostCard> {
               IconButton(
                 icon: const Icon(
                   Icons.comment_outlined,
+                  color: mobileBackgroundColor,
                 ),
                 onPressed: () => Navigator.of(context).push(
                   MaterialPageRoute(
@@ -284,7 +292,7 @@ class _PostCardState extends State<PostCard> {
                         .copyWith(fontWeight: FontWeight.w800),
                     child: Text(
                       '${widget.snap['likes'].length} просмотров',
-                      style: Theme.of(context).textTheme.bodyText2,
+                      style: TextStyle(color: mobileBackgroundColor),
                     )),
                 Container(
                   width: double.infinity,
@@ -293,7 +301,7 @@ class _PostCardState extends State<PostCard> {
                   ),
                   child: RichText(
                     text: TextSpan(
-                      style: const TextStyle(color: primaryColor),
+                      style: const TextStyle(color: mobileBackgroundColor),
                       children: [
                         TextSpan(
                           text: widget.snap['username'].toString(),

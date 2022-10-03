@@ -9,7 +9,6 @@ import '../utils/utils.dart';
 import '../widgets/follow_button.dart';
 import 'login_screen.dart';
 
-
 class ProfileOtherUsers extends StatefulWidget {
   final String uid;
   const ProfileOtherUsers({Key? key, required this.uid}) : super(key: key);
@@ -20,7 +19,7 @@ class ProfileOtherUsers extends StatefulWidget {
 
 class _ProfileOtherUsersState extends State<ProfileOtherUsers> {
   var userData = {};
-  
+
   bool isLoading = false;
 
   @override
@@ -39,11 +38,8 @@ class _ProfileOtherUsersState extends State<ProfileOtherUsers> {
           .doc(widget.uid)
           .get();
 
-    
-
       userData = userSnap.data()!;
-      
-      
+
       setState(() {});
     } catch (e) {
       showSnackBar(
@@ -58,32 +54,37 @@ class _ProfileOtherUsersState extends State<ProfileOtherUsers> {
 
   @override
   Widget build(BuildContext context) {
-     return   Scaffold(
+    return Scaffold(
+      appBar: isLoading
+          ? null
+          : AppBar(
+              backgroundColor: maroon,
+              title: Text(userData['username']),
+            ),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
-          :SafeArea(
-          child: Column(
-        children: [
-          //for circle avtar image
-          _getHeader(),
-          SizedBox(
-            height: 10,
-          ),
-          _profileName(userData['bio']),
-          SizedBox(
-            height: 14,
-          ),
-          _heading("Personal Details"),
-          SizedBox(
-            height: 6,
-          ),
-          _detailsCard(),
-          SizedBox(
-            height: 10,
-          ),
-         
-        ],
-      )),
+          : SafeArea(
+              child: Column(
+              children: [
+                //for circle avtar image
+                _getHeader(),
+                SizedBox(
+                  height: 10,
+                ),
+                _profileName(userData['bio']),
+                SizedBox(
+                  height: 14,
+                ),
+                _heading("Personal Details"),
+                SizedBox(
+                  height: 6,
+                ),
+                _detailsCard(),
+                SizedBox(
+                  height: 10,
+                ),
+              ],
+            )),
     );
   }
 
@@ -100,9 +101,7 @@ class _ProfileOtherUsersState extends State<ProfileOtherUsers> {
                 //borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: NetworkImage(
-                        userData['photoUrl']))
+                    fit: BoxFit.fill, image: NetworkImage(userData['photoUrl']))
                 // color: Colors.orange[100],
                 ),
           ),
@@ -166,11 +165,5 @@ class _ProfileOtherUsersState extends State<ProfileOtherUsers> {
         ),
       ),
     );
-  
-
-  
-
   }
-
-  
 }

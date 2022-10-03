@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:inst_fire/resources/firestore_methods.dart';
+import 'package:inst_fire/utils/colours.dart';
 import 'package:inst_fire/widgets/post_comment_card.dart';
 import 'package:provider/provider.dart';
 
@@ -20,8 +21,6 @@ class CommentsScreen extends StatefulWidget {
 class _CommentsScreenState extends State<CommentsScreen> {
   final TextEditingController commentEditingController =
       TextEditingController();
-      
-        get mobileBackgroundColor => null;
 
   void postComment(String uid, String name, String profilePic) async {
     try {
@@ -53,9 +52,10 @@ class _CommentsScreenState extends State<CommentsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: mobileBackgroundColor,
+        backgroundColor: maroon,
         title: const Text(
-          'Comments',
+          'Комментарии',
+          style: TextStyle(),
         ),
         centerTitle: false,
       ),
@@ -98,9 +98,11 @@ class _CommentsScreenState extends State<CommentsScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 16, right: 8),
                   child: TextField(
+                    style: TextStyle(color: blackBlue),
                     controller: commentEditingController,
                     decoration: InputDecoration(
                       hintText: 'Comment as ${user.username}',
+                      hintStyle: TextStyle(color: Colors.grey),
                       border: InputBorder.none,
                     ),
                   ),
@@ -117,7 +119,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   child: const Text(
                     'Post',
-                    style: TextStyle(color: Colors.blue),
+                    style: TextStyle(color: maroon),
                   ),
                 ),
               )

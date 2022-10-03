@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:inst_fire/screens/cities/status_city/almaty_completed_status.dart';
 import 'package:inst_fire/screens/cities/status_city/almaty_in_progress_status.dart';
+import 'package:inst_fire/utils/colours.dart';
 import 'package:provider/provider.dart';
 
 import 'package:inst_fire/models/user.dart' as model;
@@ -34,92 +35,117 @@ class _AlmatyCityState extends State<AlmatyCity> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: mobileBackgroundColor,
-        title: const Text(
-          'Tasks',
-        ),
-        centerTitle: false,
-      ),
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('almaty')
-            .orderBy('datePublished', descending: false)
-            .snapshots(),
-        builder: (context,
-            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          return Column(
-            children: [
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InkWell(
-                      onTap: (() {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => InProgressAlmaty(),
-                          ),
-                        );
-                      }),
-                      child: Container(
-                          color: Colors.orange,
-                          padding: EdgeInsets.only(
-                              left: 65, right: 60, top: 16, bottom: 16),
-                          child: Text(
-                            'In progress',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          )),
-                    ),
-                    InkWell(
-                      onTap: (() {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => CompleedAlmaty(),
-                          ),
-                        );
-                      }),
-                      child: Container(
-                          color: Colors.green,
-                          padding: EdgeInsets.only(
-                              left: 65, right: 60, top: 16, bottom: 16),
-                          child: Text('Completed',
-                              style: TextStyle(fontWeight: FontWeight.bold))),
-                    ),
-                  ],
-                ),
+  Widget build(BuildContext context) => DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: maroon,
+            title: const Text(
+              'Задачи',
+            ),
+            bottom: TabBar(tabs: [
+              Tab(
+                text: 'Задачи',
               ),
-              Expanded(
-                child: SizedBox(
-                  height: 200,
-                  child: ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (ctx, index) => CommentCard(
-                      snap: snapshot.data!.docs[index],
+              Tab(
+                text: 'В процессе',
+              ),
+              Tab(
+                text: 'Выполнено',
+              ),
+            ]),
+          ),
+          body: TabBarView(
+            children: [
+              StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('almaty')
+                    .orderBy('datePublished', descending: false)
+                    .snapshots(),
+                builder: (context,
+                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                        snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  return SizedBox(
+                    height: 200,
+                    child: ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (ctx, index) => CommentCard(
+                        snap: snapshot.data!.docs[index],
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
+              ),
+              StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('almaty')
+                    .orderBy('datePublished', descending: false)
+                    .snapshots(),
+                builder: (context,
+                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                        snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  return SizedBox(
+                    height: 200,
+                    child: ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (ctx, index) => InProgressAlmaty(
+                        snap: snapshot.data!.docs[index],
+                      ),
+                    ),
+                  );
+                },
+              ),
+              StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('almaty')
+                    .orderBy('datePublished', descending: false)
+                    .snapshots(),
+                builder: (context,
+                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                        snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  return SizedBox(
+                    height: 200,
+                    child: ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (ctx, index) => CompleedAlmaty(
+                        snap: snapshot.data!.docs[index],
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _addTask(context),
-        tooltip: 'Add Task',
-        child: const Icon(Icons.add),
-      ),
-      // text input
-    );
-  }
+          ),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: maroon,
+            onPressed: () => _addTask(context),
+            tooltip: 'Add Task',
+            child: const Icon(
+              Icons.add,
+              color: primaryColor,
+            ),
+          ),
+          // text input
+        ),
+      );
 }
 
 class titleDesAddScreen extends StatefulWidget {

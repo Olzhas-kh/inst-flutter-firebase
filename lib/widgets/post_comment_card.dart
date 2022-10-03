@@ -8,7 +8,6 @@ class PostCommentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       child: Row(
@@ -30,13 +29,14 @@ class PostCommentCard extends StatelessWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: snap.data()['name'],
-                          style: const TextStyle(fontWeight: FontWeight.bold,color: primaryColor)
-                        ),
+                            text: snap.data()['name'],
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: mobileBackgroundColor)),
                         TextSpan(
-                          text: ' ${snap.data()['text']}',
-                          style: const TextStyle(color:  primaryColor)
-                        ),
+                            text: ' ${snap.data()['text']}',
+                            style:
+                                const TextStyle(color: mobileBackgroundColor)),
                       ],
                     ),
                   ),
@@ -47,20 +47,15 @@ class PostCommentCard extends StatelessWidget {
                         snap.data()['datePublished'].toDate(),
                       ),
                       style: const TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.w400),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: mobileBackgroundColor),
                     ),
                   )
                 ],
               ),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            child: const Icon(
-              Icons.favorite,
-              size: 16,
-            ),
-          )
         ],
       ),
     );

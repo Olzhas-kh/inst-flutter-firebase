@@ -24,7 +24,7 @@ class AddTask extends StatefulWidget {
 
 class _AddTaskState extends State<AddTask> {
   var userData = {};
-  final citList = ["Almaty", "Astana", "Shymkent", "Kyzylorda", "Karagandy"];
+  final citList = ["Almaty", "Astana", "Shymkent", "Kyzylorda", "Karaganda"];
 
   String uid = '';
 
@@ -57,8 +57,11 @@ class _AddTaskState extends State<AddTask> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: mobileBackgroundColor,
-        title: Text("Cities"),
+        backgroundColor: maroon,
+        title: Text(
+          "Cities",
+          style: TextStyle(color: primaryColor),
+        ),
       ),
       body: ListView.builder(
         itemCount: citList.length,
@@ -67,25 +70,17 @@ class _AddTaskState extends State<AddTask> {
             elevation: 8.0,
             margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
             child: Container(
-              decoration: BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
+              decoration: BoxDecoration(color: Colors.blueGrey.shade900),
               child: ListTile(
                   onTap: () => {
                         if (index == 0)
                           {
-                            if (userData['bio'].toString().contains('almaty'))
-                              {
-                                print(userData['bio'].toString()),
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => AlmatyCity(),
-                                  ),
-                                ),
-                              }
-                            else
-                              {
-                                print(userData['bio'].toString()),
-                                showSnackBar('У вас нету доступа', context),
-                              }
+                            print(userData['bio'].toString()),
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => AlmatyCity(),
+                              ),
+                            ),
                           }
                         else if (index == 1)
                           {

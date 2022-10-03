@@ -16,14 +16,16 @@ class CitiesForSearch extends StatefulWidget {
 }
 
 class _CitiesForSearchState extends State<CitiesForSearch> {
-  final citList = ["Almaty", "Astana", "Shymkent", "Kyzylorda", "Karagandy"];
+  final citList = ["Almaty", "Astana", "Shymkent", "Kyzylorda", "Karaganda"];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: mobileBackgroundColor,
-        title: Text("Cities"),
+        backgroundColor: maroon,
+        title: Text(
+          "Города",
+        ),
       ),
       body: ListView.builder(
         itemCount: citList.length,
@@ -32,7 +34,7 @@ class _CitiesForSearchState extends State<CitiesForSearch> {
             elevation: 8.0,
             margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
             child: Container(
-              decoration: BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
+              decoration: BoxDecoration(color: maroon),
               child: ListTile(
                   onTap: () => {
                         if (index == 0)

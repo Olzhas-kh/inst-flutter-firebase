@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Cotton',
         theme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: mobileBackgroundColor,
+          scaffoldBackgroundColor: primaryColor,
         ),
 
         //Stream Builder ОЛ ЮСЕРДИН ДАННЫЕ СОХРАНЯЕТ
