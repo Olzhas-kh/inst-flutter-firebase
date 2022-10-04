@@ -2,9 +2,9 @@
 // import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
-// import 'package:inst_fire/services/local_notification_service.dart';
 
-// import 'notify/constan.dart';
+// import 'notify/local_push_notification.dart';
+// import 'notify/splash.dart';
 
 // Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 //   /// On click listner
@@ -13,7 +13,7 @@
 // void main() async {
 //   WidgetsFlutterBinding.ensureInitialized();
 //   await Firebase.initializeApp();
-//   // LocalNotificationService.initialize();
+//   LocalNotificationService.initialize();
 
 //   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
@@ -37,8 +37,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:inst_fire/notify/notify_main.dart';
-import 'package:inst_fire/notify/sigh.dart';
+
 import 'package:inst_fire/providers/user_provider.dart';
 import 'package:inst_fire/responsive/mobile_screen_layout.dart';
 import 'package:inst_fire/responsive/responsive_layout_screen.dart';
@@ -52,14 +51,20 @@ import 'package:inst_fire/services/local_notification_service.dart';
 import 'package:inst_fire/utils/colours.dart';
 import 'package:provider/provider.dart';
 
-import 'notify/constan.dart';
-import 'notify/log.dart';
+import 'notify/local_push_notification.dart';
 
 //Уведомления, проиложенияга али кирмеген кезде
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  /// On click listner
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  LocalNotificationService.initialize();
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   runApp(const MyApp());
 }

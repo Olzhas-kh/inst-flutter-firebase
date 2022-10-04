@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:inst_fire/models/user.dart' as model;
 import 'package:inst_fire/resources/storage_methods.dart';
 
@@ -40,8 +41,8 @@ class AuthMethods {
           password: password,
         );
 
-        String photoUrl =
-            await StorageMethods().uploadImageToStorage('profilePics', file, false);
+        String photoUrl = await StorageMethods()
+            .uploadImageToStorage('profilePics', file, false);
 
         model.User _user = model.User(
           username: username,
@@ -49,15 +50,19 @@ class AuthMethods {
           photoUrl: photoUrl,
           email: email,
           bio: bio,
-         
         );
 
         // adding user in our database
+
         await _firestore
             .collection("users")
             .doc(cred.user!.uid)
             .set(_user.toJson());
-
+        String? token = await FirebaseMessaging.instance.getToken();
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .set({'token': token}, SetOptions(merge: true));
         res = "success";
       } else {
         res = "Please enter all the fields";

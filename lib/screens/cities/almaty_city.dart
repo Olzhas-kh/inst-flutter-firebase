@@ -1,12 +1,17 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:inst_fire/screens/cities/status_city/almaty_completed_status.dart';
 import 'package:inst_fire/screens/cities/status_city/almaty_in_progress_status.dart';
 import 'package:inst_fire/utils/colours.dart';
 import 'package:provider/provider.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:inst_fire/models/user.dart' as model;
+import '../../notify/constants.dart';
+import '../../notify/local_push_notification.dart';
 import '../../providers/user_provider.dart';
 import '../../resources/firestore_methods.dart';
 import '../../utils/utils.dart';
@@ -158,6 +163,117 @@ class titleDesAddScreen extends StatefulWidget {
 }
 
 class _titleDesAddScreenState extends State<titleDesAddScreen> {
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    FirebaseMessaging.instance.getInitialMessage();
+    FirebaseMessaging.onMessage.listen((event) {
+      LocalNotificationService.display(event);
+    });
+
+    FirebaseMessaging.instance.subscribeToTopic('subscription');
+  }
+
+  sendNotification(String title, String token) async {
+    final data = {
+      'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+      'id': '1',
+      'status': 'done',
+      'message': title,
+    };
+
+    try {
+      http.Response response =
+          await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+              headers: <String, String>{
+                'Content-Type': 'application/json',
+                'Authorization':
+                    'key=AAAANd42yUc:APA91bH0bRQLnJ-XS-GHxS50PsQeNCFLdYR1mz8tRJIlAbY2pybNt3sRj7oyaaKisdfa5FGkLpBcJYeeosHZLdi3lo2AirA18U_1LRwFJiL8ZK1X_TNdmdNVK0yHmxZhB_X3sZxX25SH'
+              },
+              body: jsonEncode(<String, dynamic>{
+                'notification': <String, dynamic>{
+                  'title': title,
+                  'body': 'You are followed by someone'
+                },
+                'priority': 'high',
+                'data': data,
+                'to': '$token'
+              }));
+
+      if (response.statusCode == 200) {
+        print("Yeh notificatin is sended");
+      } else {
+        print("Error");
+      }
+    } catch (e) {}
+  }
+
+  sendNotificationToTopic(String title) async {
+    final data = {
+      'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+      'id': '1',
+      'status': 'done',
+      'message': title,
+    };
+
+    try {
+      http.Response response =
+          await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+              headers: <String, String>{
+                'Content-Type': 'application/json',
+                'Authorization':
+                    'key=AAAANd42yUc:APA91bH0bRQLnJ-XS-GHxS50PsQeNCFLdYR1mz8tRJIlAbY2pybNt3sRj7oyaaKisdfa5FGkLpBcJYeeosHZLdi3lo2AirA18U_1LRwFJiL8ZK1X_TNdmdNVK0yHmxZhB_X3sZxX25SH'
+              },
+              body: jsonEncode(<String, dynamic>{
+                'notification': <String, dynamic>{
+                  'title': title,
+                  'body': 'You are followed by someone'
+                },
+                'priority': 'high',
+                'data': data,
+                'to': '/topics/subscription'
+              }));
+
+      if (response.statusCode == 200) {
+        print("Yeh notificatin is sended");
+      } else {
+        print("Error");
+      }
+    } catch (e) {}
+  }
+
+  Future<bool> pushNotificationsGroupDevice({
+    required String title,
+    required String body,
+  }) async {
+    String dataNotifications = '{'
+        '"operation": "create",'
+        '"notification_key_name": "appUser-testUser",'
+        '"registration_ids":["dv-s99NZReiQJV6Wi5a2Wg:APA91bEBGzh56Iw3hzhynnS1byrd7C4_gNuV9JRzY6bduqs1AhWabNW6FoEQHxEVAb0MXBr3YuD9yBSj4sNxqaGBMRkoRonXg6q1PAygbTGiP4QZW0ls-rXm2ahT4ZWUnHwZW35AgNuW","cR_XlKjuQ3Siokd3kWenBb:APA91bEqRc3yi1AaxLN-bJFX2uSsxPHz12s2ag2XbINL5yLaGE_0Gmx8MX0z_FdtgKF6O2ilL8MP64mu3URuBb5V0tBP-SLgcyhHiHouDRR-qHQUPrj4twY9I7vtQFPXiFFQxbcIR1hz"],'
+        '"notification" : {'
+        '"title":"$title",'
+        '"body":"$body"'
+        ' }'
+        ' }';
+
+    var response = await http.post(
+      Uri.parse(Constants.BASE_URL),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key= ${Constants.KEY_SERVER}',
+        'project_id': "${Constants.SENDER_ID}"
+      },
+      body: dataNotifications,
+    );
+
+    print(response.body.toString());
+
+    return true;
+  }
+
   TextEditingController descriptionController = TextEditingController();
 
   final TextEditingController titleController = TextEditingController();
@@ -230,11 +346,16 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
                 child: const Text('cancel'),
               ),
               InkWell(
-                onTap: () => postComment(
-                  user.uid,
-                  user.username,
-                  user.photoUrl,
-                ),
+                onTap: () {
+                  postComment(
+                    user.uid,
+                    user.username,
+                    user.photoUrl,
+                  );
+                  pushNotificationsGroupDevice(
+                      title: '${titleController.text}',
+                      body: '${descriptionController.text}');
+                },
                 child: Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
