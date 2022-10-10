@@ -257,7 +257,7 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
                                             Colors.white),
                                     backgroundColor:
                                         MaterialStateProperty.all<Color>(
-                                            Colors.brown.shade400),
+                                            orangeButton),
                                     shape: MaterialStateProperty.all<
                                         RoundedRectangleBorder>(
                                       RoundedRectangleBorder(

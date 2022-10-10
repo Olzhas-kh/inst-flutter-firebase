@@ -35,7 +35,7 @@ class _AlmatyCityState extends State<AlmatyCity> {
               child: Container(
                   padding: EdgeInsets.only(
                       bottom: MediaQuery.of(context).viewInsets.bottom),
-                  child: titleDesAddScreen()),
+                  child: const titleDesAddScreen()),
             ));
   }
 
@@ -163,7 +163,13 @@ class titleDesAddScreen extends StatefulWidget {
 }
 
 class _titleDesAddScreenState extends State<titleDesAddScreen> {
+  List<String> userTokens = [];
+  String tok = '';
+
+  var userData = {};
+
   bool isLoading = false;
+  String uid = '';
 
   @override
   void initState() {
@@ -175,9 +181,40 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
     });
 
     FirebaseMessaging.instance.subscribeToTopic('subscription');
+    getData();
   }
 
-  sendNotification(String title, String token) async {
+  getData() async {
+    setState(() {
+      isLoading = true;
+    });
+    final FirebaseAuth auth = FirebaseAuth.instance;
+
+    final User user = auth.currentUser!;
+    uid = user.uid;
+
+    var userSnap =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+    userData = userSnap.data()!;
+
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('bio', isEqualTo: 'almaty')
+        .get();
+
+    for (var doc in querySnapshot.docs) {
+      // Getting data directly
+      userTokens.add('"${doc.get('token')}"');
+
+      // Getting data from map
+      Map<String, dynamic> data = doc.data();
+    }
+  }
+
+  sendNotification(
+    String title,
+  ) async {
     final data = {
       'click_action': 'FLUTTER_NOTIFICATION_CLICK',
       'id': '1',
@@ -200,7 +237,7 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
                 },
                 'priority': 'high',
                 'data': data,
-                'to': '$token'
+                'to': '',
               }));
 
       if (response.statusCode == 200) {
@@ -252,7 +289,7 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
     String dataNotifications = '{'
         '"operation": "create",'
         '"notification_key_name": "appUser-testUser",'
-        '"registration_ids":["dv-s99NZReiQJV6Wi5a2Wg:APA91bEBGzh56Iw3hzhynnS1byrd7C4_gNuV9JRzY6bduqs1AhWabNW6FoEQHxEVAb0MXBr3YuD9yBSj4sNxqaGBMRkoRonXg6q1PAygbTGiP4QZW0ls-rXm2ahT4ZWUnHwZW35AgNuW","cR_XlKjuQ3Siokd3kWenBb:APA91bEqRc3yi1AaxLN-bJFX2uSsxPHz12s2ag2XbINL5yLaGE_0Gmx8MX0z_FdtgKF6O2ilL8MP64mu3URuBb5V0tBP-SLgcyhHiHouDRR-qHQUPrj4twY9I7vtQFPXiFFQxbcIR1hz"],'
+        '"registration_ids": [${userTokens.toString().replaceAll("]", "").replaceAll("[", "")}],'
         '"notification" : {'
         '"title":"$title",'
         '"body":"$body"'
@@ -264,7 +301,6 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': 'key= ${Constants.KEY_SERVER}',
-        'project_id': "${Constants.SENDER_ID}"
       },
       body: dataNotifications,
     );
@@ -310,7 +346,7 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          const Text(
+          Text(
             'Add Task',
             style: TextStyle(fontSize: 24),
           ),
@@ -353,8 +389,7 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
                     user.photoUrl,
                   );
                   pushNotificationsGroupDevice(
-                      title: '${titleController.text}',
-                      body: '${descriptionController.text}');
+                      title: userData['username'], body: titleController.text);
                 },
                 child: Container(
                   padding:

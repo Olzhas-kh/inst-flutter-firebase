@@ -70,7 +70,7 @@ class _AddTaskState extends State<AddTask> {
             elevation: 8.0,
             margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
             child: Container(
-              decoration: BoxDecoration(color: Colors.blueGrey.shade900),
+              decoration: BoxDecoration(color: blackBlue),
               child: ListTile(
                   onTap: () => {
                         if (index == 0)

@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +40,7 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       _isLoading = true;
     });
+
     String res = await AuthMethods().loginUser(
         email: _emailController.text, password: _passwordController.text);
     if (res == 'success') {
@@ -123,7 +127,9 @@ class _LoginPageState extends State<LoginPage> {
                                       color: Colors.white),
                                 ),
                               ),
-                              onPressed: () => loginUser(),
+                              onPressed: () async {
+                                loginUser();
+                              },
                             ),
                           ),
                           Container(

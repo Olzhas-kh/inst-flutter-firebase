@@ -20,7 +20,6 @@ class AuthMethods {
   }
 
   // Signing Up User
-
   Future<String> signUpUser({
     required String email,
     required String password,
@@ -58,11 +57,7 @@ class AuthMethods {
             .collection("users")
             .doc(cred.user!.uid)
             .set(_user.toJson());
-        String? token = await FirebaseMessaging.instance.getToken();
-        FirebaseFirestore.instance
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .set({'token': token}, SetOptions(merge: true));
+
         res = "success";
       } else {
         res = "Please enter all the fields";

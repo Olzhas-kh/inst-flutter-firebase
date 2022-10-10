@@ -62,7 +62,7 @@ class _AstanaSearchScreenState extends State<AstanaSearchScreen> {
                         margin: new EdgeInsets.symmetric(
                             horizontal: 10.0, vertical: 6.0),
                         child: Container(
-                          decoration: BoxDecoration(color: maroon),
+                          decoration: BoxDecoration(color: blackBlue),
                           child: ListTile(
                               onTap: () => Navigator.of(context).push(
                                     MaterialPageRoute(
@@ -73,7 +73,7 @@ class _AstanaSearchScreenState extends State<AstanaSearchScreen> {
                                     ),
                                   ),
                               contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 10.0),
+                                  horizontal: 20.0, vertical: 3),
                               leading: Container(
                                 padding: EdgeInsets.only(right: 12.0),
                                 decoration: new BoxDecoration(

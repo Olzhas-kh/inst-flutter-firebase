@@ -13,7 +13,7 @@ const greenRGB = Color.fromARGB(228, 51, 78, 51);
 const orangeRGB = Color.fromARGB(227, 172, 138, 47);
 const redAshyq = Color.fromARGB(255, 99, 71, 1);
 
-const orangeStatus = Color.fromRGBO(184, 115, 51, 0.9);
-const orangeButton = Color.fromRGBO(255, 255, 167, 0.9);
+const orangeStatus = Color.fromRGBO(202, 121, 3, 0.9);
+const orangeButton = Color.fromRGBO(222, 176, 4, 1);
 const greenStatus = Color.fromRGBO(2, 48, 32, 0.9);
 const blackBlue = Color.fromARGB(255, 38, 50, 56);

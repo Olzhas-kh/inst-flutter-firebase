@@ -146,7 +146,7 @@ class _PostCardState extends State<PostCard> {
                         Text(
                           widget.snap['username'].toString(),
                           style: const TextStyle(
-                            color: mobileBackgroundColor,
+                            color: blackBlue,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -194,7 +194,7 @@ class _PostCardState extends State<PostCard> {
                         },
                         icon: const Icon(
                           Icons.more_vert,
-                          color: mobileBackgroundColor,
+                          color: blackBlue,
                         ),
                       )
                     : Container(),
@@ -234,7 +234,7 @@ class _PostCardState extends State<PostCard> {
               IconButton(
                 icon: Icon(
                   Icons.remove_red_eye,
-                  color: mobileBackgroundColor,
+                  color: blackBlue,
                 ),
                 onPressed: () {
                   showDialog(
@@ -266,7 +266,7 @@ class _PostCardState extends State<PostCard> {
               IconButton(
                 icon: const Icon(
                   Icons.comment_outlined,
-                  color: mobileBackgroundColor,
+                  color: blackBlue,
                 ),
                 onPressed: () => Navigator.of(context).push(
                   MaterialPageRoute(
@@ -292,7 +292,7 @@ class _PostCardState extends State<PostCard> {
                         .copyWith(fontWeight: FontWeight.w800),
                     child: Text(
                       '${widget.snap['likes'].length} просмотров',
-                      style: TextStyle(color: mobileBackgroundColor),
+                      style: TextStyle(color: blackBlue),
                     )),
                 Container(
                   width: double.infinity,
@@ -301,7 +301,7 @@ class _PostCardState extends State<PostCard> {
                   ),
                   child: RichText(
                     text: TextSpan(
-                      style: const TextStyle(color: mobileBackgroundColor),
+                      style: const TextStyle(color: blackBlue),
                       children: [
                         TextSpan(
                           text: widget.snap['username'].toString(),
@@ -319,7 +319,7 @@ class _PostCardState extends State<PostCard> {
                 InkWell(
                   child: Container(
                     child: Text(
-                      'View all $commentLen comments',
+                      'Смотреть все $commentLen комментарии',
                       style: const TextStyle(
                         fontSize: 16,
                         color: secondaryColor,

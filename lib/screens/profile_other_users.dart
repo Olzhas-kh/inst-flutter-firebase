@@ -71,7 +71,7 @@ class _ProfileOtherUsersState extends State<ProfileOtherUsers> {
                 SizedBox(
                   height: 10,
                 ),
-                _profileName(userData['bio']),
+                _profileName(userData['username']),
                 SizedBox(
                   height: 14,
                 ),
@@ -117,7 +117,7 @@ class _ProfileOtherUsersState extends State<ProfileOtherUsers> {
         child: Text(
           name,
           style: TextStyle(
-              color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
+              color: blackBlue, fontSize: 24, fontWeight: FontWeight.w800),
         ),
       ),
     );
@@ -137,6 +137,7 @@ class _ProfileOtherUsersState extends State<ProfileOtherUsers> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
+        color: blackBlue,
         elevation: 4,
         child: Column(
           children: [

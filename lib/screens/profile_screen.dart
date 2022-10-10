@@ -112,8 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             Text(
               userData['username'],
-              style: TextStyle(
-                  color: Colors.blueGrey.shade900, fontWeight: FontWeight.bold),
+              style: TextStyle(color: blackBlue, fontWeight: FontWeight.bold),
             )
           ],
         ),
@@ -128,7 +127,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Text(
           name,
           style: TextStyle(
-              color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
+              color: blackBlue, fontSize: 24, fontWeight: FontWeight.w800),
         ),
       ),
     );
@@ -148,7 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
-        color: Colors.blueGrey.shade900,
+        color: blackBlue,
         elevation: 4,
         child: Column(
           children: [
@@ -183,7 +182,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
-        color: Colors.blueGrey.shade900,
+        color: blackBlue,
         elevation: 4,
         child: Column(
           children: [
@@ -209,7 +208,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               leading: Icon(Icons.add_box),
               title: Text("Публикация"),
               onTap: () {
-                if (userData['bio'].toString().contains('author')) {
+                if (userData['bio'].toString().contains('almaty')) {
                   print(userData['bio'].toString());
                   Navigator.of(context).push(
                     MaterialPageRoute(

@@ -24,7 +24,7 @@ class _CitiesForSearchState extends State<CitiesForSearch> {
       appBar: AppBar(
         backgroundColor: maroon,
         title: Text(
-          "Города",
+          "Cities",
         ),
       ),
       body: ListView.builder(
@@ -34,7 +34,7 @@ class _CitiesForSearchState extends State<CitiesForSearch> {
             elevation: 8.0,
             margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
             child: Container(
-              decoration: BoxDecoration(color: maroon),
+              decoration: BoxDecoration(color: blackBlue),
               child: ListTile(
                   onTap: () => {
                         if (index == 0)
