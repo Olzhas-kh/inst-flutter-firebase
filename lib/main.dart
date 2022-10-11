@@ -1,54 +1,15 @@
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:firebase_messaging/firebase_messaging.dart';
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-
-// import 'notify/local_push_notification.dart';
-// import 'notify/splash.dart';
-
-// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   /// On click listner
-// }
-
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
-//   LocalNotificationService.initialize();
-
-//   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-//   runApp(const MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GetMaterialApp(
-//       home: SplashScreen(),
-//     );
-//   }
-// }
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:inst_fire/notify/splash.dart';
 
 import 'package:inst_fire/providers/user_provider.dart';
 import 'package:inst_fire/responsive/mobile_screen_layout.dart';
 import 'package:inst_fire/responsive/responsive_layout_screen.dart';
 import 'package:inst_fire/responsive/web_screen_layout.dart';
-import 'package:inst_fire/screens/add_task.dart';
 import 'package:inst_fire/screens/login_screen.dart';
 import 'package:inst_fire/screens/profile_screen.dart';
-import 'package:inst_fire/screens/users_search/almaty_search_screen.dart';
-import 'package:inst_fire/screens/signup_screen.dart';
-import 'package:inst_fire/services/local_notification_service.dart';
+
 import 'package:inst_fire/utils/colours.dart';
 import 'package:provider/provider.dart';
 
@@ -91,6 +52,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: primaryColor,
         ),
+        routes: {
+          '/message': (context) => ProfileScreen(),
+        },
 
         //Stream Builder ОЛ ЮСЕРДИН ДАННЫЕ СОХРАНЯЕТ
         home: StreamBuilder(

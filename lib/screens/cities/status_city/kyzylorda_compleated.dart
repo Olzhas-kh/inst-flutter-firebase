@@ -6,91 +6,86 @@ import 'package:intl/intl.dart';
 import 'package:inst_fire/models/user.dart' as model;
 import 'package:provider/provider.dart';
 import 'package:slimy_card/slimy_card.dart';
-import 'package:http/http.dart' as http;
 
-import '../../../notify/constants.dart';
 import '../../../providers/user_provider.dart';
 import '../../../resources/firestore_methods.dart';
 import '../../../utils/utils.dart';
 
-class InProgressAlmaty extends StatefulWidget {
+class CompleatedKyzylorda extends StatefulWidget {
   final snap;
-  const InProgressAlmaty({Key? key, required this.snap}) : super(key: key);
+  const CompleatedKyzylorda({Key? key, required this.snap}) : super(key: key);
 
   @override
-  State<InProgressAlmaty> createState() => _InProgressAlmatyState();
+  State<CompleatedKyzylorda> createState() => _CompleatedKyzylordaState();
 }
 
-class _InProgressAlmatyState extends State<InProgressAlmaty> {
-  var userData = {};
-  List<String> userTokens = [];
-  bool isLoading = false;
-  String uid = '';
+class _CompleatedKyzylordaState extends State<CompleatedKyzylorda> {
+  bool isbutton = true;
+  final listStatus = [
+    '',
+    'В процессе: ',
+    'Выполнено: ',
+  ];
+  String changedText = '';
+  String statusString_1 = '';
+  Color colorButton = Colors.grey;
+
   @override
   void initState() {
     super.initState();
     getData();
   }
 
+  void _button1() {
+    setState(() {
+      isbutton = true;
+    });
+  }
+
+  void _button2() {
+    setState(() {
+      isbutton = false;
+    });
+  }
+
+  var userData = {};
+
+  bool isLoading = false;
+  String uid = '';
   getData() async {
     setState(() {
       isLoading = true;
     });
-    final FirebaseAuth auth = FirebaseAuth.instance;
-
-    final User user = auth.currentUser!;
-    uid = user.uid;
-
-    var userSnap =
-        await FirebaseFirestore.instance.collection('users').doc(uid).get();
-
-    userData = userSnap.data()!;
-
-    final querySnapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .where('bio', isEqualTo: 'almaty')
-        .get();
-
-    for (var doc in querySnapshot.docs) {
-      // Getting data directly
-      userTokens.add('"${doc.get('token')}"');
-
-      // Getting data from map
-      Map<String, dynamic> data = doc.data();
-    }
-  }
-
-  Future<bool> pushNotificationsGroupDevice({
-    required String title,
-    required String body,
-  }) async {
-    String dataNotifications = '{'
-        '"operation": "create",'
-        '"notification_key_name": "appUser-testUser",'
-        '"registration_ids": [${userTokens.toString().replaceAll("]", "").replaceAll("[", "")}],'
-        '"notification" : {'
-        '"title":"$title",'
-        '"body":"$body"'
-        ' }'
-        ' }';
-
-    var response = await http.post(
-      Uri.parse(Constants.BASE_URL),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-        'Authorization': 'key= ${Constants.KEY_SERVER}',
-      },
-      body: dataNotifications,
-    );
-
-    print(response.body.toString());
-
-    return true;
-  }
-
-  deleteTaskAlmaty(String commentId) async {
     try {
-      await FireStoreMethods().deleteTaskAlmaty(commentId);
+      final FirebaseAuth auth = FirebaseAuth.instance;
+
+      final User user = auth.currentUser!;
+      uid = user.uid;
+
+      var userSnap = await FirebaseFirestore.instance
+          .collection('kyzylorda')
+          .doc(widget.snap['commentId'])
+          .get();
+
+      userData = userSnap.data()!;
+
+      setState(() {});
+    } catch (e) {
+      showSnackBar(
+        e.toString(),
+        context,
+      );
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  bool isLikeAnimating = false;
+
+  deleteTaskKyzylorda(String commentId) async {
+    try {
+      await FireStoreMethods().deleteTaskKyzylorda(commentId);
     } catch (err) {
       showSnackBar(
         err.toString(),
@@ -110,7 +105,7 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
             children: <Widget>[
               SimpleDialogOption(
                 onPressed: () {
-                  deleteTaskAlmaty(
+                  deleteTaskKyzylorda(
                     widget.snap['commentId'].toString(),
                   );
                   // remove the dialog box
@@ -134,7 +129,7 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
               SimpleDialogOption(
                 onPressed: () {
                   if (widget.snap['likes'].contains(userData['username'])) {
-                    FireStoreMethods().likeTaskAlmaty(
+                    FireStoreMethods().likeTaskKyzylorda(
                       widget.snap['commentId'].toString(),
                       userData['username'],
                       widget.snap['likes'],
@@ -157,13 +152,13 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
   Widget build(BuildContext context) {
     final model.User user = Provider.of<UserProvider>(context).getUser;
 
-    return widget.snap['status'].contains('В процессе:')
+    return widget.snap['status'].contains('Выполнено:')
         ? Container(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
             child: SlimyCard(
               width: 450,
               topCardHeight: 180,
-              color: orangeStatus,
+              color: greenStatus,
               topCardWidget: Column(
                 children: [
                   Container(
@@ -239,16 +234,17 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
                       widget.snap['likes'].toString() == "[]"
                           ? MaterialButton(
                               onPressed: () {
-                                FireStoreMethods().likeTaskAlmaty(
+                                FireStoreMethods().likeTaskKyzylorda(
                                   widget.snap['commentId'].toString(),
                                   user.username,
                                   widget.snap['likes'],
                                 );
 
-                                FireStoreMethods().statusTaskAlmaty(
+                                FireStoreMethods().statusTaskKyzylorda(
                                     widget.snap['commentId'],
                                     'В процессе:',
                                     widget.snap['status']);
+                                statusString_1 = "в процессе: ";
                               },
                               child: Text('Выполнить'),
                               color: Colors.red,
@@ -261,7 +257,7 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
                                             Colors.white),
                                     backgroundColor:
                                         MaterialStateProperty.all<Color>(
-                                            orangeButton),
+                                            Colors.orange),
                                     shape: MaterialStateProperty.all<
                                         RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
@@ -276,9 +272,9 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
                                         context: context,
                                         builder: (BuildContext context) {
                                           return SimpleDialog(
-                                            backgroundColor: maroon,
                                             // <-- SEE HERE
-                                            title: const Text('Выберите:'),
+                                            title: const Text(
+                                                'Select Booking Type'),
                                             children: <Widget>[
                                               SimpleDialogOption(
                                                 onPressed: () {
@@ -286,24 +282,20 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
                                                       .contains(
                                                           user.username)) {
                                                     FireStoreMethods()
-                                                        .likeTaskAlmaty(
+                                                        .likeTaskKyzylorda(
                                                       widget.snap['commentId']
                                                           .toString(),
                                                       user.username,
                                                       widget.snap['likes'],
                                                     );
                                                     FireStoreMethods()
-                                                        .statusTaskAlmaty(
+                                                        .statusTaskKyzylorda(
                                                             widget.snap[
                                                                 'commentId'],
                                                             'В процессе:',
                                                             widget.snap[
                                                                 'status']);
-                                                    pushNotificationsGroupDevice(
-                                                        title: userData[
-                                                            'username'],
-                                                        body:
-                                                            '${widget.snap['text']}, Статус задачи: отменен');
+                                                    statusString_1 = "";
                                                   } else {
                                                     showSnackBar(
                                                         'В процессе', context);
@@ -322,21 +314,19 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
                                   onPressed: () {
                                     if (widget.snap['likes']
                                         .contains(user.username)) {
-                                      FireStoreMethods().statusTaskAlmaty(
+                                      FireStoreMethods().statusTaskKyzylorda(
                                           widget.snap['commentId'],
                                           'Выполнено:',
                                           widget.snap['status']);
-                                      FireStoreMethods().statusTaskAlmaty(
+                                      FireStoreMethods().statusTaskKyzylorda(
                                           widget.snap['commentId'],
                                           'В процессе:',
                                           widget.snap['status']);
-                                      pushNotificationsGroupDevice(
-                                          title: userData['username'],
-                                          body: 'Статус задачи:  выполнено');
                                     } else {
                                       showSnackBar('В процессе', context);
                                       print('progress');
                                     }
+                                    statusString_1 = "выполнено: ";
                                   },
                                   child: Text('В процессе'),
                                 )
@@ -348,12 +338,28 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
                                       child: Text('dfgergrg'),
                                       color: Colors.greenAccent,
                                     )
-                                  : MaterialButton(
+                                  : ElevatedButton(
+                                      style: ButtonStyle(
+                                        foregroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                Colors.white),
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                Colors.green.shade900),
+                                        shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10)),
+                                            side:
+                                                BorderSide(color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
                                       onPressed: () {
                                         null;
                                       },
                                       child: Text('Выполнено'),
-                                      color: Colors.green,
                                     ),
                     ],
                   ),

@@ -84,22 +84,12 @@ class _AddTaskState extends State<AddTask> {
                           }
                         else if (index == 1)
                           {
-                            if (userData['bio']
-                                .toString()
-                                .contains('nursultan'))
-                              {
-                                print(userData['bio'].toString()),
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => AstanaCity(),
-                                  ),
-                                ),
-                              }
-                            else
-                              {
-                                print(userData['bio'].toString()),
-                                showSnackBar('У вас нету доступа', context),
-                              }
+                            print(userData['bio'].toString()),
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => AstanaCity(),
+                              ),
+                            ),
                           }
                         else if (index == 2)
                           {

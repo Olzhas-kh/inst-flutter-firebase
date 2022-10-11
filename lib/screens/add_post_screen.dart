@@ -1,10 +1,15 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:inst_fire/models/user.dart' as model;
+import '../notify/local_push_notification.dart';
 import '../providers/user_provider.dart';
 import '../resources/firestore_methods.dart';
 import '../utils/colours.dart';
@@ -21,17 +26,59 @@ class _AddPostScreenState extends State<AddPostScreen> {
   Uint8List? _file;
   bool isLoading = false;
   final TextEditingController _descriptionController = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    FirebaseMessaging.instance.getInitialMessage();
+    FirebaseMessaging.onMessage.listen((event) {
+      LocalNotificationService.display(event);
+    });
+
+    FirebaseMessaging.instance.subscribeToTopic('subscription');
+  }
+
+  sendNotificationToTopic(String title, String body) async {
+    final data = {
+      'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+      'id': '1',
+      'status': 'done',
+      'message': title,
+    };
+
+    try {
+      http.Response response =
+          await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+              headers: <String, String>{
+                'Content-Type': 'application/json',
+                'Authorization':
+                    'key=AAAANd42yUc:APA91bH0bRQLnJ-XS-GHxS50PsQeNCFLdYR1mz8tRJIlAbY2pybNt3sRj7oyaaKisdfa5FGkLpBcJYeeosHZLdi3lo2AirA18U_1LRwFJiL8ZK1X_TNdmdNVK0yHmxZhB_X3sZxX25SH'
+              },
+              body: jsonEncode(<String, dynamic>{
+                'notification': <String, dynamic>{'title': title, 'body': body},
+                'priority': 'high',
+                'data': data,
+                'to': '/topics/subscription'
+              }));
+
+      if (response.statusCode == 200) {
+        print("Yeh notificatin is sended");
+      } else {
+        print("Error");
+      }
+    } catch (e) {}
+  }
 
   _selectImage(BuildContext parentContext) async {
     return showDialog(
       context: parentContext,
       builder: (BuildContext context) {
         return SimpleDialog(
-          title: const Text('Create a Post'),
+          title: const Text('Добавить пост'),
           children: <Widget>[
             SimpleDialogOption(
                 padding: const EdgeInsets.all(20),
-                child: const Text('Take a photo'),
+                child: const Text('Сделать снимку'),
                 onPressed: () async {
                   Navigator.pop(context);
                   Uint8List file = await pickImage(ImageSource.camera);
@@ -41,7 +88,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 }),
             SimpleDialogOption(
                 padding: const EdgeInsets.all(20),
-                child: const Text('Choose from Gallery'),
+                child: const Text('Выбрать из галереи'),
                 onPressed: () async {
                   Navigator.of(context).pop();
                   Uint8List file = await pickImage(ImageSource.gallery);
@@ -51,7 +98,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 }),
             SimpleDialogOption(
               padding: const EdgeInsets.all(20),
-              child: const Text("Cancel"),
+              child: const Text("Выйти"),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -81,7 +128,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
           isLoading = false;
         });
         showSnackBar(
-          'Posted!',
+          'Опубликовано',
           context,
         );
         clearImage();
@@ -118,7 +165,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
     return _file == null
         ? Scaffold(
             appBar: AppBar(
-              backgroundColor: mobileBackgroundColor,
+              backgroundColor: maroon,
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () => Navigator.pop(context),
@@ -130,6 +177,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 icon: const Icon(
                   Icons.add_box_outlined,
                   size: 70,
+                  color: blackBlue,
                 ),
                 onPressed: () => _selectImage(context),
               ),
@@ -137,26 +185,27 @@ class _AddPostScreenState extends State<AddPostScreen> {
           )
         : Scaffold(
             appBar: AppBar(
-              backgroundColor: mobileBackgroundColor,
+              backgroundColor: maroon,
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: clearImage,
               ),
-              title: const Text(
-                'Post to',
-              ),
               centerTitle: false,
               actions: <Widget>[
                 TextButton(
-                  onPressed: () => postImage(
-                    userProvider.getUser.uid,
-                    userProvider.getUser.username,
-                    userProvider.getUser.photoUrl,
-                  ),
+                  onPressed: () {
+                    postImage(
+                      userProvider.getUser.uid,
+                      userProvider.getUser.username,
+                      userProvider.getUser.photoUrl,
+                    );
+                    sendNotificationToTopic(userProvider.getUser.username,
+                        _descriptionController.text);
+                  },
                   child: const Text(
-                    "Post",
+                    "Опубликовать",
                     style: TextStyle(
-                        color: Colors.blueAccent,
+                        color: primaryColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0),
                   ),
@@ -182,10 +231,13 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.3,
                       child: TextField(
+                        style: TextStyle(color: mobileBackgroundColor),
                         controller: _descriptionController,
                         decoration: const InputDecoration(
-                            hintText: "Write a caption...",
-                            border: InputBorder.none),
+                          hintText: "Описание...",
+                          border: InputBorder.none,
+                          hintStyle: TextStyle(color: secondaryColor),
+                        ),
                         maxLines: 8,
                       ),
                     ),

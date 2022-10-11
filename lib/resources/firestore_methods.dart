@@ -40,14 +40,11 @@ class FireStoreMethods {
   Future<String> likePost(String postId, String username, List likes) async {
     String res = "Some error occurred";
     try {
-      
-        
-       
-        // else we need to add uid to the likes array
-        _firestore.collection('posts').doc(postId).update({
-          'likes': FieldValue.arrayUnion([username])
-        });
-      
+      // else we need to add uid to the likes array
+      _firestore.collection('posts').doc(postId).update({
+        'likes': FieldValue.arrayUnion([username])
+      });
+
       res = 'success';
     } catch (err) {
       res = err.toString();
@@ -104,7 +101,6 @@ class FireStoreMethods {
           'datePublished': DateTime.now(),
           'likes': [],
           'status': [],
-          
         }, SetOptions(merge: true));
         res = 'success';
       } else {
@@ -117,7 +113,7 @@ class FireStoreMethods {
   }
 
   Future<String> likeTaskAlmaty(
-      String commentId, String username, List likes ) async {
+      String commentId, String username, List likes) async {
     String res = "Some error occurred";
     try {
       if (likes.contains(username)) {
@@ -132,18 +128,15 @@ class FireStoreMethods {
         });
       }
 
-      
-       
-      
-      
       res = 'success';
     } catch (err) {
       res = err.toString();
     }
     return res;
   }
+
   Future<String> statusTaskAlmaty(
-      String commentId,  String statuss ,List status) async {
+      String commentId, String statuss, List status) async {
     String res = "Some error occurred";
     try {
       if (status.contains(statuss)) {
@@ -156,7 +149,6 @@ class FireStoreMethods {
         _firestore.collection('almaty').doc(commentId).update({
           'status': FieldValue.arrayUnion([statuss])
         });
-      
       }
 
       res = 'success';
@@ -165,7 +157,6 @@ class FireStoreMethods {
     }
     return res;
   }
-  
 
 // Nursultan
   Future<String> astana(String text, String description, String uid,
@@ -185,7 +176,6 @@ class FireStoreMethods {
           'datePublished': DateTime.now(),
           'likes': [],
           'status': [],
-          
         }, SetOptions(merge: true));
         res = 'success';
       } else {
@@ -198,7 +188,7 @@ class FireStoreMethods {
   }
 
   Future<String> likeTaskAstana(
-      String commentId, String username, List likes ) async {
+      String commentId, String username, List likes) async {
     String res = "Some error occurred";
     try {
       if (likes.contains(username)) {
@@ -213,10 +203,6 @@ class FireStoreMethods {
         });
       }
 
-      
-       
-      
-      
       res = 'success';
     } catch (err) {
       res = err.toString();
@@ -225,7 +211,7 @@ class FireStoreMethods {
   }
 
   Future<String> statusTaskAstana(
-      String commentId,  String statuss ,List status) async {
+      String commentId, String statuss, List status) async {
     String res = "Some error occurred";
     try {
       if (status.contains(statuss)) {
@@ -238,7 +224,6 @@ class FireStoreMethods {
         _firestore.collection('astana').doc(commentId).update({
           'status': FieldValue.arrayUnion([statuss])
         });
-      
       }
 
       res = 'success';
@@ -266,7 +251,6 @@ class FireStoreMethods {
           'datePublished': DateTime.now(),
           'likes': [],
           'status': [],
-          
         }, SetOptions(merge: true));
         res = 'success';
       } else {
@@ -279,7 +263,7 @@ class FireStoreMethods {
   }
 
   Future<String> likeTaskShymkent(
-      String commentId, String username, List likes ) async {
+      String commentId, String username, List likes) async {
     String res = "Some error occurred";
     try {
       if (likes.contains(username)) {
@@ -294,10 +278,6 @@ class FireStoreMethods {
         });
       }
 
-      
-       
-      
-      
       res = 'success';
     } catch (err) {
       res = err.toString();
@@ -306,7 +286,7 @@ class FireStoreMethods {
   }
 
   Future<String> statusTaskShymkent(
-      String commentId,  String statuss ,List status) async {
+      String commentId, String statuss, List status) async {
     String res = "Some error occurred";
     try {
       if (status.contains(statuss)) {
@@ -319,7 +299,6 @@ class FireStoreMethods {
         _firestore.collection('shymkent').doc(commentId).update({
           'status': FieldValue.arrayUnion([statuss])
         });
-      
       }
 
       res = 'success';
@@ -328,7 +307,6 @@ class FireStoreMethods {
     }
     return res;
   }
-
 
 // Kyzylorda
   Future<String> kyzylorda(String text, String description, String uid,
@@ -348,7 +326,6 @@ class FireStoreMethods {
           'datePublished': DateTime.now(),
           'likes': [],
           'status': [],
-          
         }, SetOptions(merge: true));
         res = 'success';
       } else {
@@ -361,7 +338,7 @@ class FireStoreMethods {
   }
 
   Future<String> likeTaskKyzylorda(
-      String commentId, String username, List likes ) async {
+      String commentId, String username, List likes) async {
     String res = "Some error occurred";
     try {
       if (likes.contains(username)) {
@@ -376,10 +353,6 @@ class FireStoreMethods {
         });
       }
 
-      
-       
-      
-      
       res = 'success';
     } catch (err) {
       res = err.toString();
@@ -388,7 +361,7 @@ class FireStoreMethods {
   }
 
   Future<String> statusTaskKyzylorda(
-      String commentId,  String statuss ,List status) async {
+      String commentId, String statuss, List status) async {
     String res = "Some error occurred";
     try {
       if (status.contains(statuss)) {
@@ -401,7 +374,6 @@ class FireStoreMethods {
         _firestore.collection('kyzylorda').doc(commentId).update({
           'status': FieldValue.arrayUnion([statuss])
         });
-      
       }
 
       res = 'success';
@@ -429,7 +401,6 @@ class FireStoreMethods {
           'datePublished': DateTime.now(),
           'likes': [],
           'status': [],
-          
         }, SetOptions(merge: true));
         res = 'success';
       } else {
@@ -442,7 +413,7 @@ class FireStoreMethods {
   }
 
   Future<String> likeTaskKaragandy(
-      String commentId, String username, List likes ) async {
+      String commentId, String username, List likes) async {
     String res = "Some error occurred";
     try {
       if (likes.contains(username)) {
@@ -457,10 +428,6 @@ class FireStoreMethods {
         });
       }
 
-      
-       
-      
-      
       res = 'success';
     } catch (err) {
       res = err.toString();
@@ -469,7 +436,7 @@ class FireStoreMethods {
   }
 
   Future<String> statusTaskKaragandy(
-      String commentId,  String statuss ,List status) async {
+      String commentId, String statuss, List status) async {
     String res = "Some error occurred";
     try {
       if (status.contains(statuss)) {
@@ -482,7 +449,6 @@ class FireStoreMethods {
         _firestore.collection('karagandy').doc(commentId).update({
           'status': FieldValue.arrayUnion([statuss])
         });
-      
       }
 
       res = 'success';
@@ -527,6 +493,7 @@ class FireStoreMethods {
     }
     return res;
   }
+
   // Delete Task Shymkent
   Future<String> deleteTaskShymkent(String commentId) async {
     String res = "Some error occurred";
@@ -538,6 +505,7 @@ class FireStoreMethods {
     }
     return res;
   }
+
   // Delete Task Kyzylorda
   Future<String> deleteTaskKyzylorda(String commentId) async {
     String res = "Some error occurred";
@@ -549,6 +517,7 @@ class FireStoreMethods {
     }
     return res;
   }
+
   // Delete Task Karagandy
   Future<String> deleteTaskKaragandy(String commentId) async {
     String res = "Some error occurred";

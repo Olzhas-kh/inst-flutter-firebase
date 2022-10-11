@@ -13,15 +13,15 @@ import '../../../providers/user_provider.dart';
 import '../../../resources/firestore_methods.dart';
 import '../../../utils/utils.dart';
 
-class InProgressAlmaty extends StatefulWidget {
+class InProgressAstana extends StatefulWidget {
   final snap;
-  const InProgressAlmaty({Key? key, required this.snap}) : super(key: key);
+  const InProgressAstana({Key? key, required this.snap}) : super(key: key);
 
   @override
-  State<InProgressAlmaty> createState() => _InProgressAlmatyState();
+  State<InProgressAstana> createState() => _InProgressAstanaState();
 }
 
-class _InProgressAlmatyState extends State<InProgressAlmaty> {
+class _InProgressAstanaState extends State<InProgressAstana> {
   var userData = {};
   List<String> userTokens = [];
   bool isLoading = false;
@@ -48,7 +48,7 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
 
     final querySnapshot = await FirebaseFirestore.instance
         .collection('users')
-        .where('bio', isEqualTo: 'almaty')
+        .where('bio', isEqualTo: 'astana')
         .get();
 
     for (var doc in querySnapshot.docs) {
@@ -88,9 +88,9 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
     return true;
   }
 
-  deleteTaskAlmaty(String commentId) async {
+  deleteTaskAstana(String commentId) async {
     try {
-      await FireStoreMethods().deleteTaskAlmaty(commentId);
+      await FireStoreMethods().deleteTaskAstana(commentId);
     } catch (err) {
       showSnackBar(
         err.toString(),
@@ -110,7 +110,7 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
             children: <Widget>[
               SimpleDialogOption(
                 onPressed: () {
-                  deleteTaskAlmaty(
+                  deleteTaskAstana(
                     widget.snap['commentId'].toString(),
                   );
                   // remove the dialog box
@@ -134,7 +134,7 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
               SimpleDialogOption(
                 onPressed: () {
                   if (widget.snap['likes'].contains(userData['username'])) {
-                    FireStoreMethods().likeTaskAlmaty(
+                    FireStoreMethods().likeTaskAstana(
                       widget.snap['commentId'].toString(),
                       userData['username'],
                       widget.snap['likes'],
@@ -239,13 +239,13 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
                       widget.snap['likes'].toString() == "[]"
                           ? MaterialButton(
                               onPressed: () {
-                                FireStoreMethods().likeTaskAlmaty(
+                                FireStoreMethods().likeTaskAstana(
                                   widget.snap['commentId'].toString(),
                                   user.username,
                                   widget.snap['likes'],
                                 );
 
-                                FireStoreMethods().statusTaskAlmaty(
+                                FireStoreMethods().statusTaskAstana(
                                     widget.snap['commentId'],
                                     'В процессе:',
                                     widget.snap['status']);
@@ -286,14 +286,14 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
                                                       .contains(
                                                           user.username)) {
                                                     FireStoreMethods()
-                                                        .likeTaskAlmaty(
+                                                        .likeTaskAstana(
                                                       widget.snap['commentId']
                                                           .toString(),
                                                       user.username,
                                                       widget.snap['likes'],
                                                     );
                                                     FireStoreMethods()
-                                                        .statusTaskAlmaty(
+                                                        .statusTaskAstana(
                                                             widget.snap[
                                                                 'commentId'],
                                                             'В процессе:',
@@ -322,11 +322,11 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
                                   onPressed: () {
                                     if (widget.snap['likes']
                                         .contains(user.username)) {
-                                      FireStoreMethods().statusTaskAlmaty(
+                                      FireStoreMethods().statusTaskAstana(
                                           widget.snap['commentId'],
                                           'Выполнено:',
                                           widget.snap['status']);
-                                      FireStoreMethods().statusTaskAlmaty(
+                                      FireStoreMethods().statusTaskAstana(
                                           widget.snap['commentId'],
                                           'В процессе:',
                                           widget.snap['status']);

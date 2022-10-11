@@ -1,16 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:inst_fire/utils/colours.dart';
 import 'package:intl/intl.dart';
 import 'package:inst_fire/models/user.dart' as model;
 import 'package:provider/provider.dart';
 import 'package:slimy_card/slimy_card.dart';
+import 'package:http/http.dart' as http;
 
+import '../notify/constants.dart';
+import '../notify/local_push_notification.dart';
 import '../providers/user_provider.dart';
 import '../resources/firestore_methods.dart';
 import '../utils/utils.dart';
-import 'like_animation.dart';
 
 class CommentCard extends StatefulWidget {
   final snap;
@@ -21,68 +24,79 @@ class CommentCard extends StatefulWidget {
 }
 
 class _CommentCardState extends State<CommentCard> {
-  bool isbutton = true;
-  final listStatus = [
-    '',
-    'В процессе: ',
-    'Выполнено: ',
-  ];
-  String changedText = '';
-  String statusString_1 = '';
-  Color colorButton = Colors.grey;
-
-  @override
-  void initState() {
-    super.initState();
-    getData();
-  }
-
-  void _button1() {
-    setState(() {
-      isbutton = true;
-    });
-  }
-
-  void _button2() {
-    setState(() {
-      isbutton = false;
-    });
-  }
+  List<String> userTokens = [];
 
   var userData = {};
 
   bool isLoading = false;
   String uid = '';
+  @override
+  void initState() {
+    super.initState();
+    FirebaseMessaging.instance.getInitialMessage();
+    FirebaseMessaging.onMessage.listen((event) {
+      LocalNotificationService.display(event);
+    });
+
+    FirebaseMessaging.instance.subscribeToTopic('subscription');
+    getData();
+  }
+
   getData() async {
     setState(() {
       isLoading = true;
     });
-    try {
-      final FirebaseAuth auth = FirebaseAuth.instance;
+    final FirebaseAuth auth = FirebaseAuth.instance;
 
-      final User user = auth.currentUser!;
-      uid = user.uid;
+    final User user = auth.currentUser!;
+    uid = user.uid;
 
-      var userSnap = await FirebaseFirestore.instance
-          .collection('almaty')
-          .doc(widget.snap['commentId'])
-          .get();
+    var userSnap =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
 
-      userData = userSnap.data()!;
+    userData = userSnap.data()!;
 
-      setState(() {});
-    } catch (e) {
-      showSnackBar(
-        e.toString(),
-        context,
-      );
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('bio', isEqualTo: 'almaty')
+        .get();
+
+    for (var doc in querySnapshot.docs) {
+      // Getting data directly
+      userTokens.add('"${doc.get('token')}"');
+
+      // Getting data from map
+      Map<String, dynamic> data = doc.data();
     }
-    setState(() {
-      isLoading = false;
-    });
   }
 
-  bool isLikeAnimating = false;
+  Future<bool> pushNotificationsGroupDevice({
+    required String title,
+    required String body,
+  }) async {
+    String dataNotifications = '{'
+        '"operation": "create",'
+        '"notification_key_name": "appUser-testUser",'
+        '"registration_ids": [${userTokens.toString().replaceAll("]", "").replaceAll("[", "")}],'
+        '"notification" : {'
+        '"title":"$title",'
+        '"body":"$body"'
+        ' }'
+        ' }';
+
+    var response = await http.post(
+      Uri.parse(Constants.BASE_URL),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key= ${Constants.KEY_SERVER}',
+      },
+      body: dataNotifications,
+    );
+
+    print(response.body.toString());
+
+    return true;
+  }
 
   deleteTaskAlmaty(String commentId) async {
     try {
@@ -101,7 +115,8 @@ class _CommentCardState extends State<CommentCard> {
         builder: (BuildContext context) {
           return SimpleDialog(
             // <-- SEE HERE
-            title: const Text('Select Booking Type'),
+            title: const Text('Выберите:'),
+            backgroundColor: maroon,
             children: <Widget>[
               SimpleDialogOption(
                 onPressed: () {
@@ -111,47 +126,7 @@ class _CommentCardState extends State<CommentCard> {
                   // remove the dialog box
                   Navigator.of(context).pop();
                 },
-                child: const Text('Delete'),
-              ),
-              SimpleDialogOption(
-                onPressed: () {},
-                child: const Text('Progress'),
-              ),
-              SimpleDialogOption(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Gold'),
-              ),
-            ],
-          );
-        });
-  }
-
-  Future<void> _back() async {
-    await showDialog<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return SimpleDialog(
-            // <-- SEE HERE
-            title: const Text('Select Booking Type'),
-            children: <Widget>[
-              SimpleDialogOption(
-                onPressed: () {
-                  if (widget.snap['likes'].contains(userData['username'])) {
-                    FireStoreMethods().likeTaskAlmaty(
-                      widget.snap['commentId'].toString(),
-                      userData['username'],
-                      widget.snap['likes'],
-                    );
-                  } else {
-                    showSnackBar('В процессе', context);
-                    print('progress');
-                  }
-                  // remove the dialog box
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Отменить'),
+                child: const Text('Удалить'),
               ),
             ],
           );
@@ -263,7 +238,9 @@ class _CommentCardState extends State<CommentCard> {
                                     widget.snap['commentId'],
                                     'В процессе:',
                                     widget.snap['status']);
-                                statusString_1 = "в процессе: ";
+                                pushNotificationsGroupDevice(
+                                    title: userData['username'],
+                                    body: 'Статус задачи:  в процессе');
                               },
                               child: Text('Выполнить'),
                             )
@@ -297,7 +274,6 @@ class _CommentCardState extends State<CommentCard> {
                                                             'В процессе:',
                                                             widget.snap[
                                                                 'status']);
-                                                    statusString_1 = "";
                                                   } else {
                                                     showSnackBar(
                                                         'В процессе', context);
@@ -328,7 +304,6 @@ class _CommentCardState extends State<CommentCard> {
                                       showSnackBar('В процессе', context);
                                       print('progress');
                                     }
-                                    statusString_1 = "выполнено: ";
                                   },
                                   child: Text('В процессе'),
                                   color: Colors.orange,

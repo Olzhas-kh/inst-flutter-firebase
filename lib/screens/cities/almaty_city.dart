@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:inst_fire/screens/cities/status_city/almaty_completed_status.dart';
 import 'package:inst_fire/screens/cities/status_city/almaty_in_progress_status.dart';
+import 'package:inst_fire/screens/profile_screen.dart';
 import 'package:inst_fire/utils/colours.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -179,7 +180,15 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
     FirebaseMessaging.onMessage.listen((event) {
       LocalNotificationService.display(event);
     });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('A new onMessageOpenedApp event was published!');
 
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProfileScreen(),
+          ));
+    });
     FirebaseMessaging.instance.subscribeToTopic('subscription');
     getData();
   }
@@ -290,6 +299,7 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
         '"operation": "create",'
         '"notification_key_name": "appUser-testUser",'
         '"registration_ids": [${userTokens.toString().replaceAll("]", "").replaceAll("[", "")}],'
+        '"screen": "homePage",'
         '"notification" : {'
         '"title":"$title",'
         '"body":"$body"'
@@ -347,7 +357,7 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
       child: Column(
         children: [
           Text(
-            'Add Task',
+            'Добавить задачу',
             style: TextStyle(fontSize: 24),
           ),
           const SizedBox(
@@ -359,7 +369,7 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
               autofocus: true,
               controller: titleController,
               decoration: InputDecoration(
-                label: Text('Title'),
+                label: Text('Названия'),
                 border: OutlineInputBorder(),
               ),
             ),
@@ -370,7 +380,7 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
             minLines: 3,
             maxLines: 5,
             decoration: InputDecoration(
-              label: Text('Description'),
+              label: Text('Описание'),
               border: OutlineInputBorder(),
             ),
           ),
@@ -379,7 +389,7 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
             children: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('cancel'),
+                child: const Text('Выйти'),
               ),
               InkWell(
                 onTap: () {
@@ -395,7 +405,7 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   child: const Text(
-                    'Post',
+                    'Опубликовать',
                     style: TextStyle(color: Colors.blue),
                   ),
                 ),
