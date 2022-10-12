@@ -12,6 +12,7 @@ import 'package:inst_fire/screens/profile_screen.dart';
 
 import 'package:inst_fire/utils/colours.dart';
 import 'package:provider/provider.dart';
+import 'package:splashscreen/splashscreen.dart';
 
 import 'notify/local_push_notification.dart';
 
@@ -57,30 +58,39 @@ class MyApp extends StatelessWidget {
         },
 
         //Stream Builder ОЛ ЮСЕРДИН ДАННЫЕ СОХРАНЯЕТ
-        home: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.active) {
-              if (snapshot.hasData) {
-                return const ResponsiveLayout(
-                    webScreenLayout: WebScreenLayout(),
-                    mobileScreenLayout: MobileScreenLayout());
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('${snapshot.error}'),
+        home: SplashScreen(
+          seconds: 3,
+          navigateAfterSeconds: StreamBuilder(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.active) {
+                if (snapshot.hasData) {
+                  return const ResponsiveLayout(
+                      webScreenLayout: WebScreenLayout(),
+                      mobileScreenLayout: MobileScreenLayout());
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('${snapshot.error}'),
+                  );
+                }
+              }
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: primaryColor,
+                  ),
                 );
               }
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: primaryColor,
-                ),
-              );
-            }
 
-            return const LoginPage();
-          },
+              return const LoginPage();
+            },
+          ),
+          image: Image.asset(
+            'assets/logo.png',
+          ),
+          photoSize: 200,
+          backgroundColor: maroon,
+          useLoader: false,
         ),
       ),
     );

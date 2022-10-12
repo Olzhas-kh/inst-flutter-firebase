@@ -165,6 +165,7 @@ class titleDesAddScreen extends StatefulWidget {
 
 class _titleDesAddScreenState extends State<titleDesAddScreen> {
   List<String> userTokens = [];
+  List<String> result = [];
   String tok = '';
 
   var userData = {};
@@ -219,6 +220,8 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
       // Getting data from map
       Map<String, dynamic> data = doc.data();
     }
+    result = userTokens
+      ..removeWhere((item) => item == "${userData['token'].to}");
   }
 
   sendNotification(
@@ -399,7 +402,8 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
                     user.photoUrl,
                   );
                   pushNotificationsGroupDevice(
-                      title: userData['username'], body: titleController.text);
+                      title: '${userData['username']}: ',
+                      body: titleController.text);
                 },
                 child: Container(
                   padding:

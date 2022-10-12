@@ -220,6 +220,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   showSnackBar('Вам не предоставлен доступ', context);
                 }
               },
+              trailing: Icon(
+                  userData['bio'].toString().contains('author')
+                      ? Icons.keyboard_arrow_right
+                      : Icons.lock_outline,
+                  color: Colors.white,
+                  size: 30.0),
             ),
             Divider(
               height: 0.6,

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import '../utils/colours.dart';
 import '../utils/global_variables.dart';
+import '../utils/utils.dart';
 
 class MobileScreenLayout extends StatefulWidget {
   const MobileScreenLayout({Key? key}) : super(key: key);
@@ -18,12 +19,16 @@ class MobileScreenLayout extends StatefulWidget {
 class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   int _page = 0;
   late PageController pageController; // for tabs animation
+  var userData = {};
 
+  bool isLoading = false;
+  String uid = '';
   @override
   void initState() {
     super.initState();
     pageController = PageController();
     tokenGet();
+    getData();
   }
 
   void tokenGet() async {
@@ -33,6 +38,33 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .set({'token': token}, SetOptions(merge: true));
+  }
+
+  getData() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      final FirebaseAuth auth = FirebaseAuth.instance;
+
+      final User user = auth.currentUser!;
+      uid = user.uid;
+
+      var userSnap =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+      userData = userSnap.data()!;
+
+      setState(() {});
+    } catch (e) {
+      showSnackBar(
+        e.toString(),
+        context,
+      );
+    }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -55,11 +87,13 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        children: homeScreenItems,
-        controller: pageController,
-        onPageChanged: onPageChanged,
-      ),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : PageView(
+              children: homeScreenItems,
+              controller: pageController,
+              onPageChanged: onPageChanged,
+            ),
       bottomNavigationBar: CurvedNavigationBar(
         animationDuration: Duration(milliseconds: 300),
         backgroundColor: primaryColor,

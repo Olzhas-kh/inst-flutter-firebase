@@ -243,6 +243,7 @@ class _PostCardState extends State<PostCard> {
                         return AlertDialog(
                           // <-- SEE HERE
                           title: const Text('Посмотрели: '),
+                          backgroundColor: maroon,
                           content: SizedBox(
                             height: 200,
                             width: double.maxFinite,
