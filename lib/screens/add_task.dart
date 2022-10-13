@@ -132,10 +132,10 @@ class _AddTaskState extends State<AddTask> {
                         ),
                         trailing: Icon(
                             userData['bio'].toString().contains('almaty')
-                                ? Icons.keyboard_arrow_right
+                                ? Icons.arrow_forward_ios_outlined
                                 : Icons.lock_outline,
                             color: Colors.white,
-                            size: 30.0),
+                            size: 23.0),
                       )),
                 ),
                 Card(
@@ -187,10 +187,10 @@ class _AddTaskState extends State<AddTask> {
                       ),
                       trailing: Icon(
                           userData['bio'].toString().contains('astana')
-                              ? Icons.keyboard_arrow_right
+                              ? Icons.arrow_forward_ios_outlined
                               : Icons.lock_outline,
                           color: Colors.white,
-                          size: 30.0),
+                          size: 23.0),
                     ),
                   ),
                 ),
@@ -244,10 +244,10 @@ class _AddTaskState extends State<AddTask> {
                       ),
                       trailing: Icon(
                           userData['bio'].toString().contains('shymkent')
-                              ? Icons.keyboard_arrow_right
+                              ? Icons.arrow_forward_ios_outlined
                               : Icons.lock_outline,
                           color: Colors.white,
-                          size: 30.0),
+                          size: 23.0),
                     ),
                   ),
                 ),
@@ -301,10 +301,10 @@ class _AddTaskState extends State<AddTask> {
                       ),
                       trailing: Icon(
                           userData['bio'].toString().contains('kyzylorda')
-                              ? Icons.keyboard_arrow_right
+                              ? Icons.arrow_forward_ios_outlined
                               : Icons.lock_outline,
                           color: Colors.white,
-                          size: 30.0),
+                          size: 23.0),
                     ),
                   ),
                 ),
@@ -363,10 +363,10 @@ class _AddTaskState extends State<AddTask> {
                       ),
                       trailing: Icon(
                           userData['bio'].toString().contains('karagandy')
-                              ? Icons.keyboard_arrow_right
+                              ? Icons.arrow_forward_ios_outlined
                               : Icons.lock_outline,
                           color: Colors.white,
-                          size: 30.0),
+                          size: 23.0),
                     ),
                   ),
                 ),

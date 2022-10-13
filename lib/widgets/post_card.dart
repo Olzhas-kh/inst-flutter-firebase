@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:inst_fire/models/user.dart' as model;
+import 'package:inst_fire/screens/viewed.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -79,7 +80,7 @@ class _PostCardState extends State<PostCard> {
 
       FireStoreMethods().likePost(
         widget.snap['postId'].toString(),
-        userData['username'].toString(),
+        user.uid,
         widget.snap['likes'],
       );
     } catch (e) {
@@ -243,7 +244,7 @@ class _PostCardState extends State<PostCard> {
                         return AlertDialog(
                           // <-- SEE HERE
                           title: const Text('Посмотрели: '),
-                          backgroundColor: maroon,
+                          backgroundColor: blackBlue,
                           content: SizedBox(
                             height: 200,
                             width: double.maxFinite,
@@ -251,11 +252,14 @@ class _PostCardState extends State<PostCard> {
                                 itemCount: widget.snap['likes'].length,
                                 itemBuilder: (BuildContext context, index) {
                                   return SingleChildScrollView(
-                                    child: Text(
-                                      widget.snap['likes'][index]
-                                          .toString()
-                                          .replaceAll("]", "")
-                                          .replaceAll("[", ""),
+                                    child: Row(
+                                      children: [
+                                        ViewedProfile(
+                                            uid: widget.snap['likes'][index]
+                                                .toString()
+                                                .replaceAll("]", "")
+                                                .replaceAll("[", "")),
+                                      ],
                                     ),
                                   );
                                 }),

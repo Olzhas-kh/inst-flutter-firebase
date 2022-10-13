@@ -220,8 +220,6 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
       // Getting data from map
       Map<String, dynamic> data = doc.data();
     }
-    result = userTokens
-      ..removeWhere((item) => item == "${userData['token'].to}");
   }
 
   sendNotification(
@@ -301,7 +299,7 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
     String dataNotifications = '{'
         '"operation": "create",'
         '"notification_key_name": "appUser-testUser",'
-        '"registration_ids": [${userTokens.toString().replaceAll("]", "").replaceAll("[", "")}],'
+        '"registration_ids": [${userData.toString().replaceAll("]", "").replaceAll("[", "")}],'
         '"screen": "homePage",'
         '"notification" : {'
         '"title":"$title",'
