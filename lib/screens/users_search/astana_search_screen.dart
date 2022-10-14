@@ -56,7 +56,7 @@ class _AstanaSearchScreenState extends State<AstanaSearchScreen> {
                   itemCount: (snapshot.data! as dynamic).docs.length,
                   itemBuilder: (context, index) {
                     if ((snapshot.data! as dynamic).docs[index]['bio'] ==
-                        'nursultan') {
+                        'astana') {
                       return Card(
                         elevation: 8.0,
                         margin: new EdgeInsets.symmetric(

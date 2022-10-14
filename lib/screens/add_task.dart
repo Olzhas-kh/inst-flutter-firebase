@@ -114,7 +114,9 @@ class _AddTaskState extends State<AddTask> {
                                   right: new BorderSide(
                                       width: 1.0, color: Colors.white24))),
                           child: CircleAvatar(
+                            backgroundImage: AssetImage('assets/city_ala.png'),
                             radius: 16,
+                            backgroundColor: primaryColor,
                           ),
                         ),
                         title: Text(
@@ -171,6 +173,8 @@ class _AddTaskState extends State<AddTask> {
                                     width: 1.0, color: Colors.white24))),
                         child: CircleAvatar(
                           radius: 16,
+                          backgroundImage: AssetImage('assets/city_ast.png'),
+                          backgroundColor: primaryColor,
                         ),
                       ),
                       title: Text(
@@ -226,7 +230,9 @@ class _AddTaskState extends State<AddTask> {
                                 right: new BorderSide(
                                     width: 1.0, color: Colors.white24))),
                         child: CircleAvatar(
+                          backgroundImage: AssetImage('assets/city_cit.png'),
                           radius: 16,
+                          backgroundColor: primaryColor,
                         ),
                       ),
                       title: Text(
@@ -283,6 +289,8 @@ class _AddTaskState extends State<AddTask> {
                                 right: new BorderSide(
                                     width: 1.0, color: Colors.white24))),
                         child: CircleAvatar(
+                          backgroundImage: AssetImage('assets/city_kzo.png'),
+                          backgroundColor: primaryColor,
                           radius: 16,
                         ),
                       ),
@@ -340,13 +348,15 @@ class _AddTaskState extends State<AddTask> {
                                 right: new BorderSide(
                                     width: 1.0, color: Colors.white24))),
                         child: CircleAvatar(
+                          backgroundImage: AssetImage('assets/city_kgf.png'),
+                          backgroundColor: primaryColor,
                           radius: 16,
                         ),
                       ),
                       title: Row(
                         children: [
                           Text(
-                            'Karagandy',
+                            'Karaganda',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),

@@ -101,7 +101,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                     style: TextStyle(color: blackBlue),
                     controller: commentEditingController,
                     decoration: InputDecoration(
-                      hintText: 'Comment as ${user.username}',
+                      hintText: 'Добавьте коммента...',
                       hintStyle: TextStyle(color: Colors.grey),
                       border: InputBorder.none,
                     ),
@@ -118,7 +118,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   child: const Text(
-                    'Post',
+                    'Опубликовать',
                     style: TextStyle(color: maroon),
                   ),
                 ),

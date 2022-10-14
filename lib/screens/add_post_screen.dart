@@ -74,6 +74,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
       context: parentContext,
       builder: (BuildContext context) {
         return SimpleDialog(
+          backgroundColor: blackBlue,
           title: const Text('Добавить пост'),
           children: <Widget>[
             SimpleDialogOption(
