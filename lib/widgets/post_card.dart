@@ -248,21 +248,28 @@ class _PostCardState extends State<PostCard> {
                           content: SizedBox(
                             height: 200,
                             width: double.maxFinite,
-                            child: ListView.builder(
-                                itemCount: widget.snap['likes'].length,
-                                itemBuilder: (BuildContext context, index) {
-                                  return SingleChildScrollView(
-                                    child: Row(
-                                      children: [
-                                        ViewedProfile(
-                                            uid: widget.snap['likes'][index]
-                                                .toString()
-                                                .replaceAll("]", "")
-                                                .replaceAll("[", "")),
-                                      ],
-                                    ),
-                                  );
-                                }),
+                            child: Expanded(
+                              child: ListView.builder(
+                                  itemCount: widget.snap['likes'].length,
+                                  itemBuilder: (BuildContext context, index) {
+                                    return Expanded(
+                                      child: SingleChildScrollView(
+                                        child: Row(
+                                          children: [
+                                            Flexible(
+                                              child: ViewedProfile(
+                                                  uid: widget.snap['likes']
+                                                          [index]
+                                                      .toString()
+                                                      .replaceAll("]", "")
+                                                      .replaceAll("[", "")),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                            ),
                           ),
                         );
                       });

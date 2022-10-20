@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../screens/add_post_screen.dart';
 import '../utils/colours.dart';
 import '../utils/global_variables.dart';
 import '../utils/utils.dart';
@@ -26,6 +27,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   @override
   void initState() {
     super.initState();
+
     pageController = PageController();
     tokenGet();
     getData();

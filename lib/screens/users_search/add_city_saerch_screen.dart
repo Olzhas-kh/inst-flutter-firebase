@@ -84,19 +84,68 @@ class _CitiesForSearchState extends State<CitiesForSearch> {
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
-          : Column(
-              children: [
-                Card(
-                  elevation: 8.0,
-                  margin:
-                      new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                  child: Container(
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  Card(
+                    elevation: 8.0,
+                    margin: new EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 6.0),
+                    child: Container(
+                        decoration: BoxDecoration(color: blackBlue),
+                        child: ListTile(
+                          onTap: () => {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => AlmatySearchScreen(),
+                              ),
+                            ),
+                          },
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 10.0),
+                          leading: Container(
+                            padding: EdgeInsets.only(right: 12.0),
+                            decoration: new BoxDecoration(
+                                border: new Border(
+                                    right: new BorderSide(
+                                        width: 1.0, color: Colors.white24))),
+                            child: CircleAvatar(
+                              backgroundImage:
+                                  AssetImage('assets/city_ala.png'),
+                              radius: 16,
+                              backgroundColor: primaryColor,
+                            ),
+                          ),
+                          title: Text(
+                            'Almaty',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
+
+                          subtitle: Row(
+                            children: <Widget>[
+                              Text('Almaty',
+                                  style: TextStyle(color: Colors.white)),
+                            ],
+                          ),
+                          trailing: Icon(Icons.arrow_forward_ios_outlined,
+                              color: Colors.white, size: 23.0),
+                        )),
+                  ),
+                  Card(
+                    elevation: 8.0,
+                    margin: new EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 6.0),
+                    child: Container(
                       decoration: BoxDecoration(color: blackBlue),
                       child: ListTile(
                         onTap: () => {
+                          print(userData['bio'].toString()),
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => AlmatySearchScreen(),
+                              builder: (context) => AstanaSearchScreen(),
                             ),
                           ),
                         },
@@ -109,13 +158,13 @@ class _CitiesForSearchState extends State<CitiesForSearch> {
                                   right: new BorderSide(
                                       width: 1.0, color: Colors.white24))),
                           child: CircleAvatar(
-                            backgroundImage: AssetImage('assets/city_ala.png'),
                             radius: 16,
+                            backgroundImage: AssetImage('assets/city_ast.png'),
                             backgroundColor: primaryColor,
                           ),
                         ),
                         title: Text(
-                          'Almaty',
+                          'Astana',
                           style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ),
@@ -123,207 +172,163 @@ class _CitiesForSearchState extends State<CitiesForSearch> {
 
                         subtitle: Row(
                           children: <Widget>[
-                            Text('Almaty',
+                            Text('Astana',
+                                style: TextStyle(color: Colors.white))
+                          ],
+                        ),
+                        trailing: Icon(Icons.arrow_forward_ios_outlined,
+                            color: Colors.white, size: 23.0),
+                      ),
+                    ),
+                  ),
+                  Card(
+                    elevation: 8.0,
+                    margin: new EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 6.0),
+                    child: Container(
+                      decoration: BoxDecoration(color: blackBlue),
+                      child: ListTile(
+                        onTap: () => {
+                          print(userData['bio'].toString()),
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ShymkentSearchScreen(),
+                            ),
+                          ),
+                        },
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10.0),
+                        leading: Container(
+                          padding: EdgeInsets.only(right: 12.0),
+                          decoration: new BoxDecoration(
+                              border: new Border(
+                                  right: new BorderSide(
+                                      width: 1.0, color: Colors.white24))),
+                          child: CircleAvatar(
+                            backgroundImage: AssetImage('assets/city_cit.png'),
+                            radius: 16,
+                            backgroundColor: primaryColor,
+                          ),
+                        ),
+                        title: Text(
+                          'Shymkent',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                        // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
+
+                        subtitle: Row(
+                          children: <Widget>[
+                            Text('Shymkent',
+                                style: TextStyle(color: Colors.white))
+                          ],
+                        ),
+                        trailing: Icon(Icons.arrow_forward_ios_outlined,
+                            color: Colors.white, size: 23.0),
+                      ),
+                    ),
+                  ),
+                  Card(
+                    elevation: 8.0,
+                    margin: new EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 6.0),
+                    child: Container(
+                      decoration: BoxDecoration(color: blackBlue),
+                      child: ListTile(
+                        onTap: () => {
+                          print(userData['bio'].toString()),
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => KyzylordaSearchScreen(),
+                            ),
+                          ),
+                        },
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10.0),
+                        leading: Container(
+                          padding: EdgeInsets.only(right: 12.0),
+                          decoration: new BoxDecoration(
+                              border: new Border(
+                                  right: new BorderSide(
+                                      width: 1.0, color: Colors.white24))),
+                          child: CircleAvatar(
+                            backgroundImage: AssetImage('assets/city_kzo.png'),
+                            backgroundColor: primaryColor,
+                            radius: 16,
+                          ),
+                        ),
+                        title: Text(
+                          'Kyzylorda',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                        // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
+
+                        subtitle: Row(
+                          children: <Widget>[
+                            Text('Kyzylorda',
+                                style: TextStyle(color: Colors.white))
+                          ],
+                        ),
+                        trailing: Icon(Icons.arrow_forward_ios_outlined,
+                            color: Colors.white, size: 23.0),
+                      ),
+                    ),
+                  ),
+                  Card(
+                    elevation: 8.0,
+                    margin: new EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 6.0),
+                    child: Container(
+                      decoration: BoxDecoration(color: blackBlue),
+                      child: ListTile(
+                        onTap: () => {
+                          print(userData['bio'].toString()),
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => KaragandySearchScreen(),
+                            ),
+                          ),
+                        },
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10.0),
+                        leading: Container(
+                          padding: EdgeInsets.only(right: 12.0),
+                          decoration: new BoxDecoration(
+                              border: new Border(
+                                  right: new BorderSide(
+                                      width: 1.0, color: Colors.white24))),
+                          child: CircleAvatar(
+                            backgroundImage: AssetImage('assets/city_kgf.png'),
+                            backgroundColor: primaryColor,
+                            radius: 16,
+                          ),
+                        ),
+                        title: Row(
+                          children: [
+                            Text(
+                              'Karaganda',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
+
+                        subtitle: Row(
+                          children: <Widget>[
+                            Text('Karagandy',
                                 style: TextStyle(color: Colors.white)),
                           ],
                         ),
                         trailing: Icon(Icons.arrow_forward_ios_outlined,
                             color: Colors.white, size: 23.0),
-                      )),
-                ),
-                Card(
-                  elevation: 8.0,
-                  margin:
-                      new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                  child: Container(
-                    decoration: BoxDecoration(color: blackBlue),
-                    child: ListTile(
-                      onTap: () => {
-                        print(userData['bio'].toString()),
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => AstanaSearchScreen(),
-                          ),
-                        ),
-                      },
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      leading: Container(
-                        padding: EdgeInsets.only(right: 12.0),
-                        decoration: new BoxDecoration(
-                            border: new Border(
-                                right: new BorderSide(
-                                    width: 1.0, color: Colors.white24))),
-                        child: CircleAvatar(
-                          radius: 16,
-                          backgroundImage: AssetImage('assets/city_ast.png'),
-                          backgroundColor: primaryColor,
-                        ),
                       ),
-                      title: Text(
-                        'Astana',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                      // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
-
-                      subtitle: Row(
-                        children: <Widget>[
-                          Text('Astana', style: TextStyle(color: Colors.white))
-                        ],
-                      ),
-                      trailing: Icon(Icons.arrow_forward_ios_outlined,
-                          color: Colors.white, size: 23.0),
                     ),
                   ),
-                ),
-                Card(
-                  elevation: 8.0,
-                  margin:
-                      new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                  child: Container(
-                    decoration: BoxDecoration(color: blackBlue),
-                    child: ListTile(
-                      onTap: () => {
-                        print(userData['bio'].toString()),
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => ShymkentSearchScreen(),
-                          ),
-                        ),
-                      },
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      leading: Container(
-                        padding: EdgeInsets.only(right: 12.0),
-                        decoration: new BoxDecoration(
-                            border: new Border(
-                                right: new BorderSide(
-                                    width: 1.0, color: Colors.white24))),
-                        child: CircleAvatar(
-                          backgroundImage: AssetImage('assets/city_cit.png'),
-                          radius: 16,
-                          backgroundColor: primaryColor,
-                        ),
-                      ),
-                      title: Text(
-                        'Shymkent',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                      // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
-
-                      subtitle: Row(
-                        children: <Widget>[
-                          Text('Shymkent',
-                              style: TextStyle(color: Colors.white))
-                        ],
-                      ),
-                      trailing: Icon(Icons.arrow_forward_ios_outlined,
-                          color: Colors.white, size: 23.0),
-                    ),
-                  ),
-                ),
-                Card(
-                  elevation: 8.0,
-                  margin:
-                      new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                  child: Container(
-                    decoration: BoxDecoration(color: blackBlue),
-                    child: ListTile(
-                      onTap: () => {
-                        print(userData['bio'].toString()),
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => KyzylordaSearchScreen(),
-                          ),
-                        ),
-                      },
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      leading: Container(
-                        padding: EdgeInsets.only(right: 12.0),
-                        decoration: new BoxDecoration(
-                            border: new Border(
-                                right: new BorderSide(
-                                    width: 1.0, color: Colors.white24))),
-                        child: CircleAvatar(
-                          backgroundImage: AssetImage('assets/city_kzo.png'),
-                          backgroundColor: primaryColor,
-                          radius: 16,
-                        ),
-                      ),
-                      title: Text(
-                        'Kyzylorda',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                      // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
-
-                      subtitle: Row(
-                        children: <Widget>[
-                          Text('Kyzylorda',
-                              style: TextStyle(color: Colors.white))
-                        ],
-                      ),
-                      trailing: Icon(Icons.arrow_forward_ios_outlined,
-                          color: Colors.white, size: 23.0),
-                    ),
-                  ),
-                ),
-                Card(
-                  elevation: 8.0,
-                  margin:
-                      new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                  child: Container(
-                    decoration: BoxDecoration(color: blackBlue),
-                    child: ListTile(
-                      onTap: () => {
-                        print(userData['bio'].toString()),
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => KaragandySearchScreen(),
-                          ),
-                        ),
-                      },
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      leading: Container(
-                        padding: EdgeInsets.only(right: 12.0),
-                        decoration: new BoxDecoration(
-                            border: new Border(
-                                right: new BorderSide(
-                                    width: 1.0, color: Colors.white24))),
-                        child: CircleAvatar(
-                          backgroundImage: AssetImage('assets/city_kgf.png'),
-                          backgroundColor: primaryColor,
-                          radius: 16,
-                        ),
-                      ),
-                      title: Row(
-                        children: [
-                          Text(
-                            'Karaganda',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
-
-                      subtitle: Row(
-                        children: <Widget>[
-                          Text('Karagandy',
-                              style: TextStyle(color: Colors.white)),
-                        ],
-                      ),
-                      trailing: Icon(Icons.arrow_forward_ios_outlined,
-                          color: Colors.white, size: 23.0),
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
     );
   }

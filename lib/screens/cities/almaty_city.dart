@@ -17,6 +17,7 @@ import '../../providers/user_provider.dart';
 import '../../resources/firestore_methods.dart';
 import '../../utils/utils.dart';
 import '../../widgets/comment_card.dart';
+import '../add_post_screen.dart';
 
 class AlmatyCity extends StatefulWidget {
   const AlmatyCity({super.key, required});
@@ -175,21 +176,12 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     FirebaseMessaging.instance.getInitialMessage();
     FirebaseMessaging.onMessage.listen((event) {
       LocalNotificationService.display(event);
     });
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('A new onMessageOpenedApp event was published!');
 
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProfileScreen(),
-          ));
-    });
     FirebaseMessaging.instance.subscribeToTopic('subscription');
     getData();
   }
@@ -215,7 +207,7 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
 
     for (var doc in querySnapshot.docs) {
       // Getting data directly
-      userTokens.add('"${doc.get('token')}"');
+      userTokens.add("'${doc.get('token')}'");
 
       // Getting data from map
       Map<String, dynamic> data = doc.data();
@@ -247,7 +239,7 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
                 },
                 'priority': 'high',
                 'data': data,
-                'to': '',
+                'to': userTokens,
               }));
 
       if (response.statusCode == 200) {
@@ -299,8 +291,7 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
     String dataNotifications = '{'
         '"operation": "create",'
         '"notification_key_name": "appUser-testUser",'
-        '"registration_ids": [${userData.toString().replaceAll("]", "").replaceAll("[", "")}],'
-        '"screen": "homePage",'
+        '"registration_ids": [${userTokens.toString().replaceAll("]", "").replaceAll("[", "")}],'
         '"notification" : {'
         '"title":"$title",'
         '"body":"$body"'
@@ -399,9 +390,7 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
                     user.username,
                     user.photoUrl,
                   );
-                  pushNotificationsGroupDevice(
-                      title: '${userData['username']}: ',
-                      body: titleController.text);
+                  sendNotification('${userData['username']}:');
                 },
                 child: Container(
                   padding:

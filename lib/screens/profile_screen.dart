@@ -67,24 +67,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : SafeArea(
+              child: SingleChildScrollView(
               child: Column(
-              children: [
-                //for circle avtar image
-                _getHeader(),
-                SizedBox(
-                  height: 10,
-                ),
-                _detailsCard(),
-                SizedBox(
-                  height: 15,
-                ),
+                children: [
+                  //for circle avtar image
+                  _getHeader(),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  _detailsCard(),
+                  SizedBox(
+                    height: 15,
+                  ),
 
-                _settingsCard(),
-                SizedBox(
-                  height: 26,
-                ),
-                logoutButton()
-              ],
+                  _settingsCard(),
+                  SizedBox(
+                    height: 26,
+                  ),
+                  logoutButton()
+                ],
+              ),
             )),
     );
   }

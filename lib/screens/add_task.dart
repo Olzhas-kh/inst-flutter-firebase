@@ -79,22 +79,84 @@ class _AddTaskState extends State<AddTask> {
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
-          : Column(
-              children: [
-                Card(
-                  elevation: 8.0,
-                  margin:
-                      new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                  child: Container(
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  Card(
+                    elevation: 8.0,
+                    margin: new EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 6.0),
+                    child: Container(
+                        decoration: BoxDecoration(color: blackBlue),
+                        child: ListTile(
+                          onTap: () => {
+                            if (userData['bio'].toString().contains('almaty'))
+                              {
+                                print(userData['bio'].toString()),
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => AlmatyCity(),
+                                  ),
+                                ),
+                              }
+                            else
+                              {
+                                print(userData['bio'].toString()),
+                                showSnackBar(
+                                    'Вам не предоставлен доступ', context),
+                              }
+                          },
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 10.0),
+                          leading: Container(
+                            padding: EdgeInsets.only(right: 12.0),
+                            decoration: new BoxDecoration(
+                                border: new Border(
+                                    right: new BorderSide(
+                                        width: 1.0, color: Colors.white24))),
+                            child: CircleAvatar(
+                              backgroundImage:
+                                  AssetImage('assets/city_ala.png'),
+                              radius: 16,
+                              backgroundColor: primaryColor,
+                            ),
+                          ),
+                          title: Text(
+                            'Almaty',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
+
+                          subtitle: Row(
+                            children: <Widget>[
+                              Text('Almaty',
+                                  style: TextStyle(color: Colors.white)),
+                            ],
+                          ),
+                          trailing: Icon(
+                              userData['bio'].toString().contains('almaty')
+                                  ? Icons.arrow_forward_ios_outlined
+                                  : Icons.lock_outline,
+                              color: Colors.white,
+                              size: 23.0),
+                        )),
+                  ),
+                  Card(
+                    elevation: 8.0,
+                    margin: new EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 6.0),
+                    child: Container(
                       decoration: BoxDecoration(color: blackBlue),
                       child: ListTile(
                         onTap: () => {
-                          if (userData['bio'].toString().contains('almaty'))
+                          if (userData['bio'].toString().contains('astana'))
                             {
                               print(userData['bio'].toString()),
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => AlmatyCity(),
+                                  builder: (context) => AstanaCity(),
                                 ),
                               ),
                             }
@@ -114,13 +176,13 @@ class _AddTaskState extends State<AddTask> {
                                   right: new BorderSide(
                                       width: 1.0, color: Colors.white24))),
                           child: CircleAvatar(
-                            backgroundImage: AssetImage('assets/city_ala.png'),
                             radius: 16,
+                            backgroundImage: AssetImage('assets/city_ast.png'),
                             backgroundColor: primaryColor,
                           ),
                         ),
                         title: Text(
-                          'Almaty',
+                          'Astana',
                           style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ),
@@ -128,259 +190,206 @@ class _AddTaskState extends State<AddTask> {
 
                         subtitle: Row(
                           children: <Widget>[
-                            Text('Almaty',
-                                style: TextStyle(color: Colors.white)),
+                            Text('Astana',
+                                style: TextStyle(color: Colors.white))
                           ],
                         ),
                         trailing: Icon(
-                            userData['bio'].toString().contains('almaty')
+                            userData['bio'].toString().contains('astana')
                                 ? Icons.arrow_forward_ios_outlined
                                 : Icons.lock_outline,
                             color: Colors.white,
                             size: 23.0),
-                      )),
-                ),
-                Card(
-                  elevation: 8.0,
-                  margin:
-                      new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                  child: Container(
-                    decoration: BoxDecoration(color: blackBlue),
-                    child: ListTile(
-                      onTap: () => {
-                        if (userData['bio'].toString().contains('astana'))
-                          {
-                            print(userData['bio'].toString()),
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => AstanaCity(),
-                              ),
-                            ),
-                          }
-                        else
-                          {
-                            print(userData['bio'].toString()),
-                            showSnackBar('Вам не предоставлен доступ', context),
-                          }
-                      },
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      leading: Container(
-                        padding: EdgeInsets.only(right: 12.0),
-                        decoration: new BoxDecoration(
-                            border: new Border(
-                                right: new BorderSide(
-                                    width: 1.0, color: Colors.white24))),
-                        child: CircleAvatar(
-                          radius: 16,
-                          backgroundImage: AssetImage('assets/city_ast.png'),
-                          backgroundColor: primaryColor,
-                        ),
                       ),
-                      title: Text(
-                        'Astana',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                      // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
-
-                      subtitle: Row(
-                        children: <Widget>[
-                          Text('Astana', style: TextStyle(color: Colors.white))
-                        ],
-                      ),
-                      trailing: Icon(
-                          userData['bio'].toString().contains('astana')
-                              ? Icons.arrow_forward_ios_outlined
-                              : Icons.lock_outline,
-                          color: Colors.white,
-                          size: 23.0),
                     ),
                   ),
-                ),
-                Card(
-                  elevation: 8.0,
-                  margin:
-                      new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                  child: Container(
-                    decoration: BoxDecoration(color: blackBlue),
-                    child: ListTile(
-                      onTap: () => {
-                        if (userData['bio'].toString().contains('shymkent'))
-                          {
-                            print(userData['bio'].toString()),
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => ShymkentCity(),
+                  Card(
+                    elevation: 8.0,
+                    margin: new EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 6.0),
+                    child: Container(
+                      decoration: BoxDecoration(color: blackBlue),
+                      child: ListTile(
+                        onTap: () => {
+                          if (userData['bio'].toString().contains('shymkent'))
+                            {
+                              print(userData['bio'].toString()),
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => ShymkentCity(),
+                                ),
                               ),
-                            ),
-                          }
-                        else
-                          {
-                            print(userData['bio'].toString()),
-                            showSnackBar('Вам не предоставлен доступ', context),
-                          }
-                      },
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      leading: Container(
-                        padding: EdgeInsets.only(right: 12.0),
-                        decoration: new BoxDecoration(
-                            border: new Border(
-                                right: new BorderSide(
-                                    width: 1.0, color: Colors.white24))),
-                        child: CircleAvatar(
-                          backgroundImage: AssetImage('assets/city_cit.png'),
-                          radius: 16,
-                          backgroundColor: primaryColor,
-                        ),
-                      ),
-                      title: Text(
-                        'Shymkent',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                      // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
-
-                      subtitle: Row(
-                        children: <Widget>[
-                          Text('Shymkent',
-                              style: TextStyle(color: Colors.white))
-                        ],
-                      ),
-                      trailing: Icon(
-                          userData['bio'].toString().contains('shymkent')
-                              ? Icons.arrow_forward_ios_outlined
-                              : Icons.lock_outline,
-                          color: Colors.white,
-                          size: 23.0),
-                    ),
-                  ),
-                ),
-                Card(
-                  elevation: 8.0,
-                  margin:
-                      new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                  child: Container(
-                    decoration: BoxDecoration(color: blackBlue),
-                    child: ListTile(
-                      onTap: () => {
-                        if (userData['bio'].toString().contains('kyzylorda'))
-                          {
-                            print(userData['bio'].toString()),
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => KyzylordaCity(),
-                              ),
-                            ),
-                          }
-                        else
-                          {
-                            print(userData['bio'].toString()),
-                            showSnackBar('Вам не предоставлен доступ', context),
-                          }
-                      },
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      leading: Container(
-                        padding: EdgeInsets.only(right: 12.0),
-                        decoration: new BoxDecoration(
-                            border: new Border(
-                                right: new BorderSide(
-                                    width: 1.0, color: Colors.white24))),
-                        child: CircleAvatar(
-                          backgroundImage: AssetImage('assets/city_kzo.png'),
-                          backgroundColor: primaryColor,
-                          radius: 16,
-                        ),
-                      ),
-                      title: Text(
-                        'Kyzylorda',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                      // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
-
-                      subtitle: Row(
-                        children: <Widget>[
-                          Text('Kyzylorda',
-                              style: TextStyle(color: Colors.white))
-                        ],
-                      ),
-                      trailing: Icon(
-                          userData['bio'].toString().contains('kyzylorda')
-                              ? Icons.arrow_forward_ios_outlined
-                              : Icons.lock_outline,
-                          color: Colors.white,
-                          size: 23.0),
-                    ),
-                  ),
-                ),
-                Card(
-                  elevation: 8.0,
-                  margin:
-                      new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                  child: Container(
-                    decoration: BoxDecoration(color: blackBlue),
-                    child: ListTile(
-                      onTap: () => {
-                        if (userData['bio'].toString().contains('karagandy'))
-                          {
-                            print(userData['bio'].toString()),
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => KaragandyCity(),
-                              ),
-                            ),
-                          }
-                        else
-                          {
-                            print(userData['bio'].toString()),
-                            showSnackBar('Вам не предоставлен доступ', context),
-                          }
-                      },
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      leading: Container(
-                        padding: EdgeInsets.only(right: 12.0),
-                        decoration: new BoxDecoration(
-                            border: new Border(
-                                right: new BorderSide(
-                                    width: 1.0, color: Colors.white24))),
-                        child: CircleAvatar(
-                          backgroundImage: AssetImage('assets/city_kgf.png'),
-                          backgroundColor: primaryColor,
-                          radius: 16,
-                        ),
-                      ),
-                      title: Row(
-                        children: [
-                          Text(
-                            'Karaganda',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                            }
+                          else
+                            {
+                              print(userData['bio'].toString()),
+                              showSnackBar(
+                                  'Вам не предоставлен доступ', context),
+                            }
+                        },
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10.0),
+                        leading: Container(
+                          padding: EdgeInsets.only(right: 12.0),
+                          decoration: new BoxDecoration(
+                              border: new Border(
+                                  right: new BorderSide(
+                                      width: 1.0, color: Colors.white24))),
+                          child: CircleAvatar(
+                            backgroundImage: AssetImage('assets/city_cit.png'),
+                            radius: 16,
+                            backgroundColor: primaryColor,
                           ),
-                        ],
-                      ),
-                      // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
+                        ),
+                        title: Text(
+                          'Shymkent',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                        // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
 
-                      subtitle: Row(
-                        children: <Widget>[
-                          Text('Karagandy',
-                              style: TextStyle(color: Colors.white)),
-                        ],
+                        subtitle: Row(
+                          children: <Widget>[
+                            Text('Shymkent',
+                                style: TextStyle(color: Colors.white))
+                          ],
+                        ),
+                        trailing: Icon(
+                            userData['bio'].toString().contains('shymkent')
+                                ? Icons.arrow_forward_ios_outlined
+                                : Icons.lock_outline,
+                            color: Colors.white,
+                            size: 23.0),
                       ),
-                      trailing: Icon(
-                          userData['bio'].toString().contains('karagandy')
-                              ? Icons.arrow_forward_ios_outlined
-                              : Icons.lock_outline,
-                          color: Colors.white,
-                          size: 23.0),
                     ),
                   ),
-                ),
-              ],
+                  Card(
+                    elevation: 8.0,
+                    margin: new EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 6.0),
+                    child: Container(
+                      decoration: BoxDecoration(color: blackBlue),
+                      child: ListTile(
+                        onTap: () => {
+                          if (userData['bio'].toString().contains('kyzylorda'))
+                            {
+                              print(userData['bio'].toString()),
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => KyzylordaCity(),
+                                ),
+                              ),
+                            }
+                          else
+                            {
+                              print(userData['bio'].toString()),
+                              showSnackBar(
+                                  'Вам не предоставлен доступ', context),
+                            }
+                        },
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10.0),
+                        leading: Container(
+                          padding: EdgeInsets.only(right: 12.0),
+                          decoration: new BoxDecoration(
+                              border: new Border(
+                                  right: new BorderSide(
+                                      width: 1.0, color: Colors.white24))),
+                          child: CircleAvatar(
+                            backgroundImage: AssetImage('assets/city_kzo.png'),
+                            backgroundColor: primaryColor,
+                            radius: 16,
+                          ),
+                        ),
+                        title: Text(
+                          'Kyzylorda',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                        // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
+
+                        subtitle: Row(
+                          children: <Widget>[
+                            Text('Kyzylorda',
+                                style: TextStyle(color: Colors.white))
+                          ],
+                        ),
+                        trailing: Icon(
+                            userData['bio'].toString().contains('kyzylorda')
+                                ? Icons.arrow_forward_ios_outlined
+                                : Icons.lock_outline,
+                            color: Colors.white,
+                            size: 23.0),
+                      ),
+                    ),
+                  ),
+                  Card(
+                    elevation: 8.0,
+                    margin: new EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 6.0),
+                    child: Container(
+                      decoration: BoxDecoration(color: blackBlue),
+                      child: ListTile(
+                        onTap: () => {
+                          if (userData['bio'].toString().contains('karagandy'))
+                            {
+                              print(userData['bio'].toString()),
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => KaragandyCity(),
+                                ),
+                              ),
+                            }
+                          else
+                            {
+                              print(userData['bio'].toString()),
+                              showSnackBar(
+                                  'Вам не предоставлен доступ', context),
+                            }
+                        },
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10.0),
+                        leading: Container(
+                          padding: EdgeInsets.only(right: 12.0),
+                          decoration: new BoxDecoration(
+                              border: new Border(
+                                  right: new BorderSide(
+                                      width: 1.0, color: Colors.white24))),
+                          child: CircleAvatar(
+                            backgroundImage: AssetImage('assets/city_kgf.png'),
+                            backgroundColor: primaryColor,
+                            radius: 16,
+                          ),
+                        ),
+                        title: Row(
+                          children: [
+                            Text(
+                              'Karaganda',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
+
+                        subtitle: Row(
+                          children: <Widget>[
+                            Text('Karagandy',
+                                style: TextStyle(color: Colors.white)),
+                          ],
+                        ),
+                        trailing: Icon(
+                            userData['bio'].toString().contains('karagandy')
+                                ? Icons.arrow_forward_ios_outlined
+                                : Icons.lock_outline,
+                            color: Colors.white,
+                            size: 23.0),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
     );
   }
