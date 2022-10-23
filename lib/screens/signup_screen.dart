@@ -28,6 +28,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
+  final TextEditingController _job_postion_controller = TextEditingController();
+  final TextEditingController _city_controller = TextEditingController();
+  final TextEditingController _telephone_controller = TextEditingController();
+  final TextEditingController _adress_controller = TextEditingController();
   bool _isLoading = false;
   Uint8List? _image;
 
@@ -51,6 +55,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
         password: _passwordController.text,
         username: _usernameController.text,
         bio: _bioController.text,
+        job_postion: _job_postion_controller.text,
+        city: _city_controller.text,
+        telephone: _telephone_controller.text,
+        adress: _adress_controller.text,
         file: _image!);
     // if string returned is sucess, user has been created
     if (res == "success") {
@@ -189,6 +197,42 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             hintText: 'Enter your bio',
                             textInputType: TextInputType.text,
                             textEditingController: _bioController,
+                          ),
+                          decoration: ThemeHelper().inputBoxDecorationShaddow(),
+                        ),
+                        SizedBox(height: 20.0),
+                        Container(
+                          child: TextFieldInput(
+                            hintText: 'Enter your job position',
+                            textInputType: TextInputType.text,
+                            textEditingController: _job_postion_controller,
+                          ),
+                          decoration: ThemeHelper().inputBoxDecorationShaddow(),
+                        ),
+                        SizedBox(height: 20.0),
+                        Container(
+                          child: TextFieldInput(
+                            hintText: 'Enter your city',
+                            textInputType: TextInputType.text,
+                            textEditingController: _city_controller,
+                          ),
+                          decoration: ThemeHelper().inputBoxDecorationShaddow(),
+                        ),
+                        SizedBox(height: 20.0),
+                        Container(
+                          child: TextFieldInput(
+                            hintText: 'Enter your adress',
+                            textInputType: TextInputType.text,
+                            textEditingController: _adress_controller,
+                          ),
+                          decoration: ThemeHelper().inputBoxDecorationShaddow(),
+                        ),
+                        SizedBox(height: 20.0),
+                        Container(
+                          child: TextFieldInput(
+                            hintText: 'Enter your telephone',
+                            textInputType: TextInputType.text,
+                            textEditingController: _telephone_controller,
                           ),
                           decoration: ThemeHelper().inputBoxDecorationShaddow(),
                         ),

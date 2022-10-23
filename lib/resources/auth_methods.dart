@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,6 +26,10 @@ class AuthMethods {
     required String password,
     required String username,
     required String bio,
+    required String job_postion,
+    required String city,
+    required String telephone,
+    required String adress,
     required Uint8List file,
   }) async {
     String res = "Some error Occurred";
@@ -33,6 +38,10 @@ class AuthMethods {
           password.isNotEmpty ||
           username.isNotEmpty ||
           bio.isNotEmpty ||
+          job_postion.isNotEmpty ||
+          city.isNotEmpty ||
+          telephone.isNotEmpty ||
+          adress.isNotEmpty ||
           file != null) {
         // registering user in auth with email and password
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
@@ -49,6 +58,10 @@ class AuthMethods {
           photoUrl: photoUrl,
           email: email,
           bio: bio,
+          jobPosition: job_postion,
+          city: city,
+          telephone: telephone,
+          adress: adress,
         );
 
         // adding user in our database

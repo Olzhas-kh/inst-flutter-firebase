@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.inst_fire">
    <application
-        android:label="inst_fire"
+        android:label="Cotton Corporation"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         

@@ -158,10 +158,38 @@ class _ProfileOtherUsersState extends State<ProfileOtherUsers> {
               height: 0.6,
               color: Colors.black87,
             ),
+            Divider(
+              height: 0.6,
+              color: Colors.black87,
+            ),
+            ListTile(
+              leading: Icon(Icons.work),
+              title: Text(userData['job_postion']),
+            ),
+            Divider(
+              height: 0.6,
+              color: Colors.black87,
+            ),
+            ListTile(
+              leading: Icon(Icons.location_city),
+              title: Text(userData['city']),
+            ),
+            Divider(
+              height: 0.6,
+              color: Colors.black87,
+            ),
             ListTile(
               leading: Icon(Icons.location_on),
-              title: Text(userData['bio']),
-            )
+              title: Text(userData['adress']),
+            ),
+            Divider(
+              height: 0.6,
+              color: Colors.black87,
+            ),
+            ListTile(
+              leading: Icon(Icons.phone),
+              title: Text(userData['telephone']),
+            ),
           ],
         ),
       ),

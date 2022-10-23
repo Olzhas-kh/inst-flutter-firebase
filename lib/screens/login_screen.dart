@@ -10,6 +10,7 @@ import '../resources/auth_methods.dart';
 import '../responsive/mobile_screen_layout.dart';
 import '../responsive/responsive_layout_screen.dart';
 import '../responsive/web_screen_layout.dart';
+import '../utils/colours.dart';
 import '../utils/common_header.dart';
 import '../utils/theme_helper.dart';
 import '../utils/utils.dart';
@@ -27,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool _isLoading = false;
+  bool _isLoading = true;
 
   @override
   void dispose() {
@@ -38,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void loginUser() async {
     setState(() {
-      _isLoading = true;
+      _isLoading = false;
     });
 
     String res = await AuthMethods().loginUser(
@@ -54,11 +55,11 @@ class _LoginPageState extends State<LoginPage> {
           (route) => false);
 
       setState(() {
-        _isLoading = false;
+        _isLoading = true;
       });
     } else {
       setState(() {
-        _isLoading = false;
+        _isLoading = true;
       });
       showSnackBar(res, context);
     }
@@ -119,13 +120,17 @@ class _LoginPageState extends State<LoginPage> {
                               style: ThemeHelper().buttonStyle(),
                               child: Padding(
                                 padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
-                                child: Text(
-                                  'Login'.toUpperCase(),
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
+                                child: !_isLoading
+                                    ? const CircularProgressIndicator(
+                                        color: primaryColor,
+                                      )
+                                    : Text(
+                                        'Login'.toUpperCase(),
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
                               ),
                               onPressed: () async {
                                 loginUser();
@@ -135,22 +140,27 @@ class _LoginPageState extends State<LoginPage> {
                           Container(
                             margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
                             //child: Text('Don\'t have an account? Create'),
-                            child: Text.rich(TextSpan(children: [
-                              TextSpan(text: "Don\'t have an account? "),
+                            child: Text.rich(
                               TextSpan(
-                                text: 'Create',
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () => Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              RegistrationPage(),
-                                        ),
-                                      ),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).accentColor),
+                                children: [
+                                  TextSpan(text: "Don\'t have an account? "),
+                                  TextSpan(
+                                    text: 'Create',
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap =
+                                          () => Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      RegistrationPage(),
+                                                ),
+                                              ),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context).accentColor),
+                                  ),
+                                ],
                               ),
-                            ])),
+                            ),
                           ),
                         ],
                       )),

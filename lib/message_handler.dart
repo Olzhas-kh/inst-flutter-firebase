@@ -44,10 +44,10 @@
 //   }
 
 //   static const FirebaseOptions android = FirebaseOptions(
-//     apiKey: 'AIzaSyBiZRZKSzkja8-FMjNWxPtdwjsUBxHylog',
+//     apiKey: 'AIzaSyDc041lGSp03NrUgDY64HUGaQi17RJSgK0',
 //     appId: 'com.example.inst_fire',
 //     messagingSenderId: '231361399111',
-//     projectId: 'flutter-push-notificatio-3c02a',
+//     projectId: 'instagram-clone-bd4c8',
 //     storageBucket: 'flutter-push-notificatio-3c02a.appspot.com',
 //   );
 // }
