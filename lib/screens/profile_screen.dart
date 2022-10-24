@@ -238,7 +238,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               leading: Icon(Icons.add_box),
               title: Text("Публикация"),
               onTap: () {
-                if (userData['bio'].toString().contains('almaty')) {
+                if (userData['bio'].toString().contains('author')) {
                   print(userData['bio'].toString());
                   Navigator.of(context).push(
                     MaterialPageRoute(

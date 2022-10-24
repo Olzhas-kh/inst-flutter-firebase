@@ -90,7 +90,8 @@ class _AddTaskState extends State<AddTask> {
                         decoration: BoxDecoration(color: blackBlue),
                         child: ListTile(
                           onTap: () => {
-                            if (userData['bio'].toString().contains('almaty'))
+                            if (userData['bio'].toString().contains('almaty') ||
+                                userData['bio'].toString().contains('author'))
                               {
                                 print(userData['bio'].toString()),
                                 Navigator.of(context).push(
@@ -136,7 +137,10 @@ class _AddTaskState extends State<AddTask> {
                             ],
                           ),
                           trailing: Icon(
-                              userData['bio'].toString().contains('almaty')
+                              userData['bio'].toString().contains('almaty') ||
+                                      userData['bio']
+                                          .toString()
+                                          .contains('author')
                                   ? Icons.arrow_forward_ios_outlined
                                   : Icons.lock_outline,
                               color: Colors.white,
@@ -151,7 +155,8 @@ class _AddTaskState extends State<AddTask> {
                       decoration: BoxDecoration(color: blackBlue),
                       child: ListTile(
                         onTap: () => {
-                          if (userData['bio'].toString().contains('astana'))
+                          if (userData['bio'].toString().contains('astana') ||
+                              userData['bio'].toString().contains('author'))
                             {
                               print(userData['bio'].toString()),
                               Navigator.of(context).push(
@@ -195,7 +200,10 @@ class _AddTaskState extends State<AddTask> {
                           ],
                         ),
                         trailing: Icon(
-                            userData['bio'].toString().contains('astana')
+                            userData['bio'].toString().contains('astana') ||
+                                    userData['bio']
+                                        .toString()
+                                        .contains('author')
                                 ? Icons.arrow_forward_ios_outlined
                                 : Icons.lock_outline,
                             color: Colors.white,
@@ -211,7 +219,8 @@ class _AddTaskState extends State<AddTask> {
                       decoration: BoxDecoration(color: blackBlue),
                       child: ListTile(
                         onTap: () => {
-                          if (userData['bio'].toString().contains('shymkent'))
+                          if (userData['bio'].toString().contains('shymkent') ||
+                              userData['bio'].toString().contains('author'))
                             {
                               print(userData['bio'].toString()),
                               Navigator.of(context).push(
@@ -255,7 +264,10 @@ class _AddTaskState extends State<AddTask> {
                           ],
                         ),
                         trailing: Icon(
-                            userData['bio'].toString().contains('shymkent')
+                            userData['bio'].toString().contains('shymkent') ||
+                                    userData['bio']
+                                        .toString()
+                                        .contains('author')
                                 ? Icons.arrow_forward_ios_outlined
                                 : Icons.lock_outline,
                             color: Colors.white,
@@ -271,7 +283,10 @@ class _AddTaskState extends State<AddTask> {
                       decoration: BoxDecoration(color: blackBlue),
                       child: ListTile(
                         onTap: () => {
-                          if (userData['bio'].toString().contains('kyzylorda'))
+                          if (userData['bio']
+                                  .toString()
+                                  .contains('kyzylorda') ||
+                              userData['bio'].toString().contains('author'))
                             {
                               print(userData['bio'].toString()),
                               Navigator.of(context).push(
@@ -315,7 +330,10 @@ class _AddTaskState extends State<AddTask> {
                           ],
                         ),
                         trailing: Icon(
-                            userData['bio'].toString().contains('kyzylorda')
+                            userData['bio'].toString().contains('kyzylorda') ||
+                                    userData['bio']
+                                        .toString()
+                                        .contains('author')
                                 ? Icons.arrow_forward_ios_outlined
                                 : Icons.lock_outline,
                             color: Colors.white,
@@ -331,7 +349,10 @@ class _AddTaskState extends State<AddTask> {
                       decoration: BoxDecoration(color: blackBlue),
                       child: ListTile(
                         onTap: () => {
-                          if (userData['bio'].toString().contains('karagandy'))
+                          if (userData['bio']
+                                  .toString()
+                                  .contains('karagandy') ||
+                              userData['bio'].toString().contains('author'))
                             {
                               print(userData['bio'].toString()),
                               Navigator.of(context).push(
@@ -380,7 +401,10 @@ class _AddTaskState extends State<AddTask> {
                           ],
                         ),
                         trailing: Icon(
-                            userData['bio'].toString().contains('karagandy')
+                            userData['bio'].toString().contains('karagandy') ||
+                                    userData['bio']
+                                        .toString()
+                                        .contains('author')
                                 ? Icons.arrow_forward_ios_outlined
                                 : Icons.lock_outline,
                             color: Colors.white,
