@@ -33,12 +33,7 @@ class _AstanaGiveTaskState extends State<AstanaGiveTask> {
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.instance.getInitialMessage();
-    FirebaseMessaging.onMessage.listen((event) {
-      LocalNotificationService.display(event);
-    });
 
-    FirebaseMessaging.instance.subscribeToTopic('subscription');
     getData();
   }
 

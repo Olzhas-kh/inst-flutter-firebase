@@ -33,13 +33,9 @@ class _CommentCardState extends State<CommentCard> {
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.instance.getInitialMessage();
-    FirebaseMessaging.onMessage.listen((event) {
-      LocalNotificationService.display(event);
-    });
 
-    FirebaseMessaging.instance.subscribeToTopic('subscription');
     getData();
+    // userTokens.remove('"${userData['token'].toString().replaceAll("]", "").replaceAll("[", "")}"');
   }
 
   getData() async {
@@ -68,6 +64,13 @@ class _CommentCardState extends State<CommentCard> {
       // Getting data from map
       Map<String, dynamic> data = doc.data();
     }
+    // String element1 =
+    //     '"${userData['token'].toString().replaceAll("]", "").replaceAll("[", "")}"';
+    // for (var item in userTokens) {
+    //   if (item == element1) {
+    //     userTokens.remove(item);
+    //   }
+    // }
   }
 
   Future<bool> pushNotificationsGroupDevice({

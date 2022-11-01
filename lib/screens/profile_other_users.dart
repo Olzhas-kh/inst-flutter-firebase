@@ -64,26 +64,28 @@ class _ProfileOtherUsersState extends State<ProfileOtherUsers> {
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : SafeArea(
+              child: SingleChildScrollView(
               child: Column(
-              children: [
-                //for circle avtar image
-                _getHeader(),
-                SizedBox(
-                  height: 10,
-                ),
-                _profileName(userData['username']),
-                SizedBox(
-                  height: 14,
-                ),
-                _heading("Personal Details"),
-                SizedBox(
-                  height: 6,
-                ),
-                _detailsCard(),
-                SizedBox(
-                  height: 10,
-                ),
-              ],
+                children: [
+                  //for circle avtar image
+                  _getHeader(),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  _profileName(userData['username']),
+                  SizedBox(
+                    height: 14,
+                  ),
+                  _heading("Personal Details"),
+                  SizedBox(
+                    height: 6,
+                  ),
+                  _detailsCard(),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
             )),
     );
   }

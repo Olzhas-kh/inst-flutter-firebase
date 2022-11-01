@@ -177,10 +177,6 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    FirebaseMessaging.instance.getInitialMessage();
-    FirebaseMessaging.onMessage.listen((event) {
-      LocalNotificationService.display(event);
-    });
 
     getData();
   }

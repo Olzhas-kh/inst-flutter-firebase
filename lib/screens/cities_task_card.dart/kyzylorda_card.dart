@@ -8,7 +8,6 @@ import 'package:inst_fire/models/user.dart' as model;
 import 'package:provider/provider.dart';
 import 'package:slimy_card/slimy_card.dart';
 import 'package:http/http.dart' as http;
-
 import '../../notify/constants.dart';
 import '../../notify/local_push_notification.dart';
 import '../../providers/user_provider.dart';
@@ -33,12 +32,6 @@ class _KyzylordaGiveTaskState extends State<KyzylordaGiveTask> {
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.instance.getInitialMessage();
-    FirebaseMessaging.onMessage.listen((event) {
-      LocalNotificationService.display(event);
-    });
-
-    FirebaseMessaging.instance.subscribeToTopic('subscription');
     getData();
   }
 
@@ -46,8 +39,8 @@ class _KyzylordaGiveTaskState extends State<KyzylordaGiveTask> {
     setState(() {
       isLoading = true;
     });
-    final FirebaseAuth auth = FirebaseAuth.instance;
 
+    final FirebaseAuth auth = FirebaseAuth.instance;
     final User user = auth.currentUser!;
     uid = user.uid;
 

@@ -33,12 +33,7 @@ class _ShymkentGiveTaskState extends State<ShymkentGiveTask> {
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.instance.getInitialMessage();
-    FirebaseMessaging.onMessage.listen((event) {
-      LocalNotificationService.display(event);
-    });
 
-    FirebaseMessaging.instance.subscribeToTopic('subscription');
     getData();
   }
 

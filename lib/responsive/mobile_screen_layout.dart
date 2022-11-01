@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../notify/local_push_notification.dart';
 import '../screens/add_post_screen.dart';
 import '../utils/colours.dart';
 import '../utils/global_variables.dart';
@@ -31,6 +32,12 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     pageController = PageController();
     tokenGet();
     getData();
+    FirebaseMessaging.instance.getInitialMessage();
+    FirebaseMessaging.onMessage.listen((event) {
+      LocalNotificationService.display(event);
+    });
+
+    FirebaseMessaging.instance.subscribeToTopic('subscription');
   }
 
   void tokenGet() async {
