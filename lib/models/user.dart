@@ -6,6 +6,7 @@ class User {
   final String photoUrl;
   final String username;
   final String bio;
+  final String key;
   final String jobPosition;
   final String city;
   final String telephone;
@@ -17,6 +18,7 @@ class User {
     required this.photoUrl,
     required this.username,
     required this.bio,
+    required this.key,
     required this.jobPosition,
     required this.city,
     required this.telephone,
@@ -29,6 +31,7 @@ class User {
         "email": email,
         "photoUrl": photoUrl,
         "bio": bio,
+        "key": key,
         "job_postion": jobPosition,
         "city": city,
         "telephone": telephone,
@@ -43,6 +46,7 @@ class User {
       email: snapshot['email'],
       photoUrl: snapshot['photoUrl'],
       bio: snapshot['bio'],
+      key: snapshot['key'],
       jobPosition: snapshot['job_postion'],
       city: snapshot['city'],
       telephone: snapshot['telephone'],

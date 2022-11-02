@@ -25,7 +25,8 @@ class CommentCard extends StatefulWidget {
 
 class _CommentCardState extends State<CommentCard> {
   List<String> userTokens = [];
-
+  var seen = Set<String>();
+  List<String> uniquelist = [];
   var userData = {};
 
   bool isLoading = false;
@@ -64,6 +65,8 @@ class _CommentCardState extends State<CommentCard> {
       // Getting data from map
       Map<String, dynamic> data = doc.data();
     }
+    uniquelist = userTokens.where((country) => seen.add(country)).toList();
+    uniquelist.remove('"${userData['token']}"');
     // String element1 =
     //     '"${userData['token'].toString().replaceAll("]", "").replaceAll("[", "")}"';
     // for (var item in userTokens) {
@@ -80,7 +83,7 @@ class _CommentCardState extends State<CommentCard> {
     String dataNotifications = '{'
         '"operation": "create",'
         '"notification_key_name": "appUser-testUser",'
-        '"registration_ids": [${userTokens.toString().replaceAll("]", "").replaceAll("[", "")}],'
+        '"registration_ids": [${uniquelist.toString().replaceAll("]", "").replaceAll("[", "")}],'
         '"notification" : {'
         '"title":"$title",'
         '"body":"$body"'

@@ -26,6 +26,7 @@ class AuthMethods {
     required String password,
     required String username,
     required String bio,
+    required String key,
     required String job_postion,
     required String city,
     required String telephone,
@@ -41,7 +42,6 @@ class AuthMethods {
           job_postion.isNotEmpty ||
           city.isNotEmpty ||
           telephone.isNotEmpty ||
-          adress.isNotEmpty ||
           file != null) {
         // registering user in auth with email and password
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
@@ -58,6 +58,7 @@ class AuthMethods {
           photoUrl: photoUrl,
           email: email,
           bio: bio,
+          key: key,
           jobPosition: job_postion,
           city: city,
           telephone: telephone,

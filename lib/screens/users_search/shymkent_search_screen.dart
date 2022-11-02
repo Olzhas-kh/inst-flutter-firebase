@@ -102,7 +102,7 @@ class _ShymkentSearchScreenState extends State<ShymkentSearchScreen> {
                                 children: <Widget>[
                                   Text(
                                       (snapshot.data! as dynamic).docs[index]
-                                          ['bio'],
+                                          ['job_postion'],
                                       style: TextStyle(color: Colors.white))
                                 ],
                               ),

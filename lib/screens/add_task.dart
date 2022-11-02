@@ -132,7 +132,7 @@ class _AddTaskState extends State<AddTask> {
 
                           subtitle: Row(
                             children: <Widget>[
-                              Text('Almaty',
+                              Text('Задачи',
                                   style: TextStyle(color: Colors.white)),
                             ],
                           ),
@@ -195,7 +195,7 @@ class _AddTaskState extends State<AddTask> {
 
                         subtitle: Row(
                           children: <Widget>[
-                            Text('Astana',
+                            Text('Задачи',
                                 style: TextStyle(color: Colors.white))
                           ],
                         ),
@@ -259,7 +259,7 @@ class _AddTaskState extends State<AddTask> {
 
                         subtitle: Row(
                           children: <Widget>[
-                            Text('Shymkent',
+                            Text('Задачи',
                                 style: TextStyle(color: Colors.white))
                           ],
                         ),
@@ -325,7 +325,7 @@ class _AddTaskState extends State<AddTask> {
 
                         subtitle: Row(
                           children: <Widget>[
-                            Text('Kyzylorda',
+                            Text('Задачи',
                                 style: TextStyle(color: Colors.white))
                           ],
                         ),
@@ -351,7 +351,7 @@ class _AddTaskState extends State<AddTask> {
                         onTap: () => {
                           if (userData['bio']
                                   .toString()
-                                  .contains('karagandy') ||
+                                  .contains('karaganda') ||
                               userData['bio'].toString().contains('author'))
                             {
                               print(userData['bio'].toString()),
@@ -396,12 +396,12 @@ class _AddTaskState extends State<AddTask> {
 
                         subtitle: Row(
                           children: <Widget>[
-                            Text('Karagandy',
+                            Text('Задачи',
                                 style: TextStyle(color: Colors.white)),
                           ],
                         ),
                         trailing: Icon(
-                            userData['bio'].toString().contains('karagandy') ||
+                            userData['bio'].toString().contains('karaganda') ||
                                     userData['bio']
                                         .toString()
                                         .contains('author')

@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:inst_fire/screens/add_post_screen.dart';
+import 'package:inst_fire/screens/signup_screen.dart';
 import 'package:inst_fire/screens/users_search/add_city_saerch_screen.dart';
 import 'package:inst_fire/screens/users_search/almaty_search_screen.dart';
 
@@ -190,10 +191,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               height: 0.6,
               color: Colors.black87,
             ),
-            ListTile(
-              leading: Icon(Icons.location_on),
-              title: Text(userData['adress']),
-            ),
+            userData['key'] == 'chair' ||
+                    userData['key'].toString().contains('manager') ||
+                    userData['key'].toString().contains('supervisor') ||
+                    userData['key'].toString().contains('director')
+                ? Container()
+                : ListTile(
+                    leading: Icon(Icons.location_on),
+                    title: Text(userData['adress']),
+                  ),
             Divider(
               height: 0.6,
               color: Colors.black87,
@@ -243,6 +249,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => AddPostScreen(),
+                    ),
+                  );
+                } else {
+                  print(userData['bio'].toString());
+                  showSnackBar('Вам не предоставлен доступ', context);
+                }
+              },
+            ),
+            Divider(
+              height: 0.6,
+              color: Colors.black87,
+            ),
+            ListTile(
+              leading: Icon(Icons.person_add_alt_rounded),
+              title: Text("Регистрация"),
+              onTap: () {
+                if (userData['bio'].toString().contains('author')) {
+                  print(userData['bio'].toString());
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => RegistrationPage(),
                     ),
                   );
                 } else {

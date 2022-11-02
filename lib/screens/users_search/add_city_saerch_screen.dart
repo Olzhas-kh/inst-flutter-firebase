@@ -126,7 +126,7 @@ class _CitiesForSearchState extends State<CitiesForSearch> {
 
                           subtitle: Row(
                             children: <Widget>[
-                              Text('Almaty',
+                              Text('Пользователи',
                                   style: TextStyle(color: Colors.white)),
                             ],
                           ),
@@ -172,7 +172,7 @@ class _CitiesForSearchState extends State<CitiesForSearch> {
 
                         subtitle: Row(
                           children: <Widget>[
-                            Text('Astana',
+                            Text('Пользователи',
                                 style: TextStyle(color: Colors.white))
                           ],
                         ),
@@ -219,7 +219,7 @@ class _CitiesForSearchState extends State<CitiesForSearch> {
 
                         subtitle: Row(
                           children: <Widget>[
-                            Text('Shymkent',
+                            Text('Пользователи',
                                 style: TextStyle(color: Colors.white))
                           ],
                         ),
@@ -266,7 +266,7 @@ class _CitiesForSearchState extends State<CitiesForSearch> {
 
                         subtitle: Row(
                           children: <Widget>[
-                            Text('Kyzylorda',
+                            Text('Пользователи',
                                 style: TextStyle(color: Colors.white))
                           ],
                         ),
@@ -318,7 +318,7 @@ class _CitiesForSearchState extends State<CitiesForSearch> {
 
                         subtitle: Row(
                           children: <Widget>[
-                            Text('Karagandy',
+                            Text('Пользователи',
                                 style: TextStyle(color: Colors.white)),
                           ],
                         ),

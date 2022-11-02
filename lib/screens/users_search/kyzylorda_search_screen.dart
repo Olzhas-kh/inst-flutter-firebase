@@ -102,7 +102,7 @@ class _KyzylordaSearchScreenState extends State<KyzylordaSearchScreen> {
                                 children: <Widget>[
                                   Text(
                                       (snapshot.data! as dynamic).docs[index]
-                                          ['bio'],
+                                          ['job_postion'],
                                       style: TextStyle(color: Colors.white))
                                 ],
                               ),

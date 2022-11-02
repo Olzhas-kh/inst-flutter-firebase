@@ -28,6 +28,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
+  final TextEditingController _keyController = TextEditingController();
   final TextEditingController _job_postion_controller = TextEditingController();
   final TextEditingController _city_controller = TextEditingController();
   final TextEditingController _telephone_controller = TextEditingController();
@@ -55,6 +56,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         password: _passwordController.text,
         username: _usernameController.text,
         bio: _bioController.text,
+        key: _keyController.text,
         job_postion: _job_postion_controller.text,
         city: _city_controller.text,
         telephone: _telephone_controller.text,
@@ -94,6 +96,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: maroon,
+      ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Stack(
@@ -197,6 +202,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             hintText: 'Enter your bio',
                             textInputType: TextInputType.text,
                             textEditingController: _bioController,
+                          ),
+                          decoration: ThemeHelper().inputBoxDecorationShaddow(),
+                        ),
+                        SizedBox(height: 20.0),
+                        Container(
+                          child: TextFieldInput(
+                            hintText: 'Enter your key',
+                            textInputType: TextInputType.text,
+                            textEditingController: _keyController,
                           ),
                           decoration: ThemeHelper().inputBoxDecorationShaddow(),
                         ),
