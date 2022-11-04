@@ -55,8 +55,10 @@ class _AlmatySearchScreenState extends State<AlmatySearchScreen> {
                 return ListView.builder(
                   itemCount: (snapshot.data! as dynamic).docs.length,
                   itemBuilder: (context, index) {
-                    if ((snapshot.data! as dynamic).docs[index]['bio'] ==
-                        'almaty') {
+                    if ((snapshot.data! as dynamic)
+                        .docs[index]['bio']
+                        .toString()
+                        .contains('almaty')) {
                       return Card(
                         elevation: 8.0,
                         margin: new EdgeInsets.symmetric(

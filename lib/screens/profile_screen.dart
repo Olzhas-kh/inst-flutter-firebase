@@ -194,7 +194,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             userData['key'] == 'chair' ||
                     userData['key'].toString().contains('manager') ||
                     userData['key'].toString().contains('supervisor') ||
-                    userData['key'].toString().contains('director')
+                    userData['key'].toString().contains('director') ||
+                    userData['key'].toString().contains('author')
                 ? Container()
                 : ListTile(
                     leading: Icon(Icons.location_on),

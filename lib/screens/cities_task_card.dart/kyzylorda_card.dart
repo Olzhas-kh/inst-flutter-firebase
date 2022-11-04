@@ -180,16 +180,58 @@ class _KyzylordaGiveTaskState extends State<KyzylordaGiveTask> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 4),
-                                child: Text(
-                                  DateFormat.yMMMd().format(
-                                    widget.snap
-                                        .data()['datePublished']
-                                        .toDate(),
-                                  ),
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Дата: ',
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                        Text(
+                                          DateFormat('dd/MM').format(
+                                            widget.snap
+                                                .data()['datePublished']
+                                                .toDate(),
+                                          ),
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Время: ',
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                        Text(
+                                          '${DateFormat.Hm().format(
+                                            widget.snap
+                                                .data()['datePublished']
+                                                .toDate(),
+                                          )}',
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               )
                             ],
@@ -231,6 +273,9 @@ class _KyzylordaGiveTaskState extends State<KyzylordaGiveTask> {
                                     widget.snap['commentId'],
                                     'В процессе:',
                                     widget.snap['status']);
+                                FireStoreMethods().dateProcessKyzylorda(
+                                  widget.snap['commentId'],
+                                );
                                 pushNotificationsGroupDevice(
                                     title: userData['username'],
                                     body: 'Статус задачи:  в процессе');

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../resources/auth_methods.dart';
 import '../resources/firestore_methods.dart';
@@ -180,18 +181,29 @@ class _ProfileOtherUsersState extends State<ProfileOtherUsers> {
               height: 0.6,
               color: Colors.black87,
             ),
-            ListTile(
-              leading: Icon(Icons.location_on),
-              title: Text(userData['adress']),
-            ),
+            userData['key'] == 'chair' ||
+                    userData['key'].toString().contains('manager') ||
+                    userData['key'].toString().contains('supervisor') ||
+                    userData['key'].toString().contains('director') ||
+                    userData['key'].toString().contains('author')
+                ? Container()
+                : ListTile(
+                    leading: Icon(Icons.location_on),
+                    title: Text(userData['adress']),
+                  ),
             Divider(
               height: 0.6,
               color: Colors.black87,
             ),
             ListTile(
-              leading: Icon(Icons.phone),
+              leading: Icon(
+                Icons.phone,
+              ),
               title: Text(userData['telephone']),
-            ),
+              onTap: () {
+                launch("tel://${userData['telephone'].replaceAll(' ', '')}");
+              },
+            )
           ],
         ),
       ),

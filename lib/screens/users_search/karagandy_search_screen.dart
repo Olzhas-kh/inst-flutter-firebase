@@ -55,8 +55,10 @@ class _KaragandySearchScreenState extends State<KaragandySearchScreen> {
                 return ListView.builder(
                   itemCount: (snapshot.data! as dynamic).docs.length,
                   itemBuilder: (context, index) {
-                    if ((snapshot.data! as dynamic).docs[index]['bio'] ==
-                        'karagandy') {
+                    if ((snapshot.data! as dynamic)
+                        .docs[index]['bio']
+                        .toString()
+                        .contains('karaganda')) {
                       return Card(
                         elevation: 8.0,
                         margin: new EdgeInsets.symmetric(

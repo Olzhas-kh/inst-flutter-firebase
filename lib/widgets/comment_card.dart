@@ -193,16 +193,58 @@ class _CommentCardState extends State<CommentCard> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 4),
-                                child: Text(
-                                  DateFormat.yMMMd().format(
-                                    widget.snap
-                                        .data()['datePublished']
-                                        .toDate(),
-                                  ),
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Дата: ',
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                        Text(
+                                          DateFormat('dd/MM').format(
+                                            widget.snap
+                                                .data()['datePublished']
+                                                .toDate(),
+                                          ),
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Время: ',
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                        Text(
+                                          '${DateFormat.Hm().format(
+                                            widget.snap
+                                                .data()['datePublished']
+                                                .toDate(),
+                                          )}',
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               )
                             ],
@@ -239,11 +281,13 @@ class _CommentCardState extends State<CommentCard> {
                                   user.username,
                                   widget.snap['likes'],
                                 );
-
                                 FireStoreMethods().statusTaskAlmaty(
                                     widget.snap['commentId'],
                                     'В процессе:',
                                     widget.snap['status']);
+                                FireStoreMethods().dateProcessAlmaty(
+                                  widget.snap['commentId'],
+                                );
                                 pushNotificationsGroupDevice(
                                     title: userData['username'],
                                     body: 'Статус задачи:  в процессе');

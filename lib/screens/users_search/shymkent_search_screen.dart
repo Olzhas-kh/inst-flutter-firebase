@@ -55,8 +55,10 @@ class _ShymkentSearchScreenState extends State<ShymkentSearchScreen> {
                 return ListView.builder(
                   itemCount: (snapshot.data! as dynamic).docs.length,
                   itemBuilder: (context, index) {
-                    if ((snapshot.data! as dynamic).docs[index]['bio'] ==
-                        'shymkent') {
+                    if ((snapshot.data! as dynamic)
+                        .docs[index]['bio']
+                        .toString()
+                        .contains('shymkent')) {
                       return Card(
                         elevation: 8.0,
                         margin: new EdgeInsets.symmetric(

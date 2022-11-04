@@ -99,6 +99,8 @@ class FireStoreMethods {
           'description': description,
           'commentId': taskId,
           'datePublished': DateTime.now(),
+          'dateProcess': DateTime.now(),
+          'dateCompleated': DateTime.now(),
           'likes': [],
           'status': [],
         }, SetOptions(merge: true));
@@ -158,6 +160,42 @@ class FireStoreMethods {
     return res;
   }
 
+  Future<String> dateProcessAlmaty(
+    String commentId,
+  ) async {
+    String res = "Some error occurred";
+    try {
+      await _firestore.collection('almaty').doc(commentId).update(
+        {
+          'dateProcess': DateTime.now(),
+        },
+      );
+
+      res = 'success';
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
+  Future<String> dateCompletedAlmaty(
+    String commentId,
+  ) async {
+    String res = "Some error occurred";
+    try {
+      await _firestore.collection('almaty').doc(commentId).update(
+        {
+          'dateCompleated': DateTime.now(),
+        },
+      );
+
+      res = 'success';
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
 // Nursultan
   Future<String> astana(String text, String description, String uid,
       String name, String profilePic) async {
@@ -174,6 +212,8 @@ class FireStoreMethods {
           'description': description,
           'commentId': taskId,
           'datePublished': DateTime.now(),
+          'dateProcess': DateTime.now(),
+          'dateCompleated': DateTime.now(),
           'likes': [],
           'status': [],
         }, SetOptions(merge: true));
@@ -233,6 +273,42 @@ class FireStoreMethods {
     return res;
   }
 
+  Future<String> dateProcessAstana(
+    String commentId,
+  ) async {
+    String res = "Some error occurred";
+    try {
+      await _firestore.collection('astana').doc(commentId).update(
+        {
+          'dateProcess': DateTime.now(),
+        },
+      );
+
+      res = 'success';
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
+  Future<String> dateCompletedAstana(
+    String commentId,
+  ) async {
+    String res = "Some error occurred";
+    try {
+      await _firestore.collection('astana').doc(commentId).update(
+        {
+          'dateCompleated': DateTime.now(),
+        },
+      );
+
+      res = 'success';
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
 // Shymkent
   Future<String> shymkent(String text, String description, String uid,
       String name, String profilePic) async {
@@ -249,6 +325,8 @@ class FireStoreMethods {
           'description': description,
           'commentId': taskId,
           'datePublished': DateTime.now(),
+          'dateProcess': DateTime.now(),
+          'dateCompleated': DateTime.now(),
           'likes': [],
           'status': [],
         }, SetOptions(merge: true));
@@ -308,6 +386,42 @@ class FireStoreMethods {
     return res;
   }
 
+  Future<String> dateProcessShymkent(
+    String commentId,
+  ) async {
+    String res = "Some error occurred";
+    try {
+      await _firestore.collection('shymkent').doc(commentId).update(
+        {
+          'dateProcess': DateTime.now(),
+        },
+      );
+
+      res = 'success';
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
+  Future<String> dateCompletedShymkent(
+    String commentId,
+  ) async {
+    String res = "Some error occurred";
+    try {
+      await _firestore.collection('shymkent').doc(commentId).update(
+        {
+          'dateCompleated': DateTime.now(),
+        },
+      );
+
+      res = 'success';
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
 // Kyzylorda
   Future<String> kyzylorda(String text, String description, String uid,
       String name, String profilePic) async {
@@ -324,6 +438,8 @@ class FireStoreMethods {
           'description': description,
           'commentId': taskId,
           'datePublished': DateTime.now(),
+          'dateProcess': DateTime.now(),
+          'dateCompleated': DateTime.now(),
           'likes': [],
           'status': [],
         }, SetOptions(merge: true));
@@ -383,6 +499,42 @@ class FireStoreMethods {
     return res;
   }
 
+  Future<String> dateProcessKyzylorda(
+    String commentId,
+  ) async {
+    String res = "Some error occurred";
+    try {
+      await _firestore.collection('kyzylorda').doc(commentId).update(
+        {
+          'dateProcess': DateTime.now(),
+        },
+      );
+
+      res = 'success';
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
+  Future<String> dateCompletedKyzylorda(
+    String commentId,
+  ) async {
+    String res = "Some error occurred";
+    try {
+      await _firestore.collection('kyzylorda').doc(commentId).update(
+        {
+          'dateCompleated': DateTime.now(),
+        },
+      );
+
+      res = 'success';
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
   // Karagandy
   Future<String> karagandy(String text, String description, String uid,
       String name, String profilePic) async {
@@ -399,6 +551,8 @@ class FireStoreMethods {
           'description': description,
           'commentId': taskId,
           'datePublished': DateTime.now(),
+          'dateProcess': DateTime.now(),
+          'datecompleated': DateTime.now(),
           'likes': [],
           'status': [],
         }, SetOptions(merge: true));
@@ -450,6 +604,42 @@ class FireStoreMethods {
           'status': FieldValue.arrayUnion([statuss])
         });
       }
+
+      res = 'success';
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
+  Future<String> dateProcessKaraganda(
+    String commentId,
+  ) async {
+    String res = "Some error occurred";
+    try {
+      await _firestore.collection('karaganda').doc(commentId).update(
+        {
+          'dateProcess': DateTime.now(),
+        },
+      );
+
+      res = 'success';
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
+  Future<String> dateCompletedKaraganda(
+    String commentId,
+  ) async {
+    String res = "Some error occurred";
+    try {
+      await _firestore.collection('karaganda').doc(commentId).update(
+        {
+          'dateCompleated': DateTime.now(),
+        },
+      );
 
       res = 'success';
     } catch (err) {

@@ -55,8 +55,10 @@ class _KyzylordaSearchScreenState extends State<KyzylordaSearchScreen> {
                 return ListView.builder(
                   itemCount: (snapshot.data! as dynamic).docs.length,
                   itemBuilder: (context, index) {
-                    if ((snapshot.data! as dynamic).docs[index]['bio'] ==
-                        'kyzylorda') {
+                    if ((snapshot.data! as dynamic)
+                        .docs[index]['bio']
+                        .toString()
+                        .contains('kyzylorda')) {
                       return Card(
                         elevation: 8.0,
                         margin: new EdgeInsets.symmetric(
