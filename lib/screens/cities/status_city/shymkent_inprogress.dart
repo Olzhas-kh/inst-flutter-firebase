@@ -24,8 +24,11 @@ class InProgressShymkent extends StatefulWidget {
 class _InProgressShymkentState extends State<InProgressShymkent> {
   var userData = {};
   List<String> userTokens = [];
+  var seen = Set<String>();
+  List<String> uniquelist = [];
   bool isLoading = false;
   String uid = '';
+
   @override
   void initState() {
     super.initState();
@@ -58,6 +61,8 @@ class _InProgressShymkentState extends State<InProgressShymkent> {
       // Getting data from map
       Map<String, dynamic> data = doc.data();
     }
+    uniquelist = userTokens.where((country) => seen.add(country)).toList();
+    uniquelist.remove('"${userData['token']}"');
   }
 
   Future<bool> pushNotificationsGroupDevice({
@@ -67,7 +72,7 @@ class _InProgressShymkentState extends State<InProgressShymkent> {
     String dataNotifications = '{'
         '"operation": "create",'
         '"notification_key_name": "appUser-testUser",'
-        '"registration_ids": [${userTokens.toString().replaceAll("]", "").replaceAll("[", "")}],'
+        '"registration_ids": [${uniquelist.toString().replaceAll("]", "").replaceAll("[", "")}],'
         '"notification" : {'
         '"title":"$title",'
         '"body":"$body"'
@@ -140,7 +145,7 @@ class _InProgressShymkentState extends State<InProgressShymkent> {
                       widget.snap['likes'],
                     );
                   } else {
-                    showSnackBar('В процессе', context);
+                    showSnackBar('Заявка уже принято', context);
                     print('progress');
                   }
                   // remove the dialog box
@@ -157,7 +162,7 @@ class _InProgressShymkentState extends State<InProgressShymkent> {
   Widget build(BuildContext context) {
     final model.User user = Provider.of<UserProvider>(context).getUser;
 
-    return widget.snap['status'].contains('В процессе:')
+    return widget.snap['status'].contains('Принято:')
         ? Container(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
             child: SlimyCard(
@@ -289,13 +294,13 @@ class _InProgressShymkentState extends State<InProgressShymkent> {
 
                                 FireStoreMethods().statusTaskShymkent(
                                     widget.snap['commentId'],
-                                    'В процессе:',
+                                    'Принято:',
                                     widget.snap['status']);
                               },
                               child: Text('Выполнить'),
                               color: Colors.red,
                             )
-                          : widget.snap['status'].contains('В процессе:')
+                          : widget.snap['status'].contains('Принято:')
                               ? ElevatedButton(
                                   style: ButtonStyle(
                                     foregroundColor:
@@ -338,7 +343,7 @@ class _InProgressShymkentState extends State<InProgressShymkent> {
                                                         .statusTaskShymkent(
                                                             widget.snap[
                                                                 'commentId'],
-                                                            'В процессе:',
+                                                            'Принято:',
                                                             widget.snap[
                                                                 'status']);
                                                     pushNotificationsGroupDevice(
@@ -348,7 +353,8 @@ class _InProgressShymkentState extends State<InProgressShymkent> {
                                                             '${widget.snap['text']}, Статус задачи: отменен');
                                                   } else {
                                                     showSnackBar(
-                                                        'В процессе', context);
+                                                        'Заявка уже принято',
+                                                        context);
                                                     print('progress');
                                                   }
 
@@ -370,17 +376,18 @@ class _InProgressShymkentState extends State<InProgressShymkent> {
                                           widget.snap['status']);
                                       FireStoreMethods().statusTaskShymkent(
                                           widget.snap['commentId'],
-                                          'В процессе:',
+                                          'Принято:',
                                           widget.snap['status']);
                                       pushNotificationsGroupDevice(
                                           title: userData['username'],
                                           body: 'Статус задачи:  выполнено');
                                     } else {
-                                      showSnackBar('В процессе', context);
+                                      showSnackBar(
+                                          'Заявка уже принято', context);
                                       print('progress');
                                     }
                                   },
-                                  child: Text('В процессе'),
+                                  child: Text('Завершить'),
                                 )
                               : widget.snap['status'].contains('Выполнено')
                                   ? MaterialButton(

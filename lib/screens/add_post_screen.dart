@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:inst_fire/models/user.dart' as model;
+import '../notify/constants.dart';
 import '../notify/local_push_notification.dart';
 import '../providers/user_provider.dart';
 import '../resources/firestore_methods.dart';
@@ -23,19 +24,91 @@ class AddPostScreen extends StatefulWidget {
 }
 
 class _AddPostScreenState extends State<AddPostScreen> {
-  Uint8List? _file;
+  List<String> userTokens = [];
+  var seen = Set<String>();
+  List<String> uniquelist = [];
+  var userData = {};
+
   bool isLoading = false;
+  String uid = '';
+  Uint8List? _file;
   final TextEditingController _descriptionController = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    FirebaseMessaging.instance.getInitialMessage();
-    FirebaseMessaging.onMessage.listen((event) {
-      LocalNotificationService.display(event);
-    });
+    // FirebaseMessaging.instance.getInitialMessage();
+    // FirebaseMessaging.onMessage.listen((event) {
+    //   LocalNotificationService.display(event);
+    // });
 
-    FirebaseMessaging.instance.subscribeToTopic('subscription');
+    // FirebaseMessaging.instance.subscribeToTopic('subscription');
+    getData();
+  }
+
+  getData() async {
+    setState(() {
+      isLoading = true;
+    });
+    final FirebaseAuth auth = FirebaseAuth.instance;
+
+    final User user = auth.currentUser!;
+    uid = user.uid;
+
+    var userSnap =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+    userData = userSnap.data()!;
+
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('bio', isEqualTo: 'almaty')
+        .get();
+
+    for (var doc in querySnapshot.docs) {
+      // Getting data directly
+      userTokens.add('"${doc.get('token')}"');
+
+      // Getting data from map
+      Map<String, dynamic> data = doc.data();
+    }
+    uniquelist = userTokens.where((country) => seen.add(country)).toList();
+    uniquelist.remove('"${userData['token']}"');
+    // String element1 =
+    //     '"${userData['token'].toString().replaceAll("]", "").replaceAll("[", "")}"';
+    // for (var item in userTokens) {
+    //   if (item == element1) {
+    //     userTokens.remove(item);
+    //   }
+    // }
+  }
+
+  Future<bool> pushNotificationsGroupDevice({
+    required String title,
+    required String body,
+  }) async {
+    String dataNotifications = '{'
+        '"operation": "create",'
+        '"notification_key_name": "appUser-testUser",'
+        '"registration_ids": [${uniquelist.toString().replaceAll("]", "").replaceAll("[", "")}],'
+        '"notification" : {'
+        '"title":"$title",'
+        '"body":"$body"'
+        ' }'
+        ' }';
+
+    var response = await http.post(
+      Uri.parse(Constants.BASE_URL),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key= ${Constants.KEY_SERVER}',
+      },
+      body: dataNotifications,
+    );
+
+    print(response.body.toString());
+
+    return true;
   }
 
   sendNotificationToTopic(String title, String body) async {
@@ -200,8 +273,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       userProvider.getUser.username,
                       userProvider.getUser.photoUrl,
                     );
-                    sendNotificationToTopic(userProvider.getUser.username,
-                        _descriptionController.text);
+                    pushNotificationsGroupDevice(
+                        title: userProvider.getUser.username,
+                        body: _descriptionController.text);
                   },
                   child: const Text(
                     "Опубликовать",

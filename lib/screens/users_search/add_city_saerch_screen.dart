@@ -126,7 +126,7 @@ class _CitiesForSearchState extends State<CitiesForSearch> {
 
                           subtitle: Row(
                             children: <Widget>[
-                              Text('Пользователи',
+                              Text('Сотрудники',
                                   style: TextStyle(color: Colors.white)),
                             ],
                           ),
@@ -172,7 +172,7 @@ class _CitiesForSearchState extends State<CitiesForSearch> {
 
                         subtitle: Row(
                           children: <Widget>[
-                            Text('Пользователи',
+                            Text('Сотрудники',
                                 style: TextStyle(color: Colors.white))
                           ],
                         ),
@@ -219,7 +219,7 @@ class _CitiesForSearchState extends State<CitiesForSearch> {
 
                         subtitle: Row(
                           children: <Widget>[
-                            Text('Пользователи',
+                            Text('Сотрудники',
                                 style: TextStyle(color: Colors.white))
                           ],
                         ),
@@ -266,7 +266,7 @@ class _CitiesForSearchState extends State<CitiesForSearch> {
 
                         subtitle: Row(
                           children: <Widget>[
-                            Text('Пользователи',
+                            Text('Сотрудники',
                                 style: TextStyle(color: Colors.white))
                           ],
                         ),
@@ -318,7 +318,7 @@ class _CitiesForSearchState extends State<CitiesForSearch> {
 
                         subtitle: Row(
                           children: <Widget>[
-                            Text('Пользователи',
+                            Text('Сотрудники',
                                 style: TextStyle(color: Colors.white)),
                           ],
                         ),

@@ -48,14 +48,14 @@ class _AlmatyCityState extends State<AlmatyCity> {
           appBar: AppBar(
             backgroundColor: maroon,
             title: const Text(
-              'Задачи',
+              'Заявки',
             ),
             bottom: TabBar(tabs: [
               Tab(
-                text: 'Задачи',
+                text: 'Заявки',
               ),
               Tab(
-                text: 'В процессе',
+                text: 'Принято',
               ),
               Tab(
                 text: 'Выполнено',
@@ -167,6 +167,8 @@ class titleDesAddScreen extends StatefulWidget {
 class _titleDesAddScreenState extends State<titleDesAddScreen> {
   List<String> userTokens = [];
   List<String> result = [];
+  var seen = Set<String>();
+  List<String> uniquelist = [];
   String tok = '';
 
   var userData = {};
@@ -207,6 +209,8 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
       // Getting data from map
       Map<String, dynamic> data = doc.data();
     }
+    uniquelist = userTokens.where((country) => seen.add(country)).toList();
+    uniquelist.remove('"${userData['token']}"');
   }
 
   sendNotification(
@@ -286,7 +290,7 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
     String dataNotifications = '{'
         '"operation": "create",'
         '"notification_key_name": "appUser-testUser",'
-        '"registration_ids": [${userTokens.toString().replaceAll("]", "").replaceAll("[", "")}],'
+        '"registration_ids": [${uniquelist.toString().replaceAll("]", "").replaceAll("[", "")}],'
         '"notification" : {'
         '"title":"$title",'
         '"body":"$body"'
@@ -385,7 +389,9 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
                     user.username,
                     user.photoUrl,
                   );
-                  sendNotification('${userData['username']}:');
+                  pushNotificationsGroupDevice(
+                      title: '${userData['username']}:',
+                      body: titleController.text);
                 },
                 child: Container(
                   padding:

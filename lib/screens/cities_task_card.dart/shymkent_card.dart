@@ -27,6 +27,8 @@ class _ShymkentGiveTaskState extends State<ShymkentGiveTask> {
   List<String> userTokens = [];
 
   var userData = {};
+  var seen = Set<String>();
+  List<String> uniquelist = [];
 
   bool isLoading = false;
   String uid = '';
@@ -63,6 +65,8 @@ class _ShymkentGiveTaskState extends State<ShymkentGiveTask> {
       // Getting data from map
       Map<String, dynamic> data = doc.data();
     }
+    uniquelist = userTokens.where((country) => seen.add(country)).toList();
+    uniquelist.remove('"${userData['token']}"');
   }
 
   Future<bool> pushNotificationsGroupDevice({
@@ -72,7 +76,7 @@ class _ShymkentGiveTaskState extends State<ShymkentGiveTask> {
     String dataNotifications = '{'
         '"operation": "create",'
         '"notification_key_name": "appUser-testUser",'
-        '"registration_ids": [${userTokens.toString().replaceAll("]", "").replaceAll("[", "")}],'
+        '"registration_ids": [${uniquelist.toString().replaceAll("]", "").replaceAll("[", "")}],'
         '"notification" : {'
         '"title":"$title",'
         '"body":"$body"'
@@ -273,18 +277,18 @@ class _ShymkentGiveTaskState extends State<ShymkentGiveTask> {
 
                                 FireStoreMethods().statusTaskShymkent(
                                     widget.snap['commentId'],
-                                    'В процессе:',
+                                    'Принято:',
                                     widget.snap['status']);
                                 FireStoreMethods().dateProcessShymkent(
                                   widget.snap['commentId'],
                                 );
                                 pushNotificationsGroupDevice(
                                     title: userData['username'],
-                                    body: 'Статус задачи:  в процессе');
+                                    body: 'Статус задачи: принято');
                               },
-                              child: Text('Выполнить'),
+                              child: Text('Принять'),
                             )
-                          : widget.snap['status'].contains('В процессе:')
+                          : widget.snap['status'].contains('Принято:')
                               ? MaterialButton(
                                   onLongPress: () {
                                     showDialog<void>(
@@ -311,12 +315,13 @@ class _ShymkentGiveTaskState extends State<ShymkentGiveTask> {
                                                         .statusTaskShymkent(
                                                             widget.snap[
                                                                 'commentId'],
-                                                            'В процессе:',
+                                                            'Принято:',
                                                             widget.snap[
                                                                 'status']);
                                                   } else {
                                                     showSnackBar(
-                                                        'В процессе', context);
+                                                        'Заявка уже принято',
+                                                        context);
                                                     print('progress');
                                                   }
 
@@ -338,10 +343,11 @@ class _ShymkentGiveTaskState extends State<ShymkentGiveTask> {
                                           widget.snap['status']);
                                       FireStoreMethods().statusTaskShymkent(
                                           widget.snap['commentId'],
-                                          'В процессе:',
+                                          'Принято:',
                                           widget.snap['status']);
                                     } else {
-                                      showSnackBar('В процессе', context);
+                                      showSnackBar(
+                                          'Заявка уже принято', context);
                                       print('progress');
                                     }
                                   },

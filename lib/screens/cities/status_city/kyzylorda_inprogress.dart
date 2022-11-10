@@ -26,6 +26,8 @@ class _InProgressKyzylordaState extends State<InProgressKyzylorda> {
   List<String> userTokens = [];
   bool isLoading = false;
   String uid = '';
+  var seen = Set<String>();
+  List<String> uniquelist = [];
   @override
   void initState() {
     super.initState();
@@ -58,6 +60,8 @@ class _InProgressKyzylordaState extends State<InProgressKyzylorda> {
       // Getting data from map
       Map<String, dynamic> data = doc.data();
     }
+    uniquelist = userTokens.where((country) => seen.add(country)).toList();
+    uniquelist.remove('"${userData['token']}"');
   }
 
   Future<bool> pushNotificationsGroupDevice({
@@ -67,7 +71,7 @@ class _InProgressKyzylordaState extends State<InProgressKyzylorda> {
     String dataNotifications = '{'
         '"operation": "create",'
         '"notification_key_name": "appUser-testUser",'
-        '"registration_ids": [${userTokens.toString().replaceAll("]", "").replaceAll("[", "")}],'
+        '"registration_ids": [${uniquelist.toString().replaceAll("]", "").replaceAll("[", "")}],'
         '"notification" : {'
         '"title":"$title",'
         '"body":"$body"'
@@ -134,13 +138,13 @@ class _InProgressKyzylordaState extends State<InProgressKyzylorda> {
               SimpleDialogOption(
                 onPressed: () {
                   if (widget.snap['likes'].contains(userData['username'])) {
-                    FireStoreMethods().likeTaskAstana(
+                    FireStoreMethods().likeTaskKyzylorda(
                       widget.snap['commentId'].toString(),
                       userData['username'],
                       widget.snap['likes'],
                     );
                   } else {
-                    showSnackBar('В процессе', context);
+                    showSnackBar('Заявка уже принято', context);
                     print('progress');
                   }
                   // remove the dialog box
@@ -157,7 +161,7 @@ class _InProgressKyzylordaState extends State<InProgressKyzylorda> {
   Widget build(BuildContext context) {
     final model.User user = Provider.of<UserProvider>(context).getUser;
 
-    return widget.snap['status'].contains('В процессе:')
+    return widget.snap['status'].contains('Принято:')
         ? Container(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
             child: SlimyCard(
@@ -289,13 +293,13 @@ class _InProgressKyzylordaState extends State<InProgressKyzylorda> {
 
                                 FireStoreMethods().statusTaskKyzylorda(
                                     widget.snap['commentId'],
-                                    'В процессе:',
+                                    'Принято:',
                                     widget.snap['status']);
                               },
                               child: Text('Выполнить'),
                               color: Colors.red,
                             )
-                          : widget.snap['status'].contains('В процессе:')
+                          : widget.snap['status'].contains('Принято:')
                               ? ElevatedButton(
                                   style: ButtonStyle(
                                     foregroundColor:
@@ -338,7 +342,7 @@ class _InProgressKyzylordaState extends State<InProgressKyzylorda> {
                                                         .statusTaskKyzylorda(
                                                             widget.snap[
                                                                 'commentId'],
-                                                            'В процессе:',
+                                                            'Принято:',
                                                             widget.snap[
                                                                 'status']);
                                                     pushNotificationsGroupDevice(
@@ -348,7 +352,8 @@ class _InProgressKyzylordaState extends State<InProgressKyzylorda> {
                                                             '${widget.snap['text']}, Статус задачи: отменен');
                                                   } else {
                                                     showSnackBar(
-                                                        'В процессе', context);
+                                                        'Заявка уже принято',
+                                                        context);
                                                     print('progress');
                                                   }
 
@@ -368,6 +373,10 @@ class _InProgressKyzylordaState extends State<InProgressKyzylorda> {
                                           widget.snap['commentId'],
                                           'Выполнено:',
                                           widget.snap['status']);
+                                      FireStoreMethods().statusTaskKyzylorda(
+                                          widget.snap['commentId'],
+                                          'Принято:',
+                                          widget.snap['status']);
                                       FireStoreMethods().dateCompletedKyzylorda(
                                         widget.snap['commentId'],
                                       );
@@ -375,11 +384,12 @@ class _InProgressKyzylordaState extends State<InProgressKyzylorda> {
                                           title: userData['username'],
                                           body: 'Статус задачи:  выполнено');
                                     } else {
-                                      showSnackBar('В процессе', context);
+                                      showSnackBar(
+                                          'Заявка уже принято', context);
                                       print('progress');
                                     }
                                   },
-                                  child: Text('В процессе'),
+                                  child: Text('Завершить'),
                                 )
                               : widget.snap['status'].contains('Выполнено')
                                   ? MaterialButton(

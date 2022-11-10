@@ -23,7 +23,7 @@ class _CompleatedShymkentState extends State<CompleatedShymkent> {
   bool isbutton = true;
   final listStatus = [
     '',
-    'В процессе: ',
+    'Принято: ',
     'Выполнено: ',
   ];
   String changedText = '';
@@ -123,7 +123,7 @@ class _CompleatedShymkentState extends State<CompleatedShymkent> {
                       widget.snap['likes'],
                     );
                   } else {
-                    showSnackBar('В процессе', context);
+                    showSnackBar('Заявка уже принято', context);
                     print('progress');
                   }
                   // remove the dialog box
@@ -272,14 +272,14 @@ class _CompleatedShymkentState extends State<CompleatedShymkent> {
 
                                 FireStoreMethods().statusTaskShymkent(
                                     widget.snap['commentId'],
-                                    'В процессе:',
+                                    'Принято:',
                                     widget.snap['status']);
-                                statusString_1 = "в процессе: ";
+                                statusString_1 = "Принято: ";
                               },
                               child: Text('Выполнить'),
                               color: Colors.red,
                             )
-                          : widget.snap['status'].contains('В процессе:')
+                          : widget.snap['status'].contains('Принято:')
                               ? ElevatedButton(
                                   style: ButtonStyle(
                                     foregroundColor:
@@ -322,13 +322,14 @@ class _CompleatedShymkentState extends State<CompleatedShymkent> {
                                                         .statusTaskShymkent(
                                                             widget.snap[
                                                                 'commentId'],
-                                                            'В процессе:',
+                                                            'Принято:',
                                                             widget.snap[
                                                                 'status']);
                                                     statusString_1 = "";
                                                   } else {
                                                     showSnackBar(
-                                                        'В процессе', context);
+                                                        'Заявка уже принято',
+                                                        context);
                                                     print('progress');
                                                   }
 
@@ -350,10 +351,11 @@ class _CompleatedShymkentState extends State<CompleatedShymkent> {
                                           widget.snap['status']);
                                       FireStoreMethods().statusTaskShymkent(
                                           widget.snap['commentId'],
-                                          'В процессе:',
+                                          'Принято:',
                                           widget.snap['status']);
                                     } else {
-                                      showSnackBar('В процессе', context);
+                                      showSnackBar(
+                                          'Заявка уже принято', context);
                                       print('progress');
                                     }
                                     statusString_1 = "выполнено: ";
@@ -387,7 +389,8 @@ class _CompleatedShymkentState extends State<CompleatedShymkent> {
                                         ),
                                       ),
                                       onPressed: () {
-                                        null;
+                                        showSnackBar(
+                                            'Заявка уже выполнено', context);
                                       },
                                       child: Text('Выполнено'),
                                     ),

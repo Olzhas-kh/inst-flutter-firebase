@@ -23,7 +23,7 @@ class _CompleatedAstanaState extends State<CompleatedAstana> {
   bool isbutton = true;
   final listStatus = [
     '',
-    'В процессе: ',
+    'Принято:',
     'Выполнено: ',
   ];
   String changedText = '';
@@ -135,7 +135,7 @@ class _CompleatedAstanaState extends State<CompleatedAstana> {
                       widget.snap['likes'],
                     );
                   } else {
-                    showSnackBar('В процессе', context);
+                    showSnackBar('Заявка уже принято', context);
                     print('progress');
                   }
                   // remove the dialog box
@@ -284,14 +284,14 @@ class _CompleatedAstanaState extends State<CompleatedAstana> {
 
                                 FireStoreMethods().statusTaskAstana(
                                     widget.snap['commentId'],
-                                    'В процессе:',
+                                    'Принято:',
                                     widget.snap['status']);
-                                statusString_1 = "в процессе: ";
+                                statusString_1 = "Принято: ";
                               },
                               child: Text('Выполнить'),
                               color: Colors.red,
                             )
-                          : widget.snap['status'].contains('В процессе:')
+                          : widget.snap['status'].contains('Принято:')
                               ? ElevatedButton(
                                   style: ButtonStyle(
                                     foregroundColor:
@@ -334,13 +334,14 @@ class _CompleatedAstanaState extends State<CompleatedAstana> {
                                                         .statusTaskAstana(
                                                             widget.snap[
                                                                 'commentId'],
-                                                            'В процессе:',
+                                                            'Принято:',
                                                             widget.snap[
                                                                 'status']);
                                                     statusString_1 = "";
                                                   } else {
                                                     showSnackBar(
-                                                        'В процессе', context);
+                                                        'Заявка уже принято',
+                                                        context);
                                                     print('progress');
                                                   }
 
@@ -362,10 +363,11 @@ class _CompleatedAstanaState extends State<CompleatedAstana> {
                                           widget.snap['status']);
                                       FireStoreMethods().statusTaskAstana(
                                           widget.snap['commentId'],
-                                          'В процессе:',
+                                          'Принято:',
                                           widget.snap['status']);
                                     } else {
-                                      showSnackBar('В процессе', context);
+                                      showSnackBar(
+                                          'Заявка уже принято', context);
                                       print('progress');
                                     }
                                     statusString_1 = "выполнено: ";
@@ -399,7 +401,8 @@ class _CompleatedAstanaState extends State<CompleatedAstana> {
                                         ),
                                       ),
                                       onPressed: () {
-                                        null;
+                                        showSnackBar(
+                                            'Заявка уже выполнено', context);
                                       },
                                       child: Text('Выполнено'),
                                     ),

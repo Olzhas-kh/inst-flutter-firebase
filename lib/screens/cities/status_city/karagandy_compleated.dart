@@ -23,7 +23,7 @@ class _CompleatedKaragandyState extends State<CompleatedKaragandy> {
   bool isbutton = true;
   final listStatus = [
     '',
-    'В процессе: ',
+    'Принято:',
     'Выполнено: ',
   ];
   String changedText = '';
@@ -135,7 +135,7 @@ class _CompleatedKaragandyState extends State<CompleatedKaragandy> {
                       widget.snap['likes'],
                     );
                   } else {
-                    showSnackBar('В процессе', context);
+                    showSnackBar('Заявка уже принято', context);
                     print('progress');
                   }
                   // remove the dialog box
@@ -226,7 +226,7 @@ class _CompleatedKaragandyState extends State<CompleatedKaragandy> {
                                         Text(
                                           DateFormat('dd/MM').format(
                                             widget.snap
-                                                .data()['dateCompleated']
+                                                .data()['datecompleated']
                                                 .toDate(),
                                           ),
                                           style: const TextStyle(
@@ -250,7 +250,7 @@ class _CompleatedKaragandyState extends State<CompleatedKaragandy> {
                                         Text(
                                           '${DateFormat.Hm().format(
                                             widget.snap
-                                                .data()['dateCompleated']
+                                                .data()['datecompleated']
                                                 .toDate(),
                                           )}',
                                           style: const TextStyle(
@@ -284,14 +284,14 @@ class _CompleatedKaragandyState extends State<CompleatedKaragandy> {
 
                                 FireStoreMethods().statusTaskKaragandy(
                                     widget.snap['commentId'],
-                                    'В процессе:',
+                                    'Принято:',
                                     widget.snap['status']);
-                                statusString_1 = "в процессе: ";
+                                statusString_1 = "Принято: ";
                               },
                               child: Text('Выполнить'),
                               color: Colors.red,
                             )
-                          : widget.snap['status'].contains('В процессе:')
+                          : widget.snap['status'].contains('Принято:')
                               ? ElevatedButton(
                                   style: ButtonStyle(
                                     foregroundColor:
@@ -334,13 +334,14 @@ class _CompleatedKaragandyState extends State<CompleatedKaragandy> {
                                                         .statusTaskKaragandy(
                                                             widget.snap[
                                                                 'commentId'],
-                                                            'В процессе:',
+                                                            'Принято:',
                                                             widget.snap[
                                                                 'status']);
                                                     statusString_1 = "";
                                                   } else {
                                                     showSnackBar(
-                                                        'В процессе', context);
+                                                        'Заявка уже принято',
+                                                        context);
                                                     print('progress');
                                                   }
 
@@ -362,10 +363,11 @@ class _CompleatedKaragandyState extends State<CompleatedKaragandy> {
                                           widget.snap['status']);
                                       FireStoreMethods().statusTaskKaragandy(
                                           widget.snap['commentId'],
-                                          'В процессе:',
+                                          'Принято:',
                                           widget.snap['status']);
                                     } else {
-                                      showSnackBar('В процессе', context);
+                                      showSnackBar(
+                                          'Заявка уже принято', context);
                                       print('progress');
                                     }
                                     statusString_1 = "выполнено: ";
@@ -399,7 +401,8 @@ class _CompleatedKaragandyState extends State<CompleatedKaragandy> {
                                         ),
                                       ),
                                       onPressed: () {
-                                        null;
+                                        showSnackBar(
+                                            'Заявка уже выполнено', context);
                                       },
                                       child: Text('Выполнено'),
                                     ),

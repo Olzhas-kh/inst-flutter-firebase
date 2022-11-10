@@ -146,14 +146,6 @@ class _ProfileOtherUsersState extends State<ProfileOtherUsers> {
           children: [
             //row for each deatails
             ListTile(
-              leading: Icon(Icons.email),
-              title: Text(userData['email']),
-            ),
-            Divider(
-              height: 0.6,
-              color: Colors.black87,
-            ),
-            ListTile(
               leading: Icon(Icons.person),
               title: Text(userData['username']),
             ),

@@ -132,7 +132,7 @@ class _AddTaskState extends State<AddTask> {
 
                           subtitle: Row(
                             children: <Widget>[
-                              Text('Задачи',
+                              Text('Заявки',
                                   style: TextStyle(color: Colors.white)),
                             ],
                           ),
@@ -195,7 +195,7 @@ class _AddTaskState extends State<AddTask> {
 
                         subtitle: Row(
                           children: <Widget>[
-                            Text('Задачи',
+                            Text('Заявки',
                                 style: TextStyle(color: Colors.white))
                           ],
                         ),
@@ -259,7 +259,7 @@ class _AddTaskState extends State<AddTask> {
 
                         subtitle: Row(
                           children: <Widget>[
-                            Text('Задачи',
+                            Text('Заявки',
                                 style: TextStyle(color: Colors.white))
                           ],
                         ),
@@ -325,7 +325,7 @@ class _AddTaskState extends State<AddTask> {
 
                         subtitle: Row(
                           children: <Widget>[
-                            Text('Задачи',
+                            Text('Заявки',
                                 style: TextStyle(color: Colors.white))
                           ],
                         ),
@@ -396,7 +396,7 @@ class _AddTaskState extends State<AddTask> {
 
                         subtitle: Row(
                           children: <Widget>[
-                            Text('Задачи',
+                            Text('Заявки',
                                 style: TextStyle(color: Colors.white)),
                           ],
                         ),

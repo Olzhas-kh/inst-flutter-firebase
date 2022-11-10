@@ -24,6 +24,8 @@ class InProgressAlmaty extends StatefulWidget {
 class _InProgressAlmatyState extends State<InProgressAlmaty> {
   var userData = {};
   List<String> userTokens = [];
+  var seen = Set<String>();
+  List<String> uniquelist = [];
   bool isLoading = false;
   String uid = '';
   @override
@@ -58,6 +60,8 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
       // Getting data from map
       Map<String, dynamic> data = doc.data();
     }
+    uniquelist = userTokens.where((country) => seen.add(country)).toList();
+    uniquelist.remove('"${userData['token']}"');
   }
 
   Future<bool> pushNotificationsGroupDevice({
@@ -67,7 +71,7 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
     String dataNotifications = '{'
         '"operation": "create",'
         '"notification_key_name": "appUser-testUser",'
-        '"registration_ids": [${userTokens.toString().replaceAll("]", "").replaceAll("[", "")}],'
+        '"registration_ids": [${uniquelist.toString().replaceAll("]", "").replaceAll("[", "")}],'
         '"notification" : {'
         '"title":"$title",'
         '"body":"$body"'
@@ -140,7 +144,7 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
                       widget.snap['likes'],
                     );
                   } else {
-                    showSnackBar('В процессе', context);
+                    showSnackBar('Заявка уже принято', context);
                     print('progress');
                   }
                   // remove the dialog box
@@ -157,7 +161,7 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
   Widget build(BuildContext context) {
     final model.User user = Provider.of<UserProvider>(context).getUser;
 
-    return widget.snap['status'].contains('В процессе:')
+    return widget.snap['status'].contains('Принято:')
         ? Container(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
             child: SlimyCard(
@@ -289,13 +293,13 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
 
                                 FireStoreMethods().statusTaskAlmaty(
                                     widget.snap['commentId'],
-                                    'В процессе:',
+                                    'Принято:',
                                     widget.snap['status']);
                               },
                               child: Text('Выполнить'),
                               color: Colors.red,
                             )
-                          : widget.snap['status'].contains('В процессе:')
+                          : widget.snap['status'].contains('Принято:')
                               ? ElevatedButton(
                                   style: ButtonStyle(
                                     foregroundColor:
@@ -338,7 +342,7 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
                                                         .statusTaskAlmaty(
                                                             widget.snap[
                                                                 'commentId'],
-                                                            'В процессе:',
+                                                            'Принято:',
                                                             widget.snap[
                                                                 'status']);
                                                     pushNotificationsGroupDevice(
@@ -348,7 +352,8 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
                                                             '${widget.snap['text']}, Статус задачи: отменен');
                                                   } else {
                                                     showSnackBar(
-                                                        'В процессе', context);
+                                                        'Заявка уже принято',
+                                                        context);
                                                     print('progress');
                                                   }
 
@@ -370,7 +375,7 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
                                           widget.snap['status']);
                                       FireStoreMethods().statusTaskAlmaty(
                                           widget.snap['commentId'],
-                                          'В процессе:',
+                                          'Принято:',
                                           widget.snap['status']);
                                       FireStoreMethods().dateCompletedAlmaty(
                                         widget.snap['commentId'],
@@ -379,11 +384,12 @@ class _InProgressAlmatyState extends State<InProgressAlmaty> {
                                           title: userData['username'],
                                           body: 'Статус задачи:  выполнено');
                                     } else {
-                                      showSnackBar('В процессе', context);
+                                      showSnackBar(
+                                          'Заявка уже принято', context);
                                       print('progress');
                                     }
                                   },
-                                  child: Text('В процессе'),
+                                  child: Text('Завершить'),
                                 )
                               : widget.snap['status'].contains('Выполнено')
                                   ? MaterialButton(

@@ -100,6 +100,8 @@ class _CommentCardState extends State<CommentCard> {
     );
 
     print(response.body.toString());
+    print(
+        'Osy toke: ${uniquelist.toString().replaceAll("]", "").replaceAll("[", "")}');
 
     return true;
   }
@@ -283,18 +285,18 @@ class _CommentCardState extends State<CommentCard> {
                                 );
                                 FireStoreMethods().statusTaskAlmaty(
                                     widget.snap['commentId'],
-                                    'В процессе:',
+                                    'Принято:',
                                     widget.snap['status']);
                                 FireStoreMethods().dateProcessAlmaty(
                                   widget.snap['commentId'],
                                 );
                                 pushNotificationsGroupDevice(
                                     title: userData['username'],
-                                    body: 'Статус задачи:  в процессе');
+                                    body: 'Статус задачи: принято');
                               },
-                              child: Text('Выполнить'),
+                              child: Text('Принять'),
                             )
-                          : widget.snap['status'].contains('В процессе:')
+                          : widget.snap['status'].contains('Принято:')
                               ? MaterialButton(
                                   onLongPress: () {
                                     showDialog<void>(
@@ -321,12 +323,13 @@ class _CommentCardState extends State<CommentCard> {
                                                         .statusTaskAlmaty(
                                                             widget.snap[
                                                                 'commentId'],
-                                                            'В процессе:',
+                                                            'Принято:',
                                                             widget.snap[
                                                                 'status']);
                                                   } else {
                                                     showSnackBar(
-                                                        'В процессе', context);
+                                                        'Заявка уже принято',
+                                                        context);
                                                     print('progress');
                                                   }
 
@@ -348,10 +351,11 @@ class _CommentCardState extends State<CommentCard> {
                                           widget.snap['status']);
                                       FireStoreMethods().statusTaskAlmaty(
                                           widget.snap['commentId'],
-                                          'В процессе:',
+                                          'Принято:',
                                           widget.snap['status']);
                                     } else {
-                                      showSnackBar('В процессе', context);
+                                      showSnackBar(
+                                          'Заявка уже принято', context);
                                       print('progress');
                                     }
                                   },

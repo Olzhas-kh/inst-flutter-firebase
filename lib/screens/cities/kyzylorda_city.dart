@@ -50,14 +50,14 @@ class _KyzylordaCityState extends State<KyzylordaCity> {
           appBar: AppBar(
             backgroundColor: maroon,
             title: const Text(
-              'Задачи',
+              'Заявки',
             ),
             bottom: TabBar(tabs: [
               Tab(
-                text: 'Задачи',
+                text: 'Заявки',
               ),
               Tab(
-                text: 'В процессе',
+                text: 'Принято',
               ),
               Tab(
                 text: 'Выполнено',
@@ -174,6 +174,8 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
 
   bool isLoading = false;
   String uid = '';
+  var seen = Set<String>();
+  List<String> uniquelist = [];
 
   @override
   void initState() {
@@ -209,6 +211,8 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
       // Getting data from map
       Map<String, dynamic> data = doc.data();
     }
+    uniquelist = userTokens.where((country) => seen.add(country)).toList();
+    uniquelist.remove('"${userData['token']}"');
   }
 
   sendNotificationToTopic(String title) async {
@@ -252,7 +256,7 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
     String dataNotifications = '{'
         '"operation": "create",'
         '"notification_key_name": "appUser-testUser",'
-        '"registration_ids": [${userTokens.toString().replaceAll("]", "").replaceAll("[", "")}],'
+        '"registration_ids": [${uniquelist.toString().replaceAll("]", "").replaceAll("[", "")}],'
         '"screen": "homePage",'
         '"notification" : {'
         '"title":"$title",'

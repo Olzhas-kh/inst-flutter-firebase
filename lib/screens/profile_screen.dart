@@ -8,6 +8,7 @@ import 'package:inst_fire/screens/add_post_screen.dart';
 import 'package:inst_fire/screens/signup_screen.dart';
 import 'package:inst_fire/screens/users_search/add_city_saerch_screen.dart';
 import 'package:inst_fire/screens/users_search/almaty_search_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../resources/auth_methods.dart';
 import '../resources/firestore_methods.dart';
@@ -154,15 +155,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         elevation: 4,
         child: Column(
           children: [
-            //row for each deatails
-            ListTile(
-              leading: Icon(Icons.email),
-              title: Text(userData['email']),
-            ),
-            Divider(
-              height: 0.6,
-              color: Colors.black87,
-            ),
             ListTile(
               leading: Icon(Icons.person),
               title: Text(userData['username']),
@@ -195,7 +187,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     userData['key'].toString().contains('manager') ||
                     userData['key'].toString().contains('supervisor') ||
                     userData['key'].toString().contains('director') ||
-                    userData['key'].toString().contains('author')
+                    userData['key'].toString().contains('author') ||
+                    userData['key'].toString().contains('logistic')
                 ? Container()
                 : ListTile(
                     leading: Icon(Icons.location_on),
@@ -206,9 +199,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               color: Colors.black87,
             ),
             ListTile(
-              leading: Icon(Icons.phone),
+              leading: Icon(
+                Icons.phone,
+              ),
               title: Text(userData['telephone']),
-            ),
+              onTap: () {
+                launch("tel://${userData['telephone'].replaceAll(' ', '')}");
+              },
+            )
           ],
         ),
       ),
@@ -228,7 +226,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               leading: Icon(
                 Icons.person_search,
               ),
-              title: Text("Пользователи"),
+              title: Text("Сотрудники"),
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -292,7 +290,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget logoutButton() {
     return InkWell(
       onTap: () async {
-        await AuthMethods().signOut();
+        await AuthMethods().signOut(userData['uid']);
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) => const LoginPage(),
@@ -312,7 +310,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 SizedBox(width: 10),
                 Text(
-                  "Logout",
+                  "Выйти",
                   style: TextStyle(color: Colors.white, fontSize: 18),
                 )
               ],

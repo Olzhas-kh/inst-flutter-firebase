@@ -8,6 +8,7 @@ import 'package:inst_fire/models/user.dart' as model;
 import 'package:provider/provider.dart';
 import 'package:slimy_card/slimy_card.dart';
 import 'package:http/http.dart' as http;
+
 import '../../notify/constants.dart';
 import '../../notify/local_push_notification.dart';
 import '../../providers/user_provider.dart';
@@ -26,12 +27,15 @@ class _KyzylordaGiveTaskState extends State<KyzylordaGiveTask> {
   List<String> userTokens = [];
 
   var userData = {};
+  var seen = Set<String>();
+  List<String> uniquelist = [];
 
   bool isLoading = false;
   String uid = '';
   @override
   void initState() {
     super.initState();
+
     getData();
   }
 
@@ -39,8 +43,8 @@ class _KyzylordaGiveTaskState extends State<KyzylordaGiveTask> {
     setState(() {
       isLoading = true;
     });
-
     final FirebaseAuth auth = FirebaseAuth.instance;
+
     final User user = auth.currentUser!;
     uid = user.uid;
 
@@ -61,6 +65,8 @@ class _KyzylordaGiveTaskState extends State<KyzylordaGiveTask> {
       // Getting data from map
       Map<String, dynamic> data = doc.data();
     }
+    uniquelist = userTokens.where((country) => seen.add(country)).toList();
+    uniquelist.remove('"${userData['token']}"');
   }
 
   Future<bool> pushNotificationsGroupDevice({
@@ -70,7 +76,7 @@ class _KyzylordaGiveTaskState extends State<KyzylordaGiveTask> {
     String dataNotifications = '{'
         '"operation": "create",'
         '"notification_key_name": "appUser-testUser",'
-        '"registration_ids": [${userTokens.toString().replaceAll("]", "").replaceAll("[", "")}],'
+        '"registration_ids": [${uniquelist.toString().replaceAll("]", "").replaceAll("[", "")}],'
         '"notification" : {'
         '"title":"$title",'
         '"body":"$body"'
@@ -271,18 +277,18 @@ class _KyzylordaGiveTaskState extends State<KyzylordaGiveTask> {
 
                                 FireStoreMethods().statusTaskKyzylorda(
                                     widget.snap['commentId'],
-                                    'В процессе:',
+                                    'Принято:',
                                     widget.snap['status']);
                                 FireStoreMethods().dateProcessKyzylorda(
                                   widget.snap['commentId'],
                                 );
                                 pushNotificationsGroupDevice(
                                     title: userData['username'],
-                                    body: 'Статус задачи:  в процессе');
+                                    body: 'Статус задачи: принято');
                               },
-                              child: Text('Выполнить'),
+                              child: Text('Принять'),
                             )
-                          : widget.snap['status'].contains('В процессе:')
+                          : widget.snap['status'].contains('Принято:')
                               ? MaterialButton(
                                   onLongPress: () {
                                     showDialog<void>(
@@ -309,12 +315,13 @@ class _KyzylordaGiveTaskState extends State<KyzylordaGiveTask> {
                                                         .statusTaskKyzylorda(
                                                             widget.snap[
                                                                 'commentId'],
-                                                            'В процессе:',
+                                                            'Принято:',
                                                             widget.snap[
                                                                 'status']);
                                                   } else {
                                                     showSnackBar(
-                                                        'В процессе', context);
+                                                        'Заявка уже принято',
+                                                        context);
                                                     print('progress');
                                                   }
 
@@ -334,12 +341,13 @@ class _KyzylordaGiveTaskState extends State<KyzylordaGiveTask> {
                                           widget.snap['commentId'],
                                           'Выполнено:',
                                           widget.snap['status']);
-                                      FireStoreMethods().statusTaskKaragandy(
+                                      FireStoreMethods().statusTaskKyzylorda(
                                           widget.snap['commentId'],
-                                          'В процессе:',
+                                          'Принято:',
                                           widget.snap['status']);
                                     } else {
-                                      showSnackBar('В процессе', context);
+                                      showSnackBar(
+                                          'Заявка уже принято', context);
                                       print('progress');
                                     }
                                   },
