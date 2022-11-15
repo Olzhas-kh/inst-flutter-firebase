@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -20,6 +21,7 @@ class LocalNotificationService {
       // int id = DateTime.now().microsecondsSinceEpoch ~/1000000;
       Random random = new Random();
       int id = random.nextInt(1000);
+      List<int> idEmpty = [];
       final NotificationDetails notificationDetails = NotificationDetails(
           android: AndroidNotificationDetails(
         "mychanel",
@@ -28,12 +30,16 @@ class LocalNotificationService {
         priority: Priority.high,
       ));
       print("my id is ${id.toString()}");
-      await _flutterLocalNotificationsPlugin.show(
-        id,
-        message.notification!.title,
-        message.notification!.body,
-        notificationDetails,
-      );
+      idEmpty.add(id);
+
+      if (idEmpty[0] == id) {
+        await _flutterLocalNotificationsPlugin.show(
+          idEmpty[0],
+          message.notification!.title,
+          message.notification!.body,
+          notificationDetails,
+        );
+      }
     } on Exception catch (e) {
       print('Error>>>$e');
     }

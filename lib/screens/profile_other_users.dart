@@ -60,7 +60,7 @@ class _ProfileOtherUsersState extends State<ProfileOtherUsers> {
           ? null
           : AppBar(
               backgroundColor: maroon,
-              title: Text(userData['username']),
+              title: Text('Сотрудник'),
             ),
       body: isLoading
           ? Center(child: CircularProgressIndicator())

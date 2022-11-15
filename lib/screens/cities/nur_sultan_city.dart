@@ -40,117 +40,160 @@ class _AstanaCityState extends State<AstanaCity> {
             ));
   }
 
+  var userData = {};
+
+  bool isLoading = false;
+  String uid = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      final FirebaseAuth auth = FirebaseAuth.instance;
+
+      final User user = auth.currentUser!;
+      uid = user.uid;
+
+      var userSnap =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+      userData = userSnap.data()!;
+
+      setState(() {});
+    } catch (e) {
+      showSnackBar(
+        e.toString(),
+        context,
+      );
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) => DefaultTabController(
         length: 3,
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: maroon,
-            title: const Text(
-              'Заявки',
-            ),
-            bottom: TabBar(tabs: [
-              Tab(
-                text: 'Заявки',
-              ),
-              Tab(
-                text: 'Принято',
-              ),
-              Tab(
-                text: 'Выполнено',
-              ),
-            ]),
-          ),
-          body: TabBarView(
-            children: [
-              StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection('astana')
-                    .orderBy('datePublished', descending: false)
-                    .snapshots(),
-                builder: (context,
-                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                        snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-
-                  return SizedBox(
-                    height: 200,
-                    child: ListView.builder(
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (ctx, index) => AstanaGiveTask(
-                        snap: snapshot.data!.docs[index],
-                      ),
+        child: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : Scaffold(
+                appBar: AppBar(
+                  backgroundColor: maroon,
+                  title: const Text(
+                    'Заявки',
+                  ),
+                  bottom: TabBar(tabs: [
+                    Tab(
+                      text: 'Заявки',
                     ),
-                  );
-                },
-              ),
-              StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection('astana')
-                    .orderBy('datePublished', descending: false)
-                    .snapshots(),
-                builder: (context,
-                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                        snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-
-                  return SizedBox(
-                    height: 200,
-                    child: ListView.builder(
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (ctx, index) => InProgressAstana(
-                        snap: snapshot.data!.docs[index],
-                      ),
+                    Tab(
+                      text: 'Принято',
                     ),
-                  );
-                },
-              ),
-              StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection('astana')
-                    .orderBy('datePublished', descending: false)
-                    .snapshots(),
-                builder: (context,
-                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                        snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-
-                  return SizedBox(
-                    height: 200,
-                    child: ListView.builder(
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (ctx, index) => CompleatedAstana(
-                        snap: snapshot.data!.docs[index],
-                      ),
+                    Tab(
+                      text: 'Выполнено',
                     ),
-                  );
-                },
+                  ]),
+                ),
+                body: TabBarView(
+                  children: [
+                    StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('astana')
+                          .orderBy('datePublished', descending: false)
+                          .snapshots(),
+                      builder: (context,
+                          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                              snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        return SizedBox(
+                          height: 200,
+                          child: ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (ctx, index) => AstanaGiveTask(
+                              snap: snapshot.data!.docs[index],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('astana')
+                          .orderBy('datePublished', descending: false)
+                          .snapshots(),
+                      builder: (context,
+                          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                              snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        return SizedBox(
+                          height: 200,
+                          child: ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (ctx, index) => InProgressAstana(
+                              snap: snapshot.data!.docs[index],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('astana')
+                          .orderBy('datePublished', descending: false)
+                          .snapshots(),
+                      builder: (context,
+                          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                              snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        return SizedBox(
+                          height: 200,
+                          child: ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (ctx, index) => CompleatedAstana(
+                              snap: snapshot.data!.docs[index],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                floatingActionButton: FloatingActionButton(
+                  backgroundColor: maroon,
+                  onPressed: () => _addTask(context),
+                  tooltip: 'Add Task',
+                  child: const Icon(
+                    Icons.add,
+                    color: primaryColor,
+                  ),
+                ),
+                // text input
               ),
-            ],
-          ),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: maroon,
-            onPressed: () => _addTask(context),
-            tooltip: 'Add Task',
-            child: const Icon(
-              Icons.add,
-              color: primaryColor,
-            ),
-          ),
-          // text input
-        ),
       );
 }
 
@@ -348,13 +391,14 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
               ),
               InkWell(
                 onTap: () {
-                  postComment(
-                    user.uid,
-                    user.username,
-                    user.photoUrl,
-                  );
+                  getData();
                   pushNotificationsGroupDevice(
                       title: userData['username'], body: titleController.text);
+                  postComment(
+                    userData['uid'],
+                    userData['username'],
+                    userData['photoUrl'],
+                  );
                 },
                 child: Container(
                   padding:

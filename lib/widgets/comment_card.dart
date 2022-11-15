@@ -293,6 +293,8 @@ class _CommentCardState extends State<CommentCard> {
                                 pushNotificationsGroupDevice(
                                     title: userData['username'],
                                     body: 'Статус задачи: принято');
+
+                                print(uniquelist.toString());
                               },
                               child: Text('Принять'),
                             )

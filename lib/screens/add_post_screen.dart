@@ -64,6 +64,38 @@ class _AddPostScreenState extends State<AddPostScreen> {
         .collection('users')
         .where('bio', isEqualTo: 'almaty')
         .get();
+    final querySnapshot1 = await FirebaseFirestore.instance
+        .collection('users')
+        .where('bio', isEqualTo: 'astana')
+        .get();
+    final querySnapshot2 = await FirebaseFirestore.instance
+        .collection('users')
+        .where('bio', isEqualTo: 'shymkent')
+        .get();
+    final querySnapshot3 = await FirebaseFirestore.instance
+        .collection('users')
+        .where('bio', isEqualTo: 'kyzylorda')
+        .get();
+    final querySnapshot4 = await FirebaseFirestore.instance
+        .collection('users')
+        .where('bio', isEqualTo: 'karaganda')
+        .get();
+    final querySnapshot5 = await FirebaseFirestore.instance
+        .collection('users')
+        .where('bio', isEqualTo: 'astana almaty shymkent kyzylorda karaganda')
+        .get();
+    final querySnapshot6 = await FirebaseFirestore.instance
+        .collection('users')
+        .where('bio', isEqualTo: 'almaty shymkent kyzylorda karaganda')
+        .get();
+    final querySnapshot7 = await FirebaseFirestore.instance
+        .collection('users')
+        .where('bio', isEqualTo: 'astana shymkent kyzylorda karaganda')
+        .get();
+    final querySnapshot8 = await FirebaseFirestore.instance
+        .collection('users')
+        .where('bio', isEqualTo: 'astana karaganda')
+        .get();
 
     for (var doc in querySnapshot.docs) {
       // Getting data directly
@@ -71,6 +103,30 @@ class _AddPostScreenState extends State<AddPostScreen> {
 
       // Getting data from map
       Map<String, dynamic> data = doc.data();
+    }
+    for (var doc in querySnapshot1.docs) {
+      userTokens.add('"${doc.get('token')}"');
+    }
+    for (var doc in querySnapshot2.docs) {
+      userTokens.add('"${doc.get('token')}"');
+    }
+    for (var doc in querySnapshot3.docs) {
+      userTokens.add('"${doc.get('token')}"');
+    }
+    for (var doc in querySnapshot4.docs) {
+      userTokens.add('"${doc.get('token')}"');
+    }
+    for (var doc in querySnapshot5.docs) {
+      userTokens.add('"${doc.get('token')}"');
+    }
+    for (var doc in querySnapshot6.docs) {
+      userTokens.add('"${doc.get('token')}"');
+    }
+    for (var doc in querySnapshot7.docs) {
+      userTokens.add('"${doc.get('token')}"');
+    }
+    for (var doc in querySnapshot8.docs) {
+      userTokens.add('"${doc.get('token')}"');
     }
     uniquelist = userTokens.where((country) => seen.add(country)).toList();
     uniquelist.remove('"${userData['token']}"');
@@ -274,8 +330,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       userProvider.getUser.photoUrl,
                     );
                     pushNotificationsGroupDevice(
-                        title: userProvider.getUser.username,
-                        body: _descriptionController.text);
+                        title: 'COTTON News', body: 'Опубликовали новый пост');
                   },
                   child: const Text(
                     "Опубликовать",

@@ -369,6 +369,7 @@ class _InProgressAstanaState extends State<InProgressAstana> {
                                   onPressed: () {
                                     if (widget.snap['likes']
                                         .contains(user.username)) {
+                                      getData();
                                       FireStoreMethods().statusTaskAstana(
                                           widget.snap['commentId'],
                                           'Выполнено:',

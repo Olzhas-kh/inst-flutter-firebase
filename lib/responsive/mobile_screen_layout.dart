@@ -32,12 +32,6 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     pageController = PageController();
     tokenGet();
     getData();
-    FirebaseMessaging.instance.getInitialMessage();
-    FirebaseMessaging.onMessage.listen((event) {
-      LocalNotificationService.display(event);
-    });
-
-    FirebaseMessaging.instance.subscribeToTopic('subscription');
   }
 
   void tokenGet() async {

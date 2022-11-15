@@ -41,6 +41,44 @@ class _KaragandyCityState extends State<KaragandyCity> {
             ));
   }
 
+  var userData = {};
+
+  bool isLoading = false;
+  String uid = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      final FirebaseAuth auth = FirebaseAuth.instance;
+
+      final User user = auth.currentUser!;
+      uid = user.uid;
+
+      var userSnap =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+      userData = userSnap.data()!;
+
+      setState(() {});
+    } catch (e) {
+      showSnackBar(
+        e.toString(),
+        context,
+      );
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) => DefaultTabController(
         length: 3,
@@ -349,13 +387,13 @@ class _titleDesAddScreenState extends State<titleDesAddScreen> {
               ),
               InkWell(
                 onTap: () {
-                  postComment(
-                    user.uid,
-                    user.username,
-                    user.photoUrl,
-                  );
                   pushNotificationsGroupDevice(
                       title: userData['username'], body: titleController.text);
+                  postComment(
+                    userData['uid'],
+                    userData['username'],
+                    userData['photoUrl'],
+                  );
                 },
                 child: Container(
                   padding:

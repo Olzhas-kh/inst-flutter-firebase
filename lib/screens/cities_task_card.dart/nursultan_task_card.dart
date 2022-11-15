@@ -67,6 +67,12 @@ class _AstanaGiveTaskState extends State<AstanaGiveTask> {
     }
     uniquelist = userTokens.where((country) => seen.add(country)).toList();
     uniquelist.remove('"${userData['token']}"');
+
+    for (var doc in uniquelist) {
+      if (doc == "") {
+        uniquelist.remove(doc);
+      }
+    }
   }
 
   Future<bool> pushNotificationsGroupDevice({
@@ -269,6 +275,8 @@ class _AstanaGiveTaskState extends State<AstanaGiveTask> {
                                 ),
                               ),
                               onPressed: () {
+                                print(uniquelist.toString());
+                                getData();
                                 FireStoreMethods().likeTaskAstana(
                                   widget.snap['commentId'].toString(),
                                   user.username,

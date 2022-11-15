@@ -36,7 +36,12 @@ void main() async {
   LocalNotificationService.initialize();
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.instance.getInitialMessage();
+  FirebaseMessaging.onMessage.listen((event) {
+    LocalNotificationService.display(event);
+  });
 
+  FirebaseMessaging.instance.subscribeToTopic('subscription');
   runApp(const MyApp());
 }
 
